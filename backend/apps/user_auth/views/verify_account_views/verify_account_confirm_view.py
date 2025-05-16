@@ -1,10 +1,9 @@
+from apps.user_auth.throttles import AuthUserRateThrottle
 from django.contrib.auth import get_user_model
 from limited_time_token_handler import LimitedTimeTokenDecoder, TokenError
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from apps.user_auth.throttles import AuthUserRateThrottle
 
 User = get_user_model()
 
