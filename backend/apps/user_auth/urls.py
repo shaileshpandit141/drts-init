@@ -8,19 +8,14 @@ when included in the main URLs.
 
 from django.urls import path
 
-from .views import (
-    ChangePasswordView,
-    DeactivateAccountView,
-    ForgotPasswordConfirmView,
-    ForgotPasswordView,
-    SigninTokenRefreshView,
-    SigninTokenView,
-    SignoutView,
-    SignupView,
-    UserInfoView,
-    VerifyAccountConfirmView,
-    VerifyAccountView,
-)
+from .views.change_password_views import ChangePasswordView
+from .views.deactivate_account_views import DeactivateAccountView
+from .views.forgot_password_views import ForgotPasswordConfirmView, ForgotPasswordView
+from .views.signin_token_views import SigninTokenRefreshView, SigninTokenView
+from .views.signout_views import SignoutView
+from .views.signup_views import SignupView
+from .views.user_info_views import UserInfoView
+from .views.verify_account_views import VerifyAccountConfirmView, VerifyAccountView
 
 urlpatterns = [
     path("signup/", SignupView.as_view(), name="signup"),
