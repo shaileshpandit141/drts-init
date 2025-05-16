@@ -28,7 +28,7 @@ CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=Csv())
 REST_FRAMEWORK.update(
     {
         "DEFAULT_RENDERER_CLASSES": [
-            "rest_framework.renderers.JSONRenderer",
+            "rest_core.renderers.StructuredJSONRenderer",
         ],
         "PAGE_SIZE": 16,
         "MAX_PAGE_SIZE": 32,

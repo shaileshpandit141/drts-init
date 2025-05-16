@@ -18,19 +18,17 @@ class CustomUserAdmin(UserAdmin):
     form = UserChangeForm  # Custom form for modifying existing users
 
     # Fields to display in the user list view
-    list_display = (
-        "email",
-        "username",
-        "full_name",
-        "is_active_colored",
-        "is_verified",
-        "is_staff",
-        "last_login",
-    )
-    list_filter = ("is_active", "is_staff", "is_verified", "groups")
-    search_fields = ("email", "username", "first_name", "last_name")
-    readonly_fields = ("date_joined", "last_login")
-    list_per_page = 25
+    list_display = [
+        field.name
+        for field in User._meta.get_fields()
+        if not (field.many_to_many or field.one_to_many or field.name == "password")
+    ]
+    list_display_links = list_display
+    list_filter = ["is_staff", "is_superuser", "is_active", "is_verified", "last_login"]
+    search_fields = ["email", "username", "first_name", "last_name"]
+    readonly_fields = ["date_joined", "last_login"]
+    ordering = ("-updated_at",)
+    list_per_page = 16
 
     def full_name(self, obj) -> str:
         """Get full name of user"""

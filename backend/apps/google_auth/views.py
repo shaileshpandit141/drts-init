@@ -1,20 +1,31 @@
 from urllib.parse import urlencode
 
-from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
-from core.save_image import save_image
-from core.views import BaseAPIView, Response
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from google.auth.transport import requests
 from google.oauth2 import id_token
 from requests import get, post
+from rest_core.response import failure_response, success_response
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from apps.user_auth.throttles import AuthUserRateThrottle
+from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
+from core.save_image import save_image
 
 User = get_user_model()
 
 
-class GoogleLoginView(BaseAPIView):
+class GoogleLoginView(APIView):
+    """API endpoint for generating Google sign-in URL."""
+
+    throttle_classes = [AuthUserRateThrottle]
+
     def get(self, request) -> Response:
+        # Define google auth URL
         google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
+
+        # Setting up google auth URL params
         params = {
             "client_id": settings.GOOGLE_CLIENT_ID,
             "redirect_uri": settings.GOOGLE_REDIRECT_URI,
@@ -22,27 +33,41 @@ class GoogleLoginView(BaseAPIView):
             "scope": "openid email profile",
             "access_type": "offline",
         }
+
+        # Build google sign in url
         login_url = f"{google_auth_url}?{urlencode(params)}"
-        return self.handle_success(
-            "Google sign-in URL successfully generated",
-            {
-                "login_url": login_url,
+
+        # Return google sign in url
+        return success_response(
+            message="Google sign-in URL successfully generated",
+            data={
+                "signin_url": login_url,
             },
         )
 
 
-class GoogleTokenExchangeView(BaseAPIView):
+class GoogleTokenExchangeView(APIView):
+    """API endpoint for exchanging Google authorization code for an access token."""
+
+    throttle_classes = [AuthUserRateThrottle]
+
     def get(self, request) -> Response:
         """Exchange authorization code for an access token."""
+
+        # Get google code from request
         auth_code = request.GET.get("code")
 
+        # Validate auth google code
         if not auth_code:
-            return self.handle_error(
-                "Access token retrieval failed",
-                {"code": ["Google authorization code was not found."]},
+            return failure_response(
+                message="Access token retrieval failed",
+                errors={"code": ["Google authorization code was not found."]},
             )
 
+        # Define google code to token exchage URL
         token_url = "https://oauth2.googleapis.com/token"
+
+        # Define google required data
         data = {
             "client_id": settings.GOOGLE_CLIENT_ID,
             "client_secret": settings.GOOGLE_CLIENT_SECRET,
@@ -55,31 +80,41 @@ class GoogleTokenExchangeView(BaseAPIView):
         response = post(token_url, data=data)
         token_data = response.json()
 
+        # Check access_token is not token_data
         if "access_token" not in token_data:
-            return self.handle_error(
-                "Google access token retrieval failed",
-                {"code": ["Access token not present in Google's response."]},
+            return failure_response(
+                message="Google access token retrieval failed",
+                errors={"code": ["Access token not present in Google's response."]},
             )
 
-        return self.handle_success(
-            "Google access token successfully retrieved",
-            {"token": token_data["access_token"]},
+        # Return success response
+        return success_response(
+            message="Google access token successfully retrieved",
+            data={"token": token_data["access_token"]},
         )
 
 
-class GoogleCallbackView(BaseAPIView):
+class GoogleCallbackView(APIView):
+    """API endpoint for handling Google sign-in callback."""
+
+    throttle_classes = [AuthUserRateThrottle]
+
     def post(self, request) -> Response:
         """Verify Google token (ID token or access token)."""
+
+        # Get google token from request
         token = request.data.get("token")
 
+        # Validate google token
         if not token:
-            return self.handle_error(
-                "Google authentication token missing",
-                {"token": ["A valid authentication token is required."]},
+            return failure_response(
+                message="Google authentication token missing",
+                errors={"token": ["A valid authentication token is required."]},
             )
 
         try:
-            google_data = None
+            # Define google data
+            google_data = {}
 
             # Try to verify as an ID Token first
             try:
@@ -92,16 +127,18 @@ class GoogleCallbackView(BaseAPIView):
                 headers = {"Authorization": f"Bearer {token}"}
                 response = get(google_user_info_url, headers=headers)
 
+                # Check request status
                 if response.status_code != 200:
-                    return self.handle_error(
-                        "Invalid authentication token",
-                        {
+                    return failure_response(
+                        message="Invalid authentication token",
+                        errors={
                             "token": [
-                                "The authentication token is invalid or has expired. Please try again."
+                                "The authentication token is invalid or has expired."
                             ]
                         },
                     )
 
+                # Convert response instance to json
                 google_data = response.json()
 
             # Extract user details
@@ -109,13 +146,12 @@ class GoogleCallbackView(BaseAPIView):
             username = email.split("@")[0]
             profile_picture = google_data.get("picture")
 
+            # Check user email is valid or not
             if not email:
-                return self.handle_error(
-                    "Invalid authentication token",
-                    {
-                        "token": [
-                            "The authentication token is invalid or has expired. Please try again."
-                        ]
+                return failure_response(
+                    message="Invalid authentication token",
+                    errors={
+                        "token": ["The authentication token is invalid or has expired."]
                     },
                 )
 
@@ -141,14 +177,17 @@ class GoogleCallbackView(BaseAPIView):
             setattr(user, "is_verified", True)
             user.save()
 
+            # Generate jwt tokes for user
             tokens = get_jwt_tokens_for_user(user)
 
-            return self.handle_success(
-                "Google sign-in completed successfully",
-                {**tokens},
+            # Return success response
+            return success_response(
+                message="Google sign-in completed successfully", data=tokens
             )
 
-        except Exception as error:
-            return self.handle_error(
-                "Google authentication failed", {"detail": str(error)}
+        except Exception:
+            # Return failure response
+            return failure_response(
+                message="Google authentication failed",
+                errors={"detail": "Somethings is wrong!. Please try again."},
             )
