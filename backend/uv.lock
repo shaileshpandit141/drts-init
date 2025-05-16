@@ -3,6 +3,15 @@ revision = 1
 requires-python = ">=3.13"
 
 [[package]]
+name = "annotated-types"
+version = "0.7.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ee/67/531ea369ba64dcff5ec9c3402f9f51bf748cec26dde048a2f973a4eea7f5/annotated_types-0.7.0.tar.gz", hash = "sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89", size = 16081 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/78/b6/6307fbef88d9b5ee7421e68d78a9f162e0da4900bc5f5793f6d3d0e34fb8/annotated_types-0.7.0-py3-none-any.whl", hash = "sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53", size = 13643 },
+]
+
+[[package]]
 name = "argon2"
 version = "0.1.10"
 source = { registry = "https://pypi.org/simple" }
@@ -134,6 +143,7 @@ dependencies = [
     { name = "redis" },
     { name = "requests" },
     { name = "requests-oauthlib" },
+    { name = "rest-core" },
     { name = "rest-framework-simplejwt" },
     { name = "rsa" },
     { name = "service-identity" },
@@ -148,62 +158,63 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "argon2", specifier = "==0.1.10" },
-    { name = "argon2-cffi", specifier = "==23.1.0" },
-    { name = "argon2-cffi-bindings", specifier = "==21.2.0" },
-    { name = "asgiref", specifier = "==3.8.1" },
-    { name = "attrs", specifier = "==24.2.0" },
-    { name = "autobahn", specifier = "==24.4.2" },
-    { name = "automat", specifier = "==24.8.1" },
-    { name = "cachetools", specifier = "==5.5.2" },
-    { name = "certifi", specifier = "==2025.1.31" },
-    { name = "cffi", specifier = "==1.17.1" },
-    { name = "charset-normalizer", specifier = "==3.4.1" },
-    { name = "colorlog", specifier = "==6.9.0" },
-    { name = "constantly", specifier = "==23.10.4" },
-    { name = "cryptography", specifier = "==44.0.0" },
-    { name = "daphne", specifier = "==4.1.2" },
-    { name = "django", specifier = "==5.1.4" },
-    { name = "django-cors-headers", specifier = "==4.6.0" },
-    { name = "django-redis", specifier = "==5.4.0" },
-    { name = "djangorestframework", specifier = "==3.15.2" },
-    { name = "djangorestframework-simplejwt", specifier = "==5.3.1" },
-    { name = "dns-smtp-email-validator", specifier = "==0.1.7" },
-    { name = "dnspython", specifier = "==2.7.0" },
-    { name = "google-auth", specifier = "==2.38.0" },
-    { name = "google-auth-httplib2", specifier = "==0.2.0" },
-    { name = "google-auth-oauthlib", specifier = "==1.2.1" },
-    { name = "httplib2", specifier = "==0.22.0" },
-    { name = "hyperlink", specifier = "==21.0.0" },
-    { name = "idna", specifier = "==3.10" },
-    { name = "incremental", specifier = "==24.7.2" },
-    { name = "itsdangerous", specifier = "==2.2.0" },
-    { name = "limited-time-token-handler", specifier = "==0.1.9" },
-    { name = "oauthlib", specifier = "==3.2.2" },
-    { name = "pillow", specifier = "==11.0.0" },
-    { name = "psycopg2", specifier = "==2.9.10" },
-    { name = "pyasn1", specifier = "==0.6.1" },
-    { name = "pyasn1-modules", specifier = "==0.4.1" },
-    { name = "pycparser", specifier = "==2.22" },
-    { name = "pyjwt", specifier = "==2.10.1" },
-    { name = "pymemcache", specifier = "==4.0.0" },
-    { name = "pyopenssl", specifier = "==24.3.0" },
-    { name = "pyparsing", specifier = "==3.2.1" },
-    { name = "python-decouple", specifier = "==3.8" },
-    { name = "pytz", specifier = "==2024.2" },
-    { name = "redis", specifier = "==5.2.1" },
-    { name = "requests", specifier = "==2.32.3" },
-    { name = "requests-oauthlib", specifier = "==2.0.0" },
-    { name = "rest-framework-simplejwt", specifier = "==0.0.2" },
-    { name = "rsa", specifier = "==4.9" },
-    { name = "service-identity", specifier = "==24.2.0" },
-    { name = "setuptools", specifier = "==75.6.0" },
-    { name = "sqlparse", specifier = "==0.5.2" },
-    { name = "twisted", specifier = "==24.11.0" },
-    { name = "txaio", specifier = "==23.1.1" },
-    { name = "typing-extensions", specifier = "==4.12.2" },
-    { name = "urllib3", specifier = "==2.3.0" },
-    { name = "zope-interface", specifier = "==7.2" },
+    { name = "argon2", specifier = ">=0.1.10" },
+    { name = "argon2-cffi", specifier = ">=23.1.0" },
+    { name = "argon2-cffi-bindings", specifier = ">=21.2.0" },
+    { name = "asgiref", specifier = ">=3.8.1" },
+    { name = "attrs", specifier = ">=24.2.0" },
+    { name = "autobahn", specifier = ">=24.4.2" },
+    { name = "automat", specifier = ">=24.8.1" },
+    { name = "cachetools", specifier = ">=5.5.2" },
+    { name = "certifi", specifier = ">=2025.1.31" },
+    { name = "cffi", specifier = ">=1.17.1" },
+    { name = "charset-normalizer", specifier = ">=3.4.1" },
+    { name = "colorlog", specifier = ">=6.9.0" },
+    { name = "constantly", specifier = ">=23.10.4" },
+    { name = "cryptography", specifier = ">=44.0.0" },
+    { name = "daphne", specifier = ">=4.1.2" },
+    { name = "django", specifier = ">=5.1.4" },
+    { name = "django-cors-headers", specifier = ">=4.6.0" },
+    { name = "django-redis", specifier = ">=5.4.0" },
+    { name = "djangorestframework", specifier = ">=3.15.2" },
+    { name = "djangorestframework-simplejwt", specifier = ">=5.3.1" },
+    { name = "dns-smtp-email-validator", specifier = ">=0.1.7" },
+    { name = "dnspython", specifier = ">=2.7.0" },
+    { name = "google-auth", specifier = ">=2.38.0" },
+    { name = "google-auth-httplib2", specifier = ">=0.2.0" },
+    { name = "google-auth-oauthlib", specifier = ">=1.2.1" },
+    { name = "httplib2", specifier = ">=0.22.0" },
+    { name = "hyperlink", specifier = ">=21.0.0" },
+    { name = "idna", specifier = ">=3.10" },
+    { name = "incremental", specifier = ">=24.7.2" },
+    { name = "itsdangerous", specifier = ">=2.2.0" },
+    { name = "limited-time-token-handler", specifier = ">=0.1.9" },
+    { name = "oauthlib", specifier = ">=3.2.2" },
+    { name = "pillow", specifier = ">=11.0.0" },
+    { name = "psycopg2", specifier = ">=2.9.10" },
+    { name = "pyasn1", specifier = ">=0.6.1" },
+    { name = "pyasn1-modules", specifier = ">=0.4.1" },
+    { name = "pycparser", specifier = ">=2.22" },
+    { name = "pyjwt", specifier = ">=2.10.1" },
+    { name = "pymemcache", specifier = ">=4.0.0" },
+    { name = "pyopenssl", specifier = ">=24.3.0" },
+    { name = "pyparsing", specifier = ">=3.2.1" },
+    { name = "python-decouple", specifier = ">=3.8" },
+    { name = "pytz", specifier = ">=2024.2" },
+    { name = "redis", specifier = ">=5.2.1" },
+    { name = "requests", specifier = ">=2.32.3" },
+    { name = "requests-oauthlib", specifier = ">=2.0.0" },
+    { name = "rest-core", specifier = ">=0.1.21" },
+    { name = "rest-framework-simplejwt", specifier = ">=0.0.2" },
+    { name = "rsa", specifier = ">=4.9" },
+    { name = "service-identity", specifier = ">=24.2.0" },
+    { name = "setuptools", specifier = ">=75.6.0" },
+    { name = "sqlparse", specifier = ">=0.5.2" },
+    { name = "twisted", specifier = ">=24.11.0" },
+    { name = "txaio", specifier = ">=23.1.1" },
+    { name = "typing-extensions", specifier = ">=4.12.2" },
+    { name = "urllib3", specifier = ">=2.3.0" },
+    { name = "zope-interface", specifier = ">=7.2" },
 ]
 
 [[package]]
@@ -345,16 +356,16 @@ wheels = [
 
 [[package]]
 name = "django"
-version = "5.1.4"
+version = "5.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asgiref" },
     { name = "sqlparse" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d3/e8/536555596dbb79f6e77418aeb40bdc1758c26725aba31919ba449e6d5e6a/Django-5.1.4.tar.gz", hash = "sha256:de450c09e91879fa5a307f696e57c851955c910a438a35e6b4c895e86bedc82a", size = 10716397 }
+sdist = { url = "https://files.pythonhosted.org/packages/ac/10/0d546258772b8f31398e67c85e52c66ebc2b13a647193c3eef8ee433f1a8/django-5.2.1.tar.gz", hash = "sha256:57fe1f1b59462caed092c80b3dd324fd92161b620d59a9ba9181c34746c97284", size = 10818735 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/0b/8a4ab2c02982df4ed41e29f28f189459a7eba37899438e6bea7f39db793b/Django-5.1.4-py3-none-any.whl", hash = "sha256:236e023f021f5ce7dee5779de7b286565fdea5f4ab86bae5338e3f7b69896cf0", size = 8276471 },
+    { url = "https://files.pythonhosted.org/packages/90/92/7448697b5838b3a1c6e1d2d6a673e908d0398e84dc4f803a2ce11e7ffc0f/django-5.2.1-py3-none-any.whl", hash = "sha256:a9b680e84f9a0e71da83e399f1e922e1ab37b2173ced046b541c72e1589a5961", size = 8301833 },
 ]
 
 [[package]]
@@ -385,14 +396,14 @@ wheels = [
 
 [[package]]
 name = "djangorestframework"
-version = "3.15.2"
+version = "3.16.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2c/ce/31482eb688bdb4e271027076199e1aa8d02507e530b6d272ab8b4481557c/djangorestframework-3.15.2.tar.gz", hash = "sha256:36fe88cd2d6c6bec23dca9804bab2ba5517a8bb9d8f47ebc68981b56840107ad", size = 1067420 }
+sdist = { url = "https://files.pythonhosted.org/packages/7d/97/112c5a72e6917949b6d8a18ad6c6e72c46da4290c8f36ee5f1c1dcbc9901/djangorestframework-3.16.0.tar.gz", hash = "sha256:f022ff46613584de994c0c6a4aebbace5fd700555fbe9d33b865ebf173eba6c9", size = 1068408 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7c/b6/fa99d8f05eff3a9310286ae84c4059b08c301ae4ab33ae32e46e8ef76491/djangorestframework-3.15.2-py3-none-any.whl", hash = "sha256:2b8871b062ba1aefc2de01f773875441a961fefbf79f5eed1e32b2f096944b20", size = 1071235 },
+    { url = "https://files.pythonhosted.org/packages/eb/3e/2448e93f4f87fc9a9f35e73e3c05669e0edd0c2526834686e949bb1fd303/djangorestframework-3.16.0-py3-none-any.whl", hash = "sha256:bea7e9f6b96a8584c5224bfb2e4348dfb3f8b5e34edbecb98da258e892089361", size = 1067305 },
 ]
 
 [[package]]
@@ -614,6 +625,49 @@ wheels = [
 ]
 
 [[package]]
+name = "pydantic"
+version = "2.11.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "annotated-types" },
+    { name = "pydantic-core" },
+    { name = "typing-extensions" },
+    { name = "typing-inspection" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/77/ab/5250d56ad03884ab5efd07f734203943c8a8ab40d551e208af81d0257bf2/pydantic-2.11.4.tar.gz", hash = "sha256:32738d19d63a226a52eed76645a98ee07c1f410ee41d93b4afbfa85ed8111c2d", size = 786540 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e7/12/46b65f3534d099349e38ef6ec98b1a5a81f42536d17e0ba382c28c67ba67/pydantic-2.11.4-py3-none-any.whl", hash = "sha256:d9615eaa9ac5a063471da949c8fc16376a84afb5024688b3ff885693506764eb", size = 443900 },
+]
+
+[[package]]
+name = "pydantic-core"
+version = "2.33.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ad/88/5f2260bdfae97aabf98f1778d43f69574390ad787afb646292a638c923d4/pydantic_core-2.33.2.tar.gz", hash = "sha256:7cb8bc3605c29176e1b105350d2e6474142d7c1bd1d9327c4a9bdb46bf827acc", size = 435195 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/46/8c/99040727b41f56616573a28771b1bfa08a3d3fe74d3d513f01251f79f172/pydantic_core-2.33.2-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:1082dd3e2d7109ad8b7da48e1d4710c8d06c253cbc4a27c1cff4fbcaa97a9e3f", size = 2015688 },
+    { url = "https://files.pythonhosted.org/packages/3a/cc/5999d1eb705a6cefc31f0b4a90e9f7fc400539b1a1030529700cc1b51838/pydantic_core-2.33.2-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:f517ca031dfc037a9c07e748cefd8d96235088b83b4f4ba8939105d20fa1dcd6", size = 1844808 },
+    { url = "https://files.pythonhosted.org/packages/6f/5e/a0a7b8885c98889a18b6e376f344da1ef323d270b44edf8174d6bce4d622/pydantic_core-2.33.2-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0a9f2c9dd19656823cb8250b0724ee9c60a82f3cdf68a080979d13092a3b0fef", size = 1885580 },
+    { url = "https://files.pythonhosted.org/packages/3b/2a/953581f343c7d11a304581156618c3f592435523dd9d79865903272c256a/pydantic_core-2.33.2-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:2b0a451c263b01acebe51895bfb0e1cc842a5c666efe06cdf13846c7418caa9a", size = 1973859 },
+    { url = "https://files.pythonhosted.org/packages/e6/55/f1a813904771c03a3f97f676c62cca0c0a4138654107c1b61f19c644868b/pydantic_core-2.33.2-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:1ea40a64d23faa25e62a70ad163571c0b342b8bf66d5fa612ac0dec4f069d916", size = 2120810 },
+    { url = "https://files.pythonhosted.org/packages/aa/c3/053389835a996e18853ba107a63caae0b9deb4a276c6b472931ea9ae6e48/pydantic_core-2.33.2-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:0fb2d542b4d66f9470e8065c5469ec676978d625a8b7a363f07d9a501a9cb36a", size = 2676498 },
+    { url = "https://files.pythonhosted.org/packages/eb/3c/f4abd740877a35abade05e437245b192f9d0ffb48bbbbd708df33d3cda37/pydantic_core-2.33.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9fdac5d6ffa1b5a83bca06ffe7583f5576555e6c8b3a91fbd25ea7780f825f7d", size = 2000611 },
+    { url = "https://files.pythonhosted.org/packages/59/a7/63ef2fed1837d1121a894d0ce88439fe3e3b3e48c7543b2a4479eb99c2bd/pydantic_core-2.33.2-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:04a1a413977ab517154eebb2d326da71638271477d6ad87a769102f7c2488c56", size = 2107924 },
+    { url = "https://files.pythonhosted.org/packages/04/8f/2551964ef045669801675f1cfc3b0d74147f4901c3ffa42be2ddb1f0efc4/pydantic_core-2.33.2-cp313-cp313-musllinux_1_1_aarch64.whl", hash = "sha256:c8e7af2f4e0194c22b5b37205bfb293d166a7344a5b0d0eaccebc376546d77d5", size = 2063196 },
+    { url = "https://files.pythonhosted.org/packages/26/bd/d9602777e77fc6dbb0c7db9ad356e9a985825547dce5ad1d30ee04903918/pydantic_core-2.33.2-cp313-cp313-musllinux_1_1_armv7l.whl", hash = "sha256:5c92edd15cd58b3c2d34873597a1e20f13094f59cf88068adb18947df5455b4e", size = 2236389 },
+    { url = "https://files.pythonhosted.org/packages/42/db/0e950daa7e2230423ab342ae918a794964b053bec24ba8af013fc7c94846/pydantic_core-2.33.2-cp313-cp313-musllinux_1_1_x86_64.whl", hash = "sha256:65132b7b4a1c0beded5e057324b7e16e10910c106d43675d9bd87d4f38dde162", size = 2239223 },
+    { url = "https://files.pythonhosted.org/packages/58/4d/4f937099c545a8a17eb52cb67fe0447fd9a373b348ccfa9a87f141eeb00f/pydantic_core-2.33.2-cp313-cp313-win32.whl", hash = "sha256:52fb90784e0a242bb96ec53f42196a17278855b0f31ac7c3cc6f5c1ec4811849", size = 1900473 },
+    { url = "https://files.pythonhosted.org/packages/a0/75/4a0a9bac998d78d889def5e4ef2b065acba8cae8c93696906c3a91f310ca/pydantic_core-2.33.2-cp313-cp313-win_amd64.whl", hash = "sha256:c083a3bdd5a93dfe480f1125926afcdbf2917ae714bdb80b36d34318b2bec5d9", size = 1955269 },
+    { url = "https://files.pythonhosted.org/packages/f9/86/1beda0576969592f1497b4ce8e7bc8cbdf614c352426271b1b10d5f0aa64/pydantic_core-2.33.2-cp313-cp313-win_arm64.whl", hash = "sha256:e80b087132752f6b3d714f041ccf74403799d3b23a72722ea2e6ba2e892555b9", size = 1893921 },
+    { url = "https://files.pythonhosted.org/packages/a4/7d/e09391c2eebeab681df2b74bfe6c43422fffede8dc74187b2b0bf6fd7571/pydantic_core-2.33.2-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:61c18fba8e5e9db3ab908620af374db0ac1baa69f0f32df4f61ae23f15e586ac", size = 1806162 },
+    { url = "https://files.pythonhosted.org/packages/f1/3d/847b6b1fed9f8ed3bb95a9ad04fbd0b212e832d4f0f50ff4d9ee5a9f15cf/pydantic_core-2.33.2-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:95237e53bb015f67b63c91af7518a62a8660376a6a0db19b89acc77a4d6199f5", size = 1981560 },
+    { url = "https://files.pythonhosted.org/packages/6f/9a/e73262f6c6656262b5fdd723ad90f518f579b7bc8622e43a942eec53c938/pydantic_core-2.33.2-cp313-cp313t-win_amd64.whl", hash = "sha256:c2fc0a768ef76c15ab9238afa6da7f69895bb5d1ee83aeea2e3509af4472d0b9", size = 1935777 },
+]
+
+[[package]]
 name = "pyjwt"
 version = "2.10.1"
 source = { registry = "https://pypi.org/simple" }
@@ -663,11 +717,11 @@ wheels = [
 
 [[package]]
 name = "pytz"
-version = "2024.2"
+version = "2025.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/3a/31/3c70bf7603cc2dca0f19bdc53b4537a797747a58875b552c8c413d963a3f/pytz-2024.2.tar.gz", hash = "sha256:2aa355083c50a0f93fa581709deac0c9ad65cca8a9e9beac660adcbd493c798a", size = 319692 }
+sdist = { url = "https://files.pythonhosted.org/packages/f8/bf/abbd3cdfb8fbc7fb3d4d38d320f2441b1e7cbe29be4f23797b4a2b5d8aac/pytz-2025.2.tar.gz", hash = "sha256:360b9e3dbb49a209c21ad61809c7fb453643e048b38924c765813546746e81c3", size = 320884 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/11/c3/005fcca25ce078d2cc29fd559379817424e94885510568bc1bc53d7d5846/pytz-2024.2-py2.py3-none-any.whl", hash = "sha256:31c7c1817eb7fae7ca4b8c7ee50c72f93aa2dd863de768e1ef4245d426aa0725", size = 508002 },
+    { url = "https://files.pythonhosted.org/packages/81/c4/34e93fe5f5429d7570ec1fa436f1986fb1f00c3e0f43a589fe2bbcd22c3f/pytz-2025.2-py2.py3-none-any.whl", hash = "sha256:5ddf76296dd8c44c26eb8f4b6f35488f3ccbf6fbbd7adee0b7262d43f0ec2f00", size = 509225 },
 ]
 
 [[package]]
@@ -705,6 +759,21 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/42/f2/05f29bc3913aea15eb670be136045bf5c5bbf4b99ecb839da9b422bb2c85/requests-oauthlib-2.0.0.tar.gz", hash = "sha256:b3dffaebd884d8cd778494369603a9e7b58d29111bf6b41bdc2dcd87203af4e9", size = 55650 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3b/5d/63d4ae3b9daea098d5d6f5da83984853c1bbacd5dc826764b249fe119d24/requests_oauthlib-2.0.0-py2.py3-none-any.whl", hash = "sha256:7dd8a5c40426b779b0868c404bdef9768deccf22749cde15852df527e6269b36", size = 24179 },
+]
+
+[[package]]
+name = "rest-core"
+version = "0.1.21"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "djangorestframework" },
+    { name = "pydantic" },
+    { name = "pytz" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/dc/7b/5f65fe23eb4f1f69ae19a77d0cee77333ba0b97ada67221abee9946b53e7/rest_core-0.1.21.tar.gz", hash = "sha256:6b67d64b9cd0bb8c632a40fcb23413554fc06d7d5b450f4ef0ba9520a321e6f2", size = 32304 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/51/874616b26a7aced61ae70c203b49c9fda780b616e3bf7469e125a408ef53/rest_core-0.1.21-py3-none-any.whl", hash = "sha256:6e3114e4b94485bb7263fb460d5a2d588c82a06ff25dd464199b26bc85f78485", size = 45619 },
 ]
 
 [[package]]
@@ -802,6 +871,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/df/db/f35a00659bc03fec321ba8bce9420de607a1d37f8342eee1863174c69557/typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8", size = 85321 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/26/9f/ad63fc0248c5379346306f8668cda6e2e2e9c95e01216d2b8ffd9ff037d0/typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d", size = 37438 },
+]
+
+[[package]]
+name = "typing-inspection"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/82/5c/e6082df02e215b846b4b8c0b887a64d7d08ffaba30605502639d44c06b82/typing_inspection-0.4.0.tar.gz", hash = "sha256:9765c87de36671694a67904bf2c96e395be9c6439bb6c87b5142569dcdd65122", size = 76222 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/31/08/aa4fdfb71f7de5176385bd9e90852eaf6b5d622735020ad600f2bab54385/typing_inspection-0.4.0-py3-none-any.whl", hash = "sha256:50e72559fcd2a6367a19f7a7e610e6afcb9fac940c650290eed893d61386832f", size = 14125 },
 ]
 
 [[package]]

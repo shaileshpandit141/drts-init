@@ -1,10 +1,16 @@
-from apps.user_auth.mixins import IsUserAuthenticatedPermissionsMixin
-from core.send_email import SendEmail
-from core.views import BaseAPIView, Response
+from rest_core.email_service import Emails, EmailService, Templates
+from rest_core.response import failure_response, success_response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle
+from rest_framework.views import APIView
 
 
-class DeactivateAccountView(IsUserAuthenticatedPermissionsMixin, BaseAPIView):
+class DeactivateAccountView(APIView):
     """API view for deactivating user accounts."""
+
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
 
     def post(self, request, *args, **kwargs) -> Response:
         """Deactivate the authenticated user's account."""
@@ -15,9 +21,9 @@ class DeactivateAccountView(IsUserAuthenticatedPermissionsMixin, BaseAPIView):
 
         # Handle if password is blank
         if password is None:
-            return self.handle_error(
-                "Password is required to deactivate your account",
-                {
+            return failure_response(
+                message="Password is required to deactivate your account",
+                errors={
                     "password": [
                         "Please enter your password to confirm account deactivation."
                     ]
@@ -26,9 +32,9 @@ class DeactivateAccountView(IsUserAuthenticatedPermissionsMixin, BaseAPIView):
 
         # Verify password matches
         if not user.check_password(password):
-            return self.handle_error(
-                "Incorrect password provided",
-                {
+            return failure_response(
+                message="Incorrect password provided",
+                errors={
                     "password": [
                         "The password you entered is incorrect. Please try again."
                     ]
@@ -39,22 +45,27 @@ class DeactivateAccountView(IsUserAuthenticatedPermissionsMixin, BaseAPIView):
         user.is_active = False
         user.save()
 
-        # Send confirmation email
-        SendEmail(
-            {
-                "subject": "Account Deactivation Confirmation",
-                "emails": {"to_emails": [user.email]},
-                "context": {"user": user},
-                "templates": {
-                    "txt": "users/deactivate_account/confirm_message.txt",
-                    "html": "users/deactivate_account/confirm_message.html",
-                },
-            }
+        # Handel email send
+        email = EmailService(
+            subject="Account Deactivation Confirmation",
+            emails=Emails(
+                from_email=None,
+                to_emails=[user.email],
+            ),
+            context={"user": user},
+            templates=Templates(
+                text_template="users/deactivate_account/confirm_message.txt",
+                html_template="users/deactivate_account/confirm_message.html",
+            ),
         )
 
-        return self.handle_success(
-            "Account deactivated successfully",
-            {
+        # Send deactivation confirmation email
+        email.send(fallback=False)
+
+        # Return success response
+        return success_response(
+            message="Account deactivated successfully",
+            data={
                 "detail": "Your account has been deactivated. You will be signed out shortly."
             },
         )
