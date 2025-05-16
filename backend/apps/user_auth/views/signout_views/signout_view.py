@@ -28,5 +28,5 @@ class SignoutView(APIView):
             # Return failure response
             return failure_response(
                 message="Invalid refresh token.",
-                errors={"detail": "The provided token is invalid or expired."},
+                errors={"refresh_token": ["The provided token is invalid or expired."]},
             )
