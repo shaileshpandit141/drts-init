@@ -157,6 +157,11 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "EXCEPTION_HANDLER": "rest_core.exceptions.base_exception_handler",
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
+    ],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_core.renderers.StructuredJSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
