@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from decouple import Csv, config
 
-from .base import *
+from .base import *  # noqa: F403
 from .base import LOGGING, REST_FRAMEWORK
 
 # Disable debug mode for production environment for security
@@ -37,7 +37,7 @@ REST_FRAMEWORK.update(
 
 # JWT Token Configuration Settings
 # --------------------------------
-SIMPLE_JWT.update(
+SIMPLE_JWT.update(  # noqa: F405
     {
         "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
         "REFRESH_TOKEN_LIFETIME": timedelta(minutes=1),

@@ -25,7 +25,10 @@
     <main>
       <!-- Django logo -->
       <figure class="logo-container">
-        <img src="{% static 'media/icons/django-favicon.png' %}" alt="Django logo" />
+        <img
+          src="{% static 'media/icons/django-favicon.png' %}"
+          alt="Django logo"
+        />
       </figure>
 
       <!-- Page heading -->
@@ -33,14 +36,16 @@
 
       <!-- Description text -->
       <p>
-        This is a Django REST Framework boilerplate project that provides a complete setup for building RESTful APIs.
+        This is a Django REST Framework boilerplate project that provides a
+        complete setup for building RESTful APIs.
       </p>
-      <p>
-        To get started, visit the admin panel to manage your API resources:
-      </p>
+      <p>To get started, visit the admin panel to manage your API resources:</p>
 
       <!-- Admin panel link -->
-      <a class="admin-link" href="admin/">Django Admin Panel</a>
+      <div class="action-btns">
+        <a class="admin-link" href="admin/">View Admin</a>
+        <a class="admin-link" href="login/">Drf Login</a>
+      </div>
     </main>
   </body>
 </html>

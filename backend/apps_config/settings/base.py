@@ -30,6 +30,11 @@ ALLOWED_HOSTS = config("HOST", cast=Csv())
 # ----------------------------------
 FRONTEND_URL = config("FRONTEND_URL", cast=str)
 
+# Login Redirect URL Configuration Setting
+# ----------------------------------------
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+
 # Django built-in applications settings
 # -------------------------------------
 INSTALLED_APPS = [
@@ -57,6 +62,7 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     "apps.user_auth",
     "apps.google_auth",
+    "apps.short_video",
 ]
 
 # Middleware Configuration Settings

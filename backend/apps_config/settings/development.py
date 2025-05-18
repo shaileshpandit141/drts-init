@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from decouple import Csv, config
 
-from .base import *
+from .base import *  # noqa: F403
 from .base import BASE_DIR, LOGGING, REST_FRAMEWORK, SIMPLE_JWT
 
 # Enable debug mode for development purposes only
@@ -27,6 +27,10 @@ CORS_ALLOWED_ORIGINS = config("FRONTEND_URL", cast=Csv())
 # -------------------------------------
 REST_FRAMEWORK.update(
     {
+        "DEFAULT_AUTHENTICATION_CLASSES": [
+            "rest_framework_simplejwt.authentication.JWTAuthentication",
+            "rest_framework.authentication.SessionAuthentication",
+        ],
         "DEFAULT_RENDERER_CLASSES": [
             "rest_core.renderers.StructuredJSONRenderer",
             "rest_framework.renderers.BrowsableAPIRenderer",

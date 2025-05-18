@@ -32,8 +32,14 @@ urlpatterns = [
 ]
 
 # Configure custom error handling
-handler404 = custom_404_apiview
+handler404 = custom_404_apiview  # noqa: F811
 
 # Enable serving of user-uploaded media files
 if settings.DEBUG:
+    # Drf session authentication
+    urlpatterns += [
+        path("", include("rest_framework.urls")),
+    ]
+
+    # Serve media files during development
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
