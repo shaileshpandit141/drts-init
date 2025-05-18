@@ -145,7 +145,6 @@ p {
   white-space: nowrap;
   height: 40px;
   width: 100%;
-  min-width: fit-content;
   max-width: 250px;
   padding-inline: 16px;
   border-radius: 999rem;
@@ -155,6 +154,16 @@ p {
   overflow: hidden;
   cursor: default;
   transition: background-color 0.3s ease-in-out;
+}
+
+.admin-link {
+  min-width: -webkit-fill-available;
+}
+
+@supports (min-width: fit-content) {
+  .admin-link {
+    min-width: fit-content;
+  }
 }
 
 /*
