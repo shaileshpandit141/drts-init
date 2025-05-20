@@ -43,13 +43,11 @@
 					]
 				},
 				"url": {
-					"raw": "{{base_url}}/api/v1/auth/user/",
+					"raw": "{{base_url}}/auth/user/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"auth",
 						"user",
 						""
@@ -102,13 +100,11 @@
 					]
 				},
 				"url": {
-					"raw": "{{base_url}}/api/v1/auth/signin/token/refresh/",
+					"raw": "{{base_url}}/auth/signin/token/refresh/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"auth",
 						"signin",
 						"token",
@@ -163,13 +159,11 @@
 					]
 				},
 				"url": {
-					"raw": "{{base_url}}/api/v1/auth/signin/token/",
+					"raw": "{{base_url}}/auth/signin/token/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"auth",
 						"signin",
 						"token",
@@ -208,13 +202,11 @@
 					]
 				},
 				"url": {
-					"raw": "{{base_url}}/api/v1/auth/signup/",
+					"raw": "{{base_url}}/auth/signup/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"auth",
 						"signup",
 						""
@@ -249,15 +241,153 @@
 					]
 				},
 				"url": {
-					"raw": "{{base_url}}/api/v1/auth/signout/",
+					"raw": "{{base_url}}/auth/signout/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"auth",
 						"signout",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify account",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/verify-account/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"verify-account",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify account confirm",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/verify-account/confirm/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"verify-account",
+						"confirm",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/change-password/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"change-password",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "forgot password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/forgot-password/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"forgot-password",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "forgot password confirm",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/forgot-password/confirm/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"forgot-password",
+						"confirm",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deactivate account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/deactivate-account/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"deactivate-account",
 						""
 					]
 				}
