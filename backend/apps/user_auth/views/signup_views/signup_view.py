@@ -39,14 +39,16 @@ class SignupView(APIView):
         if password is None:
             return failure_response(
                 message="Sign up failed - Invalid password",
-                errors={"email": ["Please provide a valid password."]},
+                errors={"password": ["Please provide a valid password."]},
             )
 
         # Handle if user not include password in payload
         if confirm_password is None:
             return failure_response(
                 message="Sign up failed - Invalid confirm password",
-                errors={"email": ["Please provide a valid confirm password."]},
+                errors={
+                    "confirm_password": ["Please provide a valid confirm password."]
+                },
             )
 
         try:
