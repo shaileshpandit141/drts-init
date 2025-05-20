@@ -176,7 +176,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_THROTTLE_RATES": {
         "anon": "100/day",
-        "auth_user": "8/hour",
+        "auth": "8/hour",
         "user": "1000/day",
     },
     "DEFAULT_PAGINATION_CLASS": "rest_core.pagination.PageNumberPagination",
