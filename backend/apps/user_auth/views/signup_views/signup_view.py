@@ -1,17 +1,18 @@
-from apps.user_auth.throttles import AuthUserRateThrottle
+from decouple import config
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from dns_smtp_email_validator import DNSSMTPEmailValidator
 from limited_time_token_handler import LimitedTimeTokenGenerator
+from rest_core.build_absolute_uri import build_absolute_uri
 from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.serializers import UserSerializer
-from decouple import config
-from rest_core.build_absolute_uri import build_absolute_uri
+
+from apps.user_auth.throttles import AuthUserRateThrottle
 
 User = get_user_model()
 

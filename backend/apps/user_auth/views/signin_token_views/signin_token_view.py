@@ -1,11 +1,12 @@
-from apps.user_auth.throttles import AuthUserRateThrottle
-from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
 from django.utils import timezone
 from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.models import User
+
+from apps.user_auth.throttles import AuthUserRateThrottle
+from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
 
 
 class SigninTokenView(ModelObjectMixin[User], APIView):
