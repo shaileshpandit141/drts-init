@@ -22,7 +22,7 @@ class ChangePasswordView(APIView):
         # Get required data from request
         user = request.user
         old_password = request.data.get("old_password", "")
-        new_password = request.data.get("old_password", "")
+        new_password = request.data.get("new_password", "")
 
         # Check if old password is correct
         if not user.check_password(old_password):
