@@ -10,6 +10,7 @@ from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.serializers import UserSerializer
+from decouple import config
 
 User = get_user_model()
 
@@ -69,13 +70,18 @@ class SignupView(APIView):
                 },
             )
 
-        # Validate the email is exist in the internet or not
-        validator = DNSSMTPEmailValidator(email)
-        if not validator.is_valid():
-            return failure_response(
-                message="Sign up failed - Invalid email domain",
-                errors=validator.errors,  # type: ignore
-            )
+        # Check if email verification is required
+        DNS_SMTP_EMAIL_VERIFICATION = config(
+            "DNS_SMTP_EMAIL_VERIFICATION", default=True, cast=bool
+        )
+        if DNS_SMTP_EMAIL_VERIFICATION:
+            # Validate the email is exist in the internet or not
+            validator = DNSSMTPEmailValidator(email)
+            if not validator.is_valid():
+                return failure_response(
+                    message="Sign up failed - Invalid email domain",
+                    errors=validator.errors,  # type: ignore
+                )
 
         # Hash the password for secure storage
         hashed_password = make_password(password)
