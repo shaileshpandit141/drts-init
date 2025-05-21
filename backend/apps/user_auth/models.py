@@ -62,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_table = "users"
         verbose_name = "User"
         verbose_name_plural = "Users"
-        ordering = ["-date_joined"]
+        ordering = ["-last_login"]
 
     objects = UserManager()
 
@@ -142,30 +142,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             "blank": "An picture image is required",
         },
     )
-    date_joined = models.DateTimeField(
-        auto_now=False,
-        auto_now_add=True,
-        null=False,
-        blank=False,
-        db_index=False,
-        error_messages={
-            "invalid": "Please enter a valid date and time",
-            "null": "Date joined is required",
-            "blank": "Date joined cannot be empty",
-        },
-    )
-    last_login = models.DateTimeField(
-        auto_now=True,
-        auto_now_add=False,
-        null=False,
-        blank=False,
-        db_index=False,
-        error_messages={
-            "invalid": "Please enter a valid date and time",
-            "null": "Last login date is required",
-            "blank": "Last login date cannot be empty",
-        },
-    )
     is_active = models.BooleanField(
         default=True,
         null=False,
@@ -204,6 +180,30 @@ class User(AbstractBaseUser, PermissionsMixin):
             "invalid": "Please specify whether the account is verified",
             "null": "Account verification status is required",
             "blank": "Account verification status cannot be empty",
+        },
+    )
+    date_joined = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=False,
+        blank=False,
+        db_index=False,
+        error_messages={
+            "invalid": "Please enter a valid date and time",
+            "null": "Date joined is required",
+            "blank": "Date joined cannot be empty",
+        },
+    )
+    last_login = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=False,
+        blank=False,
+        db_index=False,
+        error_messages={
+            "invalid": "Please enter a valid date and time",
+            "null": "Last login date is required",
+            "blank": "Last login date cannot be empty",
         },
     )
 

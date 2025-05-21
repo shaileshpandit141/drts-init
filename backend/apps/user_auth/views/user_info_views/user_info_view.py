@@ -1,14 +1,10 @@
-from django.contrib.auth import get_user_model
 from rest_core.response import failure_response, success_response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
-from user_auth.serializers import UserSerializer
-
+from user_auth.serializers.user_public_serializer import UserPublicSerializer
 from apps.user_auth.permissions import IsUserAccountVerified
-
-User = get_user_model()
 
 
 class UserInfoView(APIView):
@@ -17,15 +13,14 @@ class UserInfoView(APIView):
     permission_classes = [IsAuthenticated, IsUserAccountVerified]
     throttle_classes = [UserRateThrottle]
 
-    def get(self, request, *args, **kwargs) -> Response:
+    def get(self, request) -> Response:
         """Retrieve current user"s profile information."""
 
-        # Get user from request
-        user = request.user
-
-        # Serilizer user data
-        serializer = UserSerializer(
-            instance=user, many=False, context={"request": request}
+        # Create user serializer instance
+        serializer = UserPublicSerializer(
+            instance=request.user,
+            many=False,
+            context={"request": request},
         )
 
         # Return success response
@@ -34,28 +29,30 @@ class UserInfoView(APIView):
             data=serializer.data,
         )
 
-    def patch(self, request, *args, **kwargs) -> Response:
+    def patch(self, request) -> Response:
         """Update authenticated user's profile information."""
 
         # Create user serializer instance with new data
-        serializer = UserSerializer(
+        serializer = UserPublicSerializer(
             data=request.data,
             instance=request.user,
             many=False,
             partial=True,
+            context={"request": request},
         )
 
         # Check if serializer is valid or not
         if not serializer.is_valid():
             return failure_response(
-                message="Unable to update profile - invalid data provided",
+                message="User credentials update failed - invalid data provided",
                 errors=serializer.errors,
             )
 
         # Save valid serializer data
         serializer.save()
 
-        # Return saved data
+        # Return updated data
         return success_response(
-            message="User profile has been updated successfully", data=serializer.data
+            message="User profile has been updated successfully",
+            data=serializer.data,
         )
