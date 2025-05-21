@@ -1,16 +1,11 @@
-from decouple import config
 from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from dns_smtp_email_validator import DNSSMTPEmailValidator
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.build_absolute_uri import build_absolute_uri
 from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from user_auth.serializers import UserSerializer
+from user_auth.serializers.signup_user_serializer import SignupUserSerializer
 
 from apps.user_auth.throttles import AuthUserRateThrottle
 
@@ -25,80 +20,16 @@ class SignupView(APIView):
     def post(self, request, *args, **kwargs) -> Response:
         """Handle user registration"""
 
-        # Gatting submitted data from request
-        email = request.data.get("email", None)
-        password = request.data.get("password", None)
-        confirm_password = request.data.get("confirm_password", None)
+        # Get the verification URL from the request data
         verification_uri = request.data.get("verification_uri", None)
 
-        # Handle if user not include email in payload
-        if email is None:
-            return failure_response(
-                message="Sign up failed - Invalid email",
-                errors={"email": ["Please provide a valid email address."]},
-            )
+        # Create an instance of the SignupUserSerializer
+        serializer = SignupUserSerializer(data=request.data)
 
-        # Handle if user not include password in payload
-        if password is None:
-            return failure_response(
-                message="Sign up failed - Invalid password",
-                errors={"password": ["Please provide a valid password."]},
-            )
-
-        # Handle if user not include password in payload
-        if confirm_password is None:
-            return failure_response(
-                message="Sign up failed - Invalid confirm password",
-                errors={
-                    "confirm_password": ["Please provide a valid confirm password."]
-                },
-            )
-
-        try:
-            # Validate password meets requirements
-            validate_password(password)
-        except ValidationError:
-            return failure_response(
-                message="Sign up failed - Invalid password",
-                errors={"password": ["Password must be at least 8 characters long."]},
-            )
-
-        # Check password confirmation matches
-        if password != confirm_password:
-            return failure_response(
-                message="Sign up failed - Password mismatch",
-                errors={
-                    "confirm_password": ["Passwords do not match. Please try again."]
-                },
-            )
-
-        # Check if email verification is required
-        DNS_SMTP_EMAIL_VERIFICATION = config(
-            "DNS_SMTP_EMAIL_VERIFICATION", default=True, cast=bool
-        )
-        if DNS_SMTP_EMAIL_VERIFICATION:
-            # Validate the email is exist in the internet or not
-            validator = DNSSMTPEmailValidator(email)
-            if not validator.is_valid():
-                return failure_response(
-                    message="Sign up failed - Invalid email domain",
-                    errors=validator.errors,  # type: ignore
-                )
-
-        # Hash the password for secure storage
-        hashed_password = make_password(password)
-
-        # Create new user instance
-        serializer = UserSerializer(
-            data={"email": email},
-            context={"hashed_password": hashed_password},
-        )
-
-        # Check serialize is valid or not
+        # Validate the serializer data
         if not serializer.is_valid():
             return failure_response(
-                message="Sign up failed - Invalid credentials",
-                errors=serializer.errors,
+                message="Sign up failed - Invalid credentials", errors=serializer.errors
             )
 
         # Save serializer data if it valid
@@ -109,9 +40,12 @@ class SignupView(APIView):
         generator = LimitedTimeTokenGenerator({"user_id": getattr(user, "id")})
         token = generator.generate()
         if token is None:
-            return failure_response(
-                message="Sign up failed - Token generation failed",
-                errors={"detail": "Unable to generate verification token."},
+            return success_response(
+                message="Sign up success - Token generation failed.",
+                data={
+                    "detail": "Sign up success but token generation failed.",
+                    "token": "You need to generate an account verification token and verify it.",
+                },
             )
 
         # Get the absolute URL for verification
@@ -138,7 +72,7 @@ class SignupView(APIView):
             ),
         )
 
-        # Send deactivation confirmation email
+        # Send account verification email
         email.send(fallback=False)
 
         # Return success response object
