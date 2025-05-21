@@ -1,4 +1,3 @@
-from django.contrib.postgres.forms.hstore import ValidationError
 from rest_core.serializers.mixins import FileFieldUrlMixin
 from rest_framework.serializers import ModelSerializer
 from user_auth.models import User
