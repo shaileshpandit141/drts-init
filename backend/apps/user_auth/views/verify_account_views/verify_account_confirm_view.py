@@ -1,9 +1,9 @@
-from apps.user_auth.throttles import AuthUserRateThrottle
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from django.contrib.auth import get_user_model
+from apps.user_auth.throttles import AuthUserRateThrottle
 from limited_time_token_handler import LimitedTimeTokenDecoder, TokenError
 from rest_core.response import failure_response, success_response
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 User = get_user_model()
 
@@ -13,14 +13,16 @@ class VerifyAccountConfirmView(APIView):
 
     throttle_classes = [AuthUserRateThrottle]
 
-    def post(self, request, *args, **kwargs) -> Response:
-        """Handle POST request for email verification"""
+    def get(self, request) -> Response:
+        token = request.query_params.get("token")
+        return self._verify_token(token)
 
-        # Validate required fields
-        token = request.data.get("token", None)
+    def post(self, request) -> Response:
+        token = request.data.get("token")
+        return self._verify_token(token)
 
-        # Validate the blank token
-        if token is None:
+    def _verify_token(self, token: str) -> Response:
+        if not token:
             return failure_response(
                 message="Token is missing",
                 errors={
@@ -31,33 +33,34 @@ class VerifyAccountConfirmView(APIView):
             )
 
         try:
-            # Decode verification token
             decoder = LimitedTimeTokenDecoder(token)
             if not decoder.is_valid():
                 raise TokenError("The verification token is invalid or has expired.")
 
-            # Token decoding
             data = decoder.decode()
             user = User.objects.get(id=data.get("user_id"))
 
-            # Check if already verified
             if getattr(user, "is_verified", False):
                 return success_response(
                     message="Account Already Verified",
                     data={"detail": "This account has already been verified."},
                 )
 
-            # Update verification status
             setattr(user, "is_verified", True)
             user.save()
 
-            # Return success response
             return success_response(
                 message="Account verification successful",
                 data={"detail": "Your account has been verified successfully."},
             )
 
-        except (ValueError, TokenError):
+        except User.DoesNotExist:
+            return failure_response(
+                message="Invalid verification token",
+                errors={"token": ["The token is valid but the user does not exist."]},
+            )
+
+        except TokenError:
             return failure_response(
                 message="Invalid verification token",
                 errors={

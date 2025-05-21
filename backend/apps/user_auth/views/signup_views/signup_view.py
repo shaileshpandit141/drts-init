@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.serializers import UserSerializer
 from decouple import config
+from rest_core.build_absolute_uri import build_absolute_uri
 
 User = get_user_model()
 
@@ -27,7 +28,7 @@ class SignupView(APIView):
         email = request.data.get("email", None)
         password = request.data.get("password", None)
         confirm_password = request.data.get("confirm_password", None)
-        active_url = request.data.get("active_url", None)
+        verification_uri = request.data.get("verification_uri", None)
 
         # Handle if user not include email in payload
         if email is None:
@@ -112,6 +113,16 @@ class SignupView(APIView):
                 errors={"detail": "Unable to generate verification token."},
             )
 
+        # Get the absolute URL for verification
+        if verification_uri is None:
+            activate_url = build_absolute_uri(
+                request=request,
+                view_name="user_auth:verify-account-confirm",
+                query_params={"token": token},
+            )
+        else:
+            activate_url = f"{verification_uri}/{token}"
+
         # Handel email send
         email = EmailService(
             subject="Verify Your Account",
@@ -119,7 +130,7 @@ class SignupView(APIView):
                 from_email=None,
                 to_emails=[getattr(user, "email", "Unknown")],
             ),
-            context={"user": user, "activate_url": f"{active_url}/{token}"},
+            context={"user": user, "activate_url": f"{activate_url}"},
             templates=Templates(
                 text_template="users/verify_account/confirm_message.txt",
                 html_template="users/verify_account/confirm_message.html",
