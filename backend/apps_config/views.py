@@ -7,13 +7,7 @@ def custom_404_apiview(request, exception=None) -> JsonResponse:
     page/endpoint is not found.
     """
     return JsonResponse(
-        {
-            "message": "The requested endpoint could not be found.",
-            "data": {},
-            "errors": {
-                "detail": "The requested endpoint could not be found. Please check the URL and try again.",
-            },
-        },
+        {"detail": "The requested endpoint could not be found."},
         status=404,
     )
 

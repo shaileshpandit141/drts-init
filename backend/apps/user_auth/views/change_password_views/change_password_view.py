@@ -13,7 +13,7 @@ class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle]
 
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request) -> Response:
         """Changes user password after validation."""
 
         # Get required data from request

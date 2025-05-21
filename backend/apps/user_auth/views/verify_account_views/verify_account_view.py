@@ -13,7 +13,7 @@ class VerifyAccountView(ModelObjectMixin[User], APIView):
     """API View for handling account verification."""
 
     throttle_classes = [AuthUserRateThrottle]
-    queryset = User.objects.filter(active=True)
+    queryset = User.objects.filter(is_active=True)
 
     def post(self, request) -> Response:
         """Process a request to resend an account verification email."""

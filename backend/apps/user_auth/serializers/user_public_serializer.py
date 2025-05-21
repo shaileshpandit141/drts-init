@@ -1,5 +1,5 @@
 from rest_core.serializers.mixins import FileFieldUrlMixin
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from user_auth.models import User
 
 
@@ -7,6 +7,9 @@ class UserPublicSerializer(FileFieldUrlMixin, ModelSerializer):
     """Serializer for User model that handles serialization and
     deserialization of User objects.
     """
+
+    # Get the full name of the user
+    full_name = SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -16,6 +19,7 @@ class UserPublicSerializer(FileFieldUrlMixin, ModelSerializer):
             "username",
             "first_name",
             "last_name",
+            "full_name",
             "picture",
             "is_verified",
             "is_staff",
@@ -29,3 +33,7 @@ class UserPublicSerializer(FileFieldUrlMixin, ModelSerializer):
             "is_staff",
             "is_superuser",
         ]
+
+    def get_full_name(self, obj) -> str:
+        """Return the full name of the user."""
+        return obj.get_full_name()
