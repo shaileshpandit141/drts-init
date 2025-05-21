@@ -1,11 +1,12 @@
 from typing import Any
-from rest_framework import serializers
+
+from decouple import config
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from user_auth.models import User
 from dns_smtp_email_validator import DNSSMTPEmailValidator
-from decouple import config
+from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from user_auth.models import User
 
 
 class SignupUserSerializer(serializers.Serializer):
