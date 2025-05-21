@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.build_absolute_uri import build_absolute_uri
 from rest_core.email_service import Emails, EmailService, Templates
@@ -6,19 +5,17 @@ from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from apps.user_auth.throttles import AuthUserRateThrottle
-
-User = get_user_model()
+from user_auth.models import User
+from user_auth.throttles import AuthUserRateThrottle
 
 
 class VerifyAccountView(ModelObjectMixin[User], APIView):
     """API View for handling account verification."""
 
     throttle_classes = [AuthUserRateThrottle]
-    queryset = User.objects.all()
+    queryset = User.objects.filter(active=True)
 
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request) -> Response:
         """Process a request to resend an account verification email."""
 
         # Gatting submitted data from request

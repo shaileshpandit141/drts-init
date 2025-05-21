@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.build_absolute_uri import build_absolute_uri
 from rest_core.email_service import Emails, EmailService, Templates
@@ -6,10 +5,7 @@ from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.serializers.signup_user_serializer import SignupUserSerializer
-
-from apps.user_auth.throttles import AuthUserRateThrottle
-
-User = get_user_model()
+from user_auth.throttles import AuthUserRateThrottle
 
 
 class SignupView(APIView):

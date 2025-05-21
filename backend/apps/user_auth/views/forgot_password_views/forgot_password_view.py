@@ -1,31 +1,31 @@
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
+from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from apps.user_auth.throttles import AuthUserRateThrottle
-
-User = get_user_model()
+from user_auth.models import User
+from user_auth.throttles import AuthUserRateThrottle
 
 
-class ForgotPasswordView(APIView):
+class ForgotPasswordView(ModelObjectMixin[User], APIView):
     """API endpoint for handling forgot password functionality."""
 
     throttle_classes = [AuthUserRateThrottle]
+    queryset = User.objects.filter(is_active=True)
 
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request) -> Response:
         """Process forgot password request and send reset email."""
 
         # Get email from request
         email = request.data.get("emial", "")
 
-        try:
-            # Check if user exists with this email or not
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
+        # Get user by email
+        user = self.get_object(email=email)
+
+        # Check provided email is exists or not
+        if user is None:
             return failure_response(
                 message="Account is not found with the given credentials.",
                 errors={"email": ["No account exists with this email address."]},
@@ -33,7 +33,7 @@ class ForgotPasswordView(APIView):
 
         # Process request for verified users
         if getattr(user, "is_verified", False):
-            # Generate reset token
+            # Generate password reset token
             generator = LimitedTimeTokenGenerator({"user_id": getattr(user, "id")})
             token = generator.generate()
             if token is None:

@@ -3,12 +3,15 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
+from user_auth.throttles import AuthUserRateThrottle
 
 
 class SigninTokenRefreshView(APIView):
     """Custom token refresh view for handling JWT token refresh operations."""
 
-    def post(self, request, *args, **kwargs) -> Response:
+    throttle_classes = [AuthUserRateThrottle]
+
+    def post(self, request) -> Response:
         """Handle token refresh POST requests."""
 
         # Get refresh token from request
@@ -32,7 +35,7 @@ class SigninTokenRefreshView(APIView):
         except (TokenError, InvalidToken):
             # Return failure response
             return failure_response(
-                message="Token refresh failed - invalid or expired refresh token provided",
+                message="Token refresh failed - Invalid or expired token",
                 errors={
                     "refresh_token": ["Invalid or expired refresh token provided."]
                 },

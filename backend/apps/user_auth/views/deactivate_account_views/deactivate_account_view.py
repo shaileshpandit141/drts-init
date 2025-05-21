@@ -12,7 +12,7 @@ class DeactivateAccountView(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle]
 
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request) -> Response:
         """Deactivate the authenticated user's account."""
 
         # Get user and password from request

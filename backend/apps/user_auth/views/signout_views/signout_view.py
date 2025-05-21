@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class SignoutView(APIView):
     """API view for user sign out functionality."""
 
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request) -> Response:
         """Handle user sign out by blacklisting their refresh token."""
 
         # Get required data from response

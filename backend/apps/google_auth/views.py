@@ -1,5 +1,8 @@
 from urllib.parse import urlencode
 
+from apps.user_auth.throttles import AuthUserRateThrottle
+from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
+from core.save_image import save_image
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from google.auth.transport import requests
@@ -8,10 +11,6 @@ from requests import get, post
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from apps.user_auth.throttles import AuthUserRateThrottle
-from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
-from core.save_image import save_image
 
 User = get_user_model()
 

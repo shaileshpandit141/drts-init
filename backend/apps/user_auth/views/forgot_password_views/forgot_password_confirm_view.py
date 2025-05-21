@@ -1,21 +1,20 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from limited_time_token_handler import LimitedTimeTokenDecoder
 from rest_core.response import failure_response, success_response
+from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from apps.user_auth.throttles import AuthUserRateThrottle
-
-User = get_user_model()
+from user_auth.models import User
+from user_auth.throttles import AuthUserRateThrottle
 
 
-class ForgotPasswordConfirmView(APIView):
+class ForgotPasswordConfirmView(ModelObjectMixin[User], APIView):
     """API view for confirming and resetting a forgotten password."""
 
     throttle_classes = [AuthUserRateThrottle]
+    queryset = User.objects.filter(is_active=True)
 
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request) -> Response:
         """Handle POST request to confirm and reset password."""
 
         # Get token and new password from request
@@ -37,7 +36,16 @@ class ForgotPasswordConfirmView(APIView):
 
             # Decodeing token
             data = decorder.decode()
-            user = User.objects.get(id=data.get("user_id"))
+
+            # Get user by id
+            user = self.get_object(id=data.get("user_id"))
+
+            # Check if user exists
+            if user is None:
+                return failure_response(
+                    message="User not found",
+                    errors={"detail": "User not found with the provided token."},
+                )
 
             # Validate and set new password
             validate_password(new_password)

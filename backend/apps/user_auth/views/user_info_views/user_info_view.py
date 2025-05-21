@@ -3,9 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
+from user_auth.permissions import IsUserAccountVerified
 from user_auth.serializers.user_public_serializer import UserPublicSerializer
-
-from apps.user_auth.permissions import IsUserAccountVerified
 
 
 class UserInfoView(APIView):
