@@ -74,7 +74,7 @@ class SignupView(APIView):
         if not validator.is_valid():
             return failure_response(
                 message="Sign up failed - Invalid email domain",
-                errors={"email": ["The email domain appears to be invalid."]},
+                errors=validator.errors,  # type: ignore
             )
 
         # Hash the password for secure storage

@@ -426,15 +426,15 @@ wheels = [
 
 [[package]]
 name = "dns-smtp-email-validator"
-version = "0.1.7"
+version = "0.1.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dnspython" },
     { name = "python-decouple" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d3/34/da6e9d18149b8a32bc12b81a5f24af151442798a871e2cd3c479fe5d6c21/dns-smtp-email-validator-0.1.7.tar.gz", hash = "sha256:e3046ef37bfba13ff9a4c23acfd54cafa9fdf57fb7d0042b759f264a9ebdf195", size = 6167, upload-time = "2025-01-13T10:43:23.266Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d9/b8/953f7204f118efc66e229a0ecc455cb7bba44b64697a3eea2ec21a6af159/dns_smtp_email_validator-0.1.10.tar.gz", hash = "sha256:e27177de4f7b25a29396d34fc0f8c7d3489c0e973e32ada15851ffa83a348bad", size = 5895, upload-time = "2025-05-21T10:54:55.246Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/61/80695c9a5239546b6b78f3d3597f51d2b28d58e24e3cef35a4470f13c1d2/dns_smtp_email_validator-0.1.7-py3-none-any.whl", hash = "sha256:524656f4bb96feec6f8535fa4691c15e4205d09083988e017066ef97705b76b3", size = 7238, upload-time = "2025-01-13T10:43:17.011Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/5f/82f2c8efffcc6401f622ce3359fd02de9e6383282b8d3358623cb352c9e0/dns_smtp_email_validator-0.1.10-py3-none-any.whl", hash = "sha256:6f1e6ef821769296c8c22bb9a41b5fd3ed5e6d94a06c25e85692fe649a0f8b8e", size = 7493, upload-time = "2025-05-21T10:54:53.962Z" },
 ]
 
 [[package]]
@@ -770,7 +770,7 @@ wheels = [
 
 [[package]]
 name = "rest-core"
-version = "0.1.37"
+version = "0.1.40"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
@@ -778,9 +778,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "pytz" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/88/c2/191cf5c9a86e8a2df214a8640eb44d77e46f399ef766aa9022ad659a5971/rest_core-0.1.37.tar.gz", hash = "sha256:633b7b3eb33ad43afa6537050fc5dccec2d4de6e736b7eb2b549bf7cfafc63f0", size = 35124, upload-time = "2025-05-20T18:26:53.273Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/21/11/626562d9dfda40c16af0288fad14292802e98a0420268d83e9e27e3a0e90/rest_core-0.1.40.tar.gz", hash = "sha256:c2e3c6d1b95e481078653082ad291d478a6207aee92d3663924c8f325346ca63", size = 35269, upload-time = "2025-05-21T09:32:17.493Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6a/b5/62ad2bfa0b4742c42effc3a2ae18af22f5ee2586079202400056d33c49ec/rest_core-0.1.37-py3-none-any.whl", hash = "sha256:97809d051c51eb2ced4b7f5563f07090e3e754a223169a5ec9484eda92730cc4", size = 50235, upload-time = "2025-05-20T18:26:46.813Z" },
+    { url = "https://files.pythonhosted.org/packages/b5/05/5239952315ba23bf501a8cc63754c9dc951cfa5e5f1168fd57895cacea64/rest_core-0.1.40-py3-none-any.whl", hash = "sha256:d5a466ec11985a9d9c052a1268e4207f7293ae350e34d80a7b557702b550336a", size = 50337, upload-time = "2025-05-21T09:32:15.342Z" },
 ]
 
 [[package]]
