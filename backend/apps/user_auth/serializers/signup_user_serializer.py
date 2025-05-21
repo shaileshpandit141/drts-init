@@ -3,18 +3,50 @@ from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from user_auth.models import User
+from dns_smtp_email_validator import DNSSMTPEmailValidator
+from decouple import config
+from rest_framework.validators import UniqueValidator
 
 
 class SignupUserSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="This email address is already taken.",
+            )
+        ]
+    )
     password = serializers.CharField(write_only=True, style={"input_type": "password"})
     confirm_password = serializers.CharField(
         write_only=True, style={"input_type": "password"}
     )
 
     def validate(self, attrs) -> Any:
+        """Validate the input data for user signup"""
+
+        # Extract signup credentials from the request
+        email = attrs.get("email", "")
         password = attrs.get("password")
         confirm_password = attrs.get("confirm_password")
+
+        # Check if email verification is required
+        DNS_SMTP_EMAIL_VERIFICATION = config(
+            "DNS_SMTP_EMAIL_VERIFICATION", default=True, cast=bool
+        )
+
+        # Validate the email is exist in the internet or not
+        if DNS_SMTP_EMAIL_VERIFICATION:
+            validator = DNSSMTPEmailValidator(email)
+            if not validator.is_valid():
+                raise serializers.ValidationError(
+                    detail={
+                        "email": validator.errors.get(
+                            "email", ["Invalid email address."]
+                        )
+                    },
+                    code=validator.errors.get("code", "invalid_email"),
+                )
 
         # Validate password meets requirements
         try:
