@@ -131,7 +131,7 @@ class SignupView(APIView):
                 from_email=None,
                 to_emails=[getattr(user, "email", "Unknown")],
             ),
-            context={"user": user, "activate_url": f"{activate_url}"},
+            context={"user": user, "activate_url": activate_url},
             templates=Templates(
                 text_template="users/verify_account/confirm_message.txt",
                 html_template="users/verify_account/confirm_message.html",
