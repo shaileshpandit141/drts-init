@@ -763,7 +763,7 @@ wheels = [
 
 [[package]]
 name = "rest-core"
-version = "0.1.40"
+version = "0.1.42"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
@@ -771,9 +771,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "pytz" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/21/11/626562d9dfda40c16af0288fad14292802e98a0420268d83e9e27e3a0e90/rest_core-0.1.40.tar.gz", hash = "sha256:c2e3c6d1b95e481078653082ad291d478a6207aee92d3663924c8f325346ca63", size = 35269, upload-time = "2025-05-21T09:32:17.493Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/84/1f/4732b16a348f57c925cbcafc123714072874e4d5efd2ed78dfcc29310a89/rest_core-0.1.42.tar.gz", hash = "sha256:ef463c3aaaf52b0a2e4db2f835791c32e1c4388d3e8d0eee55c795d2f9f2cd07", size = 35860, upload-time = "2025-05-21T15:10:41.304Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b5/05/5239952315ba23bf501a8cc63754c9dc951cfa5e5f1168fd57895cacea64/rest_core-0.1.40-py3-none-any.whl", hash = "sha256:d5a466ec11985a9d9c052a1268e4207f7293ae350e34d80a7b557702b550336a", size = 50337, upload-time = "2025-05-21T09:32:15.342Z" },
+    { url = "https://files.pythonhosted.org/packages/a3/7b/7be4d57cafd1a6810305605f995cc95f3451230106a20b23b14bf11ca256/rest_core-0.1.42-py3-none-any.whl", hash = "sha256:0a687b9e15d10298da6fb412a3d6c6d47540ad7ccf59e2fa6d7d4cca6f65acc0", size = 51211, upload-time = "2025-05-21T15:10:39.698Z" },
 ]
 
 [[package]]
