@@ -19,8 +19,22 @@ class ResetPasswordConfirmView(ModelObjectMixin[User], APIView):
         """Handle POST request to confirm and reset password."""
 
         # Get token and new password from request
-        token = request.data.get("token", "")
-        new_password = request.data.get("new_password", "")
+        token = request.data.get("token", None)
+        new_password = request.data.get("new_password", None)
+
+        # Check if token is provided or not
+        if token is None:
+            return failure_response(
+                message="Token is required.",
+                errors={"token": ["Token cannot be blank."]},
+            )
+
+        # Check if new password is provided or not
+        if new_password is None:
+            return failure_response(
+                message="New password is required.",
+                errors={"new_password": ["New password cannot be blank."]},
+            )
 
         # Call the _reset_password method to handle password reset
         return self._reset_password(token, new_password)

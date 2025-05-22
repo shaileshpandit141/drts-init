@@ -36,7 +36,7 @@ class SigninSerializer(Serializer):
         # Checking if the user is active or not
         if not user.is_active:
             raise ValidationError(
-                "User account is inactive.",
+                "User account is inactive. Please contact support.",
                 code="inactive_account",
             )
 

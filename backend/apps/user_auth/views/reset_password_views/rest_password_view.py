@@ -18,7 +18,7 @@ class ResetPasswordView(ModelObjectMixin[User], APIView):
         """Process reset password request and send reset email."""
 
         # Get email from request
-        email = request.data.get("emial", "")
+        email = request.data.get("email")
         reset_confirm_uri = request.data.get("reset_confirm_uri", None)
 
         # Get user by email
@@ -27,8 +27,8 @@ class ResetPasswordView(ModelObjectMixin[User], APIView):
         # Check provided email is exists or not
         if user is None:
             return failure_response(
-                message="Account is not found with the given credentials.",
-                errors={"email": ["No account exists with this email address."]},
+                message="Invalid email address.",
+                errors={"email": ["Email address cannot be blank."]},
             )
 
         # Process request for verified users
@@ -51,10 +51,10 @@ class ResetPasswordView(ModelObjectMixin[User], APIView):
                     from_email=None,
                     to_emails=[user.email],
                 ),
-                context={"user": user, "active_url": reset_confirm_uri},
+                context={"user": user, "active_url": f"{reset_confirm_uri}/{token}"},
                 templates=Templates(
-                    text_template="users/forgot_password/confirm_message.txt",
-                    html_template="users/forgot_password/confirm_message.html",
+                    text_template="users/reset_password/confirm_message.txt",
+                    html_template="users/reset_password/confirm_message.html",
                 ),
             )
 

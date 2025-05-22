@@ -7,7 +7,7 @@
 </head>
 <body>
     <p>Hello {{ user.get_full_name|default:user.email }},</p>
-    <p>Your password has been successfully changed for your account on {{ site_name }}.</p>
+    <p>Your password has been successfully changed for your account on {{ site_name|default:"Site Name" }}.</p>
     <p><strong>Security Information:</strong></p>
     <ul>
         <li>Your password was changed at {{ timestamp }}</li>
@@ -17,7 +17,7 @@
     <p><a href="{{ login_url }}">Click here to log in with your new password</a></p>
     <p><strong>Important:</strong> If you did not make this change, please contact our support team immediately at support@example.com, as your account may be at risk.</p>
     <p>Thank you for helping us keep your account secure,<br>
-    Your {{ site_name }} Security Team</p>
+    Your {{ site_name:"Site Name" }} Security Team</p>
     <p style="font-size: 12px; color: #666;">This is an automated message, please do not reply to this email.</p>
 </body>
 </html>
