@@ -1,19 +1,18 @@
 from urllib.parse import urlencode
 
 from django.conf import settings
-from django.contrib.auth import get_user_model
+from django.utils import timezone
 from google.auth.transport import requests
 from google.oauth2 import id_token
 from requests import get, post
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from user_auth.models import User
 from user_auth.throttling import AuthUserRateThrottle
 
-from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
 from core.save_image import save_image
-
-User = get_user_model()
 
 
 class GoogleLoginView(APIView):
@@ -177,14 +176,32 @@ class GoogleCallbackView(APIView):
             setattr(user, "is_verified", True)
             user.save()
 
-            # Generate jwt tokes for user
-            tokens = get_jwt_tokens_for_user(user)
+            """Generate JWT tokens using Simple JWT."""
+            refresh = RefreshToken.for_user(user)
+
+            # Getting the access token from refresh token
+            access_token = getattr(refresh, "access_token", None)
+
+            # Checking if access token is None or not
+            if access_token is None:
+                return failure_response(
+                    message="Failed to generate access token",
+                    errors={"token": ["Failed to generate access token."]},
+                )
+
+            # Update last login timestamp
+            if user:
+                setattr(user, "last_login", timezone.now())
+                user.save(update_fields=["last_login"])
 
             # Return success response
             return success_response(
-                message="Google sign-in completed successfully", data=tokens
+                message="Google sign-in completed successfully",
+                data={
+                    "refresh_token": str(refresh),
+                    "access_token": str(access_token),
+                },
             )
-
         except Exception:
             # Return failure response
             return failure_response(

@@ -74,11 +74,6 @@ class SigninSerializer(Serializer):
         """Generate JWT tokens using Simple JWT."""
         refresh = RefreshToken.for_user(user)
 
-        # Update last login timestamp
-        if user:
-            setattr(user, "last_login", timezone.now())
-            user.save(update_fields=["last_login"])
-
         # Getting the access token from refresh token
         access_token = getattr(refresh, "access_token", None)
 
@@ -88,6 +83,11 @@ class SigninSerializer(Serializer):
                 "Failed to generate refresh token.",
                 code="token_generation_failed",
             )
+
+        # Update last login timestamp
+        if user:
+            setattr(user, "last_login", timezone.now())
+            user.save(update_fields=["last_login"])
 
         # Finaly returning the tokens
         return {
