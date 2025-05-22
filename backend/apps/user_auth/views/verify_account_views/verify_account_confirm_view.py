@@ -1,4 +1,4 @@
-from limited_time_token_handler import LimitedTimeTokenDecoder, TokenError
+from limited_time_token_handler import LimitedTimeTokenDecoder
 from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
@@ -38,17 +38,16 @@ class VerifyAccountConfirmView(ModelObjectMixin[User], APIView):
         if not token:
             return failure_response(
                 message="Token is missing",
-                errors={
-                    "token": [
-                        "Token field is required. Please provide a valid verification token."
-                    ]
-                },
+                errors={"token": ["Please provide a valid verification token."]},
             )
 
         # Decode the token and get user ID
         decoder = LimitedTimeTokenDecoder(token)
         if not decoder.is_valid():
-            raise TokenError("The verification token is invalid or has expired.")
+            return failure_response(
+                message="Invalid token",
+                errors={"token": ["The verification token is invalid or has expired."]},
+            )
 
         # Decode the token
         data = decoder.decode()
