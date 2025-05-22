@@ -1,11 +1,10 @@
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
+from user_auth.serializers.change_password_serializer import ChangePasswordSerializer
 
 
 class ChangePasswordView(APIView):
@@ -17,41 +16,30 @@ class ChangePasswordView(APIView):
     def post(self, request) -> Response:
         """Changes user password after validation."""
 
-        # Get required data from request
-        user = request.user
-        old_password = request.data.get("old_password", "")
-        new_password = request.data.get("new_password", "")
+        # Creating the serializer instance
+        serializer = ChangePasswordSerializer(
+            data=request.data,
+            context={"request": request},
+        )
 
-        # Check if old password is correct
-        if not user.check_password(old_password):
+        # Validating the serializer data
+        if not serializer.is_valid():
             return failure_response(
-                message="Invalid Password",
-                errors={"password": ["The password you entered is incorrect."]},
+                message="Invalid Password Change Request",
+                errors=serializer.errors,
             )
 
-        # Validate new password complexity
-        try:
-            validate_password(new_password)
-        except ValidationError as error:
-            return failure_response(
-                message="Password Requirements Not Met",
-                errors={
-                    "password": error.messages,
-                },
-            )
-
-        # Set new password and notify user via email
-        user.set_password(new_password)
-        user.save()
+        # Save the new password
+        message = serializer.save()
 
         # Creating the Email Service instance
         email = EmailService(
             subject="Password Change Notification",
             emails=Emails(
                 from_email=None,
-                to_emails=[user.email],
+                to_emails=[request.user.email],
             ),
-            context={"user": user},
+            context={"user": request.user},
             templates=Templates(
                 text_template="users/change_password/success_message.txt",
                 html_template="users/change_password/success_message.html",
@@ -61,8 +49,8 @@ class ChangePasswordView(APIView):
         # Send password changed success email
         email.send(fallback=False)
 
-        # Return success response
+        # Return success password change response
         return success_response(
             message="Password Changed Successfully",
-            data={"detail": "Your password has been updated successfully."},
+            data=message,
         )
