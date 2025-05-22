@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 from user_auth.permissions import IsUserAccountVerified
-from user_auth.serializers.user_public_serializer import UserPublicSerializer
+from backend.apps.user_auth.serializers.user_serializer import UserSerializer
 
 
 class UserInfoView(APIView):
@@ -17,7 +17,7 @@ class UserInfoView(APIView):
         """Retrieve current user"s profile information."""
 
         # Create user serializer instance
-        serializer = UserPublicSerializer(
+        serializer = UserSerializer(
             instance=request.user,
             many=False,
             context={"request": request},
@@ -33,7 +33,7 @@ class UserInfoView(APIView):
         """Update authenticated user's profile information."""
 
         # Create user serializer instance with new data
-        serializer = UserPublicSerializer(
+        serializer = UserSerializer(
             data=request.data,
             instance=request.user,
             many=False,

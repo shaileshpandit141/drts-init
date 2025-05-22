@@ -9,7 +9,7 @@ from rest_framework.validators import UniqueValidator
 from user_auth.models import User
 
 
-class SignupUserSerializer(serializers.Serializer):
+class SignupSerializer(serializers.Serializer):
     email = serializers.EmailField(
         validators=[
             UniqueValidator(

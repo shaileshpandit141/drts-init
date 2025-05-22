@@ -4,7 +4,7 @@ from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from user_auth.serializers.signup_user_serializer import SignupUserSerializer
+from backend.apps.user_auth.serializers.signup_serializer import SignupSerializer
 from user_auth.throttles import AuthUserRateThrottle
 
 
@@ -19,8 +19,8 @@ class SignupView(APIView):
         # Get the verification URL from the request data
         verification_uri = request.data.get("verification_uri", None)
 
-        # Create an instance of the SignupUserSerializer
-        serializer = SignupUserSerializer(data=request.data)
+        # Create an instance of the SignupSerializer
+        serializer = SignupSerializer(data=request.data)
 
         # Validate the serializer data
         if not serializer.is_valid():

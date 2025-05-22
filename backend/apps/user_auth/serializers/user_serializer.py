@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from user_auth.models import User
 
 
-class UserPublicSerializer(FileFieldUrlMixin, ModelSerializer):
+class UserSerializer(FileFieldUrlMixin, ModelSerializer):
     """Serializer for User model that handles serialization and
     deserialization of User objects.
     """
