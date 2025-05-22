@@ -45,11 +45,11 @@ button {
 
   &.button {
     height: var(--button-height);
-    padding: var(--button-padding);
     width: 100%;
     border: var(--border);
     border-radius: 16px;
     transition: var(--ts-secondary);
+    padding: calc(var(--button-padding) * 1.6);
 
     label {
       font-size: 1em;

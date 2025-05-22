@@ -35,7 +35,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        column-gap: 4px;
+        column-gap: 8px;
         overflow: hidden;
       }
     }
@@ -52,14 +52,14 @@
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;
+      column-gap: 8px;
 
       .other-links {
         height: 40px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        column-gap: 4px;
-        padding-left: 4px;
+        column-gap: 8px;
       }
     }
   }

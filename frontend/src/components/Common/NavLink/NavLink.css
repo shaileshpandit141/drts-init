@@ -50,6 +50,7 @@ a {
     width: 100%;
     border: var(--border);
     border-radius: 16px;
+    padding: calc(var(--link-padding) * 1.6);
 
     label {
       font-size: 1em;
