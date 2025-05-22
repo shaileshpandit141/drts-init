@@ -1,4 +1,3 @@
-from django.conf import settings
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
@@ -9,17 +8,18 @@ from user_auth.models import User
 from user_auth.throttles import AuthUserRateThrottle
 
 
-class ForgotPasswordView(ModelObjectMixin[User], APIView):
-    """API endpoint for handling forgot password functionality."""
+class ResetPasswordView(ModelObjectMixin[User], APIView):
+    """API View to hansle password reset."""
 
     throttle_classes = [AuthUserRateThrottle]
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request) -> Response:
-        """Process forgot password request and send reset email."""
+        """Process reset password request and send reset email."""
 
         # Get email from request
         email = request.data.get("emial", "")
+        reset_confirm_uri = request.data.get("reset_confirm_uri", None)
 
         # Get user by email
         user = self.get_object(email=email)
@@ -44,24 +44,21 @@ class ForgotPasswordView(ModelObjectMixin[User], APIView):
                     },
                 )
 
-            # Make activation url as for frontend
-            active_url = f"{settings.FRONTEND_URL}/auth/forgot-password-confirm/{token}"
-
-            # Handel email send
+            # Creating the Email Service instance
             email = EmailService(
                 subject="Password Reset Request",
                 emails=Emails(
                     from_email=None,
                     to_emails=[user.email],
                 ),
-                context={"user": user, "active_url": active_url},
+                context={"user": user, "active_url": reset_confirm_uri},
                 templates=Templates(
                     text_template="users/forgot_password/confirm_message.txt",
                     html_template="users/forgot_password/confirm_message.html",
                 ),
             )
 
-            # Send deactivation confirmation email
+            # Send reset password email
             email.send(fallback=False)
 
             # Return success response

@@ -10,7 +10,7 @@ from django.urls import path
 
 from .views.change_password_views import ChangePasswordView
 from .views.deactivate_account_views import DeactivateAccountView
-from .views.forgot_password_views import ForgotPasswordConfirmView, ForgotPasswordView
+from .views.reset_password_views import ResetPasswordConfirmView, ResetPasswordView
 from .views.signin_token_views import SigninTokenRefreshView, SigninTokenView
 from .views.signout_views import SignoutView
 from .views.signup_views import SignupView
@@ -33,11 +33,11 @@ urlpatterns = [
         name="verify-account-confirm",
     ),
     path("change-password/", ChangePasswordView.as_view(), name="change-password"),
-    path("forgot-password/", ForgotPasswordView.as_view(), name="forgot-password"),
+    path("reset-password/", ResetPasswordView.as_view(), name="reset-password"),
     path(
-        "forgot-password/confirm/",
-        ForgotPasswordConfirmView.as_view(),
-        name="forgot-password-confirm",
+        "reset-password/confirm/",
+        ResetPasswordConfirmView.as_view(),
+        name="reset-password-confirm",
     ),
     path(
         "deactivate-account/",
