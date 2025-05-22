@@ -12,24 +12,27 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 
-from apps.google_auth import urls as google_auth_urls
-from apps.user_auth import urls as users_auth_urls
-
 from .views import IndexTemplateView, custom_404_apiview
 
-# Main URL patterns defining route-to-view mappings
+# Built-in URL Configurations
 urlpatterns = [
-    # Served the index page
     path("", IndexTemplateView.as_view(), name="index"),
-    # Django admin interface accessible at /admin
-    path("admin/", admin.site.urls, name="admin"),
-    # # Redirect /favicon.ico requests to the static file location of the favicon
     path(
-        "favicon.ico", RedirectView.as_view(url="/static/favicon.ico", permanent=True)
+        "favicon.ico",
+        RedirectView.as_view(
+            url="/static/favicon.ico",
+            permanent=True,
+        ),
     ),
-    # User authentication URLs under /api/v1/auth
-    path("api/v1/auth/", include((users_auth_urls, "user_auth"))),
-    path("api/v1/auth/", include((google_auth_urls, "google_auth"))),
+    path("admin/", admin.site.urls, name="admin"),
+]
+
+# User-Defined URL Configurations
+# ===============================
+# Auth related URLs Configurations
+urlpatterns += [
+    path("api/v1/auth/", include(("apps.user_auth.urls", "user_auth"))),
+    path("api/v1/auth/", include(("apps.google_auth.urls", "google_auth"))),
 ]
 
 # Configure custom error handling
