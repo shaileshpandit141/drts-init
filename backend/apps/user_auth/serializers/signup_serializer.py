@@ -52,10 +52,8 @@ class SignupSerializer(serializers.Serializer):
         # Validate password meets requirements
         try:
             validate_password(password)
-        except ValidationError:
-            raise serializers.ValidationError(
-                {"password": ["Password does not meet the requirements."]}
-            )
+        except ValidationError as error:
+            raise serializers.ValidationError({"password": error.messages})
 
         # Validate password and confirm password match or not
         if password != confirm_password:
