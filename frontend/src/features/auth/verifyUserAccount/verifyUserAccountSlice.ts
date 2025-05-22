@@ -9,10 +9,10 @@ import { verifyUserAccountAction } from "./verifyUserAccountAction";
 const verifyUserAccount: VerifyUserAccountInitialState = {
   status: "idle",
   status_code: null,
-  message: "",
-  data: {},
-  errors: {},
-  meta: {},
+  message: null,
+  data: null,
+  errors: null,
+  meta: null,
 };
 
 /**

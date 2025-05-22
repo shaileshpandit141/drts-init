@@ -20,7 +20,8 @@ export interface UserData {
  * Interface extending InitialState to handle UserData
  * Used for managing user state with nullable UserData
  */
-export interface UserInitialState extends InitialState<UserData | {}, {}> {}
+export interface UserInitialState
+  extends InitialState<UserData | null, {} | null> {}
 
 /**
  * Interface extending SuccessResponse for UserData

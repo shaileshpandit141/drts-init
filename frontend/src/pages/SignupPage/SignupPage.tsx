@@ -19,7 +19,7 @@ import { triggerToast } from "features/toast";
 
 const SignupPage: React.FC = () => {
   const { status, message, errors, data } = useSignupUserSelector();
-  const active_url = useURLBuilder({
+  const verification_uri = useURLBuilder({
     path: "auth/verify-user-account",
   });
   const [formData, handleFormDataChange] = useFormDataChange<SignupCredentials>(
@@ -27,7 +27,7 @@ const SignupPage: React.FC = () => {
       email: "",
       password: "",
       confirm_password: "",
-      active_url: active_url,
+      verification_uri: verification_uri,
     },
   );
 
@@ -37,10 +37,12 @@ const SignupPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (status === "succeeded") {
-      triggerToast("success", message);
-    } else if (status === "failed") {
-      triggerToast("error", message);
+    if (message) {
+      if (status === "succeeded") {
+        triggerToast("success", message);
+      } else if (status === "failed") {
+        triggerToast("error", message);
+      }
     }
   }, [message, status]);
 
@@ -67,7 +69,7 @@ const SignupPage: React.FC = () => {
             value={formData.email}
             onChange={handleFormDataChange}
             isDisabled={status === "loading" || status === "succeeded"}
-            errors={errors.email}
+            errors={errors?.email}
           />
           <Input
             name="password"
@@ -75,7 +77,7 @@ const SignupPage: React.FC = () => {
             value={formData.password}
             onChange={handleFormDataChange}
             isDisabled={status === "loading" || status === "succeeded"}
-            errors={errors.password}
+            errors={errors?.password}
           />
           <Input
             name="confirm_password"
@@ -83,11 +85,11 @@ const SignupPage: React.FC = () => {
             value={formData.confirm_password}
             onChange={handleFormDataChange}
             isDisabled={status === "loading" || status === "succeeded"}
-            errors={errors.confirm_password}
+            errors={errors?.confirm_password}
           />
-          <DisplayErrorDetails details={errors.detail} />
-          <DisplayErrorDetails details={errors.non_field_errors} />
-          {status === "succeeded" && "detail" in data && (
+          <DisplayErrorDetails details={errors?.detail} />
+          <DisplayErrorDetails details={errors?.non_field} />
+          {status === "succeeded" && data && (
             <DisplaySuccessDetails details={data.detail} />
           )}
           <div className="actions">

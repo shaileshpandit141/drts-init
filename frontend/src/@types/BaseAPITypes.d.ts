@@ -3,10 +3,6 @@ export declare module "BaseAPITypes" {
    * API Meta Information
    */
   export interface Meta {
-    request_id: string;
-    timestamp: string;
-    response_time: string;
-    documentation_url: string;
     rate_limits: {
       throttled_by: string | null;
       throttles: {
@@ -19,7 +15,10 @@ export declare module "BaseAPITypes" {
     limit: number;
     remaining: number;
     reset_time: string;
-    retry_after: string;
+    retry_after: {
+      time: number;
+      unit: string;
+    };
   }
 
   /**
@@ -27,7 +26,8 @@ export declare module "BaseAPITypes" {
    */
   export interface Errors {
     detail?: string;
-    non_field_errors?: string[];
+    code?: string;
+    non_field?: string[];
     [key: string]: string[] | string | undefined;
   }
 
@@ -37,8 +37,8 @@ export declare module "BaseAPITypes" {
   export interface BaseState {
     status: "idle" | "loading" | "succeeded" | "failed";
     status_code: number | null;
-    message: string;
-    meta: Meta | {};
+    message: string | null;
+    meta: Meta | null;
   }
 
   /**
@@ -49,8 +49,8 @@ export declare module "BaseAPITypes" {
     DATA = Record<string, any> | Record<string, any>[],
     ERRORS,
   > extends BaseState {
-    data: DATA;
-    errors: Errors & ERRORS;
+    data: DATA | null;
+    errors: (Errors & ERRORS) | null;
   }
 
   /**
@@ -60,22 +60,18 @@ export declare module "BaseAPITypes" {
     DATA = Record<string, any>,
     ERRORS = Errors,
   > extends BaseState {
-    data:
-      | {
-          current_page: number;
-          total_pages: number;
-          total_items: number;
-          items_per_page: number;
-          has_next: boolean;
-          has_previous: boolean;
-          next_page_number: number | null;
-          previous_page_number: number | null;
-          next: string | null;
-          previous: string | null;
-          results: DATA[];
-        }
-      | {};
-    errors: ERRORS;
+    data: {
+      page: {
+        current: number;
+        total: number;
+        size: number;
+        total_items: pnumber;
+        next: string | null;
+        previous: string | null;
+      };
+      results: DATA[] | null;
+    } | null;
+    errors: (Errors & ERRORS) | null;
   }
 
   /**
@@ -85,7 +81,7 @@ export declare module "BaseAPITypes" {
     extends BaseState {
     status: "succeeded";
     data: DATA;
-    errors: {};
+    errors: null;
   }
 
   /**
@@ -93,8 +89,8 @@ export declare module "BaseAPITypes" {
    */
   export interface ErrorResponse<ERRORS = Errors> extends BaseState {
     status: "failed";
-    data: {};
-    errors: Errors & ERRORS;
+    data: null;
+    errors: (Errors & ERRORS) | null;
   }
 
   /**

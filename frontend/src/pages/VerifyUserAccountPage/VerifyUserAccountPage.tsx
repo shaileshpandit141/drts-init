@@ -28,10 +28,12 @@ const VerifyUserAccountPage: React.FC = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (status === "succeeded") {
-      triggerToast("success", message);
-    } else if (status === "failed") {
-      triggerToast("error", message);
+    if (message) {
+      if (status === "succeeded") {
+        triggerToast("success", message);
+      } else if (status === "failed") {
+        triggerToast("error", message);
+      }
     }
   }, [message, status]);
 
@@ -49,9 +51,10 @@ const VerifyUserAccountPage: React.FC = (): JSX.Element => {
       </div>
       <div className="grid-start-2-end-2 content">
         <form className="form" onSubmit={handleSubmit}>
-          <DisplayErrorDetails details={errors.detail} />
-          <DisplayErrorDetails details={errors.token} />
-          {"detail" in data && <DisplaySuccessDetails details={data.detail} />}
+          <DisplayErrorDetails details={errors?.detail} />
+          <DisplayErrorDetails details={errors?.token} />
+          <DisplayErrorDetails details={errors?.non_field} />
+          {data && <DisplaySuccessDetails details={data.detail} />}
           <div className="actions">
             <NavLink
               to="../../"

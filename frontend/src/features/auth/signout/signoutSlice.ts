@@ -8,10 +8,10 @@ import { signoutAction } from "./signoutAction";
 const signoutIntitlState: SignoutInitialState = {
   status: "idle",
   status_code: null,
-  message: "",
-  data: {},
-  errors: {},
-  meta: {},
+  message: null,
+  data: null,
+  errors: null,
+  meta: null,
 };
 
 /**

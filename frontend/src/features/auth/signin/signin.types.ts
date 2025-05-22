@@ -6,7 +6,11 @@ export interface SigninInitialState
       access_token: string | null;
       refresh_token: string | null;
     },
-    {}
+    {
+      refresh_token?: string[];
+      email?: string[];
+      password?: string[];
+    }
   > {}
 
 export interface SigninSuccessResponse
@@ -15,7 +19,11 @@ export interface SigninSuccessResponse
     refresh_token: string;
   }> {}
 
-export interface SigninErrorResponse extends ErrorResponse<{}> {}
+export interface SigninErrorResponse
+  extends ErrorResponse<{
+    email?: string[];
+    password?: string[];
+  }> {}
 
 export interface RefreshTokenSuccessResponse
   extends SuccessResponse<{

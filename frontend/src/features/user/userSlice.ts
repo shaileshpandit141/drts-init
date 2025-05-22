@@ -9,10 +9,10 @@ import { userAction } from "./userAction";
 const userInitialState: UserInitialState = {
   status: "idle",
   status_code: null,
-  message: "",
-  data: {},
-  errors: {},
-  meta: {},
+  message: null,
+  data: null,
+  errors: null,
+  meta: null,
 };
 
 /**

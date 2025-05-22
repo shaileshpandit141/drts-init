@@ -12,11 +12,11 @@ export const formatCatchAxiosError = <T = Record<string, any>>(
       status: "failed",
       status_code: null,
       message: error.message ?? "An unknown error occurred",
-      data: {},
+      data: null,
       errors: {
         detail: error.message ?? "An unknown error occurred",
       } as Errors & T,
-      meta: {},
+      meta: null,
     };
   }
 

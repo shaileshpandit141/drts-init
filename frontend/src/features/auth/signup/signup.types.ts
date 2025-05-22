@@ -9,7 +9,7 @@ export interface SignuResponseData {
  */
 export interface SignupInitialState
   extends InitialState<
-    { detail: string } | {},
+    { detail: string } | null,
     {
       email?: string[];
       password?: string[];

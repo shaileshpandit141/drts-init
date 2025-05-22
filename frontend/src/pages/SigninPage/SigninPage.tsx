@@ -37,10 +37,12 @@ const SigninPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (status === "succeeded") {
-      triggerToast("success", message);
-    } else if (status === "failed") {
-      triggerToast("error", message);
+    if (message) {
+      if (status === "succeeded") {
+        triggerToast("success", message);
+      } else if (status === "failed") {
+        triggerToast("error", message);
+      }
     }
   }, [status, message]);
 
@@ -48,11 +50,7 @@ const SigninPage: React.FC = () => {
     resetSigninUserErrors();
   });
 
-  if (isUserAuthenticated()) {
-    return <Navigate to={redirectTo || "/home"} replace />;
-  }
-
-  if (status === "succeeded") {
+  if (isUserAuthenticated() || status === "succeeded") {
     return <Navigate to={redirectTo || "/home"} replace />;
   }
 
@@ -79,6 +77,7 @@ const SigninPage: React.FC = () => {
             onChange={handleFormDataChange}
             isDisabled={status === "loading"}
           />
+          <DisplayErrorDetails details={errors?.email} />
           <Input
             name="password"
             type="password"
@@ -86,7 +85,9 @@ const SigninPage: React.FC = () => {
             onChange={handleFormDataChange}
             isDisabled={status === "loading"}
           />
-          <DisplayErrorDetails details={errors.detail} />
+          <DisplayErrorDetails details={errors?.password} />
+          <DisplayErrorDetails details={errors?.non_field} />
+          <DisplayErrorDetails details={errors?.detail} />
           <div className="split-container">
             <span></span>
             <Link to="/forgot-password" className="forgot-password-link">

@@ -16,13 +16,13 @@ import {
 const signinIntitlState: SigninInitialState = {
   status: "idle",
   status_code: null,
-  message: "",
+  message: null,
   data: {
     access_token: localStorage.getItem("access_token"),
     refresh_token: localStorage.getItem("refresh_token"),
   },
-  errors: {},
-  meta: {},
+  errors: null,
+  meta: null,
 };
 
 /**
@@ -35,17 +35,17 @@ const signinSlice = createSlice({
     // Reset auth state and clear stored tokens
     resetSigninState: (state) => {
       state.status = "idle";
-      state.message = "";
-      state.data.access_token = null;
-      state.data.refresh_token = null;
-      state.errors = {};
+      state.message = null;
+      state.data = null;
+      state.data = null;
+      state.errors = null;
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
     },
     resetSigninErrorsState: (state) => {
       state.status = "idle";
-      state.message = "";
-      state.errors = {};
+      state.message = null;
+      state.errors = null;
     },
   },
   extraReducers: (builder) => {
@@ -101,7 +101,10 @@ const signinSlice = createSlice({
         state.status = "succeeded";
         state.status_code = status_code;
         state.message = message;
-        state.data.access_token = data.access_token;
+        state.data = {
+          access_token: data.access_token,
+          refresh_token: state.data && state.data.refresh_token,
+        };
         localStorage.setItem("access_token", data.access_token);
         state.meta = meta;
       })
@@ -112,8 +115,10 @@ const signinSlice = createSlice({
         state.message = message;
         state.meta = meta;
         state.errors = errors;
-        state.data.access_token = null;
-        state.data.refresh_token = null;
+        state.data = {
+          access_token: null,
+          refresh_token: null,
+        };
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
       });

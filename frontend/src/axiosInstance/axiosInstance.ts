@@ -15,7 +15,7 @@ const axiosInstance = axios.create({
 // Request interceptor - adds auth token to requests if available
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = store.getState().signin.data.access_token;
+    const token = store.getState().signin.data?.access_token;
     if (token) {
       config.headers = config.headers || {};
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
         // Wait for Redux store to update before getting the new token
         return new Promise((resolve) => {
           const checkTokenUpdate = setInterval(() => {
-            const token = store.getState().signin.data.access_token;
+            const token = store.getState().signin.data?.access_token;
             if (token) {
               clearInterval(checkTokenUpdate);
               request.headers["Authorization"] = `Bearer ${token}`;

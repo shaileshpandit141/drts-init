@@ -9,8 +9,8 @@ const PrivateRoute = (): JSX.Element => {
   const location = useLocation();
 
   useEffect(() => {
-    const tokenHandler = new JWTTokenHandler(data.refresh_token || "");
-    if (!data.refresh_token || tokenHandler.isTokenExpired()) {
+    const tokenHandler = new JWTTokenHandler(data?.refresh_token || "");
+    if (!data?.refresh_token || tokenHandler.isTokenExpired()) {
       resetSigninUser();
       setIsAuthenticated(false);
     } else {
