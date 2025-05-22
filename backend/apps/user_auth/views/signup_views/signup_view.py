@@ -54,7 +54,7 @@ class SignupView(APIView):
         else:
             activate_url = f"{verification_uri}/{token}"
 
-        # Handel email send
+        # Creating the Email Service instance
         email = EmailService(
             subject="Verify Your Account",
             emails=Emails(

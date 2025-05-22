@@ -1,4 +1,3 @@
-from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
 from django.utils import timezone
 from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
@@ -6,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.models import User
 from user_auth.throttles import AuthUserRateThrottle
+
+from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
 
 
 class SigninTokenView(ModelObjectMixin[User], APIView):
@@ -36,53 +37,47 @@ class SigninTokenView(ModelObjectMixin[User], APIView):
             )
 
         # Handle email and username based signin
-        try:
-            user = None
-            if "@" in email:
-                user = self.get_object(email=email)
-            else:
-                user = self.get_object(username=email)
+        user = None
+        if "@" in email:
+            user = self.get_object(email=email)
+        else:
+            user = self.get_object(username=email)
 
-            # Check is user is None
-            if user is None:
-                return failure_response(
-                    message="Sign in failed - Invalid credentials",
-                    errors={
-                        "password": [
-                            "Invalid credentials. Please check your email/username and try again."
-                        ]
-                    },
-                )
-
-            # Check user password is currect or not
-            if not user.check_password(password):
-                return failure_response(
-                    message="Sign in failed - Invalid password",
-                    errors={"password": ["Invalid password. Please try again."]},
-                )
-
-            # Handle success signin response
-            if not user.is_superuser and not user.is_verified:
-                return failure_response(
-                    message="Sign in failed - Email verification required",
-                    errors={"detail": "Please verify your account to sign in."},
-                )
-
-            # Generate jwt toke for requested user
-            jwt_tokens = get_jwt_tokens_for_user(user)
-
-            # Update last login timestamp
-            if user:
-                setattr(user, "last_login", timezone.now())
-                user.save(update_fields=["last_login"])
-
-            # Return success response
-            return success_response(
-                message="Welcome back! You have successfully signed in",
-                data=jwt_tokens,
-            )
-        except Exception:
+        # Check is user is None
+        if user is None:
             return failure_response(
-                message="Sign in failed",
-                errors={"detail": "Somethings is wrong!. Please try again."},
+                message="Sign in failed - Invalid credentials",
+                errors={
+                    "password": [
+                        "Invalid credentials. Please check your email/username and try again."
+                    ]
+                },
             )
+
+        # Check user password is currect or not
+        if not user.check_password(password):
+            return failure_response(
+                message="Sign in failed - Invalid password",
+                errors={"password": ["Invalid password. Please try again."]},
+            )
+
+        # Handle success signin response
+        if not user.is_superuser and not user.is_verified:
+            return failure_response(
+                message="Sign in failed - Email verification required",
+                errors={"detail": "Please verify your account to sign in."},
+            )
+
+        # Generate jwt toke for requested user
+        jwt_tokens = get_jwt_tokens_for_user(user)
+
+        # Update last login timestamp
+        if user:
+            setattr(user, "last_login", timezone.now())
+            user.save(update_fields=["last_login"])
+
+        # Return success response
+        return success_response(
+            message="Welcome back! You have successfully signed in",
+            data=jwt_tokens,
+        )

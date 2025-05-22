@@ -45,7 +45,7 @@ class DeactivateAccountView(APIView):
         user.is_active = False
         user.save()
 
-        # Handel email send
+        # Creating the Email Service instance
         email = EmailService(
             subject="Account Deactivation Confirmation",
             emails=Emails(

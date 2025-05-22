@@ -1,4 +1,5 @@
 from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from limited_time_token_handler import LimitedTimeTokenDecoder
 from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
@@ -6,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.models import User
 from user_auth.throttles import AuthUserRateThrottle
-from django.core.exceptions import ValidationError
 
 
 class ResetPasswordConfirmView(ModelObjectMixin[User], APIView):
