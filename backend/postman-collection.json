@@ -148,12 +148,12 @@
 					"formdata": [
 						{
 							"key": "email",
-							"value": "shailesh",
+							"value": "testuser7@gmail.com",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "shailesh",
+							"value": "abc12345@12345",
 							"type": "text"
 						}
 					]
@@ -186,7 +186,7 @@
 					"formdata": [
 						{
 							"key": "email",
-							"value": "testuser1@gmail.com",
+							"value": "testuser9@gmail.com",
 							"type": "text"
 						},
 						{
@@ -216,7 +216,7 @@
 			"response": []
 		},
 		{
-			"name": "signout",
+			"name": "sign out",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -257,14 +257,25 @@
 		{
 			"name": "verify account",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "testuser5@gmail.com",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{base_url}}/verify-account/",
+					"raw": "{{base_url}}/auth/verify-account/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
+						"auth",
 						"verify-account",
 						""
 					]
@@ -277,12 +288,23 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "token",
+							"value": "accoutnverificationtoeknfromemail",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{base_url}}/verify-account/confirm/",
+					"raw": "{{base_url}}/auth/verify-account/confirm/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
+						"auth",
 						"verify-account",
 						"confirm",
 						""
@@ -306,12 +328,33 @@
 				},
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "current_password",
+							"value": "abc12345@",
+							"type": "text"
+						},
+						{
+							"key": "new_password",
+							"value": "abc12345@12345",
+							"type": "text"
+						},
+						{
+							"key": "confirm_password",
+							"value": "abc12345@12345",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{base_url}}/change-password/",
+					"raw": "{{base_url}}/auth/change-password/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
+						"auth",
 						"change-password",
 						""
 					]
@@ -320,7 +363,29 @@
 			"response": []
 		},
 		{
-			"name": "forgot password",
+			"name": "reset password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -334,13 +399,24 @@
 				},
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "testuser7@gmail.com",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{base_url}}/forgot-password/",
+					"raw": "{{base_url}}/auth/reset-password/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"forgot-password",
+						"auth",
+						"reset-password",
 						""
 					]
 				}
@@ -348,17 +424,33 @@
 			"response": []
 		},
 		{
-			"name": "forgot password confirm",
+			"name": "reset password confirm",
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "token",
+							"value": "resetpasswordtokenfromemail",
+							"type": "text"
+						},
+						{
+							"key": "new_password",
+							"value": "abc12345@",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{base_url}}/forgot-password/confirm/",
+					"raw": "{{base_url}}/auth/reset-password/confirm/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"forgot-password",
+						"auth",
+						"reset-password",
 						"confirm",
 						""
 					]
@@ -381,12 +473,23 @@
 				},
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "password",
+							"value": "abc12345@",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{base_url}}/deactivate-account/",
+					"raw": "{{base_url}}/auth/deactivate-account/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
+						"auth",
 						"deactivate-account",
 						""
 					]
