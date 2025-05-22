@@ -4,7 +4,7 @@ from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from backend.apps.user_auth.serializers.signup_serializer import SignupSerializer
+from user_auth.serializers.signup_serializer import SignupSerializer
 from user_auth.throttles import AuthUserRateThrottle
 
 
