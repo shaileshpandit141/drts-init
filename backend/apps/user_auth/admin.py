@@ -27,7 +27,7 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ["is_staff", "is_superuser", "is_active", "is_verified", "last_login"]
     search_fields = ["email", "username", "first_name", "last_name"]
     readonly_fields = ["date_joined", "last_login"]
-    ordering = ("-updated_at",)
+    ordering = ("-last_login",)
     list_per_page = 16
 
     def full_name(self, obj) -> str:

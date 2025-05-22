@@ -1,83 +1,33 @@
-from django.utils import timezone
 from rest_core.response import failure_response, success_response
-from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.models import User
+from user_auth.serializers.signin_serializer import SigninSerializer
 from user_auth.throttles import AuthUserRateThrottle
 
-from core.get_jwt_tokens_for_user import get_jwt_tokens_for_user
 
-
-class SigninTokenView(ModelObjectMixin[User], APIView):
-    """API view for signing in users and generating JWT tokens."""
-
+class SigninTokenView(APIView):
     throttle_classes = [AuthUserRateThrottle]
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request) -> Response:
         """Handle user sign-in and JWT token generation."""
 
-        # Get required data from request
-        email = request.data.get("email", None)
-        password = request.data.get("password", None)
+        # Create a signin serializer instance
+        serializer = SigninSerializer(data=request.data)
 
-        # Handle if user not include email in payload
-        if email is None:
+        # Validating the signin serializer
+        if not serializer.is_valid():
             return failure_response(
-                message="Sign in failed - Email required",
-                errors={"email": ["Please enter your email address"]},
+                message="Sign in failed - Invalid credentials.",
+                errors=serializer.errors,
             )
 
-        # Handle if user not include password in payload
-        if password is None:
-            return failure_response(
-                message="Sign in failed - Password required",
-                errors={"password": ["Please enter your password"]},
-            )
+        # Get the JWT by calling save method of the serializer
+        jwt_tokens = serializer.save()
 
-        # Handle email and username based signin
-        user = None
-        if "@" in email:
-            user = self.get_object(email=email)
-        else:
-            user = self.get_object(username=email)
-
-        # Check is user is None
-        if user is None:
-            return failure_response(
-                message="Sign in failed - Invalid credentials",
-                errors={
-                    "password": [
-                        "Invalid credentials. Please check your email/username and try again."
-                    ]
-                },
-            )
-
-        # Check user password is currect or not
-        if not user.check_password(password):
-            return failure_response(
-                message="Sign in failed - Invalid password",
-                errors={"password": ["Invalid password. Please try again."]},
-            )
-
-        # Handle success signin response
-        if not user.is_superuser and not user.is_verified:
-            return failure_response(
-                message="Sign in failed - Email verification required",
-                errors={"detail": "Please verify your account to sign in."},
-            )
-
-        # Generate jwt toke for requested user
-        jwt_tokens = get_jwt_tokens_for_user(user)
-
-        # Update last login timestamp
-        if user:
-            setattr(user, "last_login", timezone.now())
-            user.save(update_fields=["last_login"])
-
-        # Return success response
+        # Return the success response with JWT tokens
         return success_response(
-            message="Welcome back! You have successfully signed in",
+            message="Welcome back! You have successfully signed in.",
             data=jwt_tokens,
         )

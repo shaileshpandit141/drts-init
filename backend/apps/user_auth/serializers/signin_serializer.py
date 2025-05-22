@@ -1,5 +1,6 @@
 from typing import Any
 
+from django.utils import timezone
 from rest_framework.serializers import CharField, Serializer, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 from user_auth.models import User
@@ -28,7 +29,7 @@ class SigninSerializer(Serializer):
         # Checking if user is None
         if user is None:
             raise ValidationError(
-                "Invalid credentials. Please check your email/username and try again.",
+                {"email": ["Invalid email or username. Please try again."]},
                 code="invalid_credentials",
             )
 
@@ -42,14 +43,14 @@ class SigninSerializer(Serializer):
         # Checking if the password is empty or not
         if not password:
             raise ValidationError(
-                "Password is required.",
+                {"password": ["Password is required. Please try again."]},
                 code="password_required",
             )
 
         # Check if the password is correct or not
         if not user.check_password(password):
             raise ValidationError(
-                "Invalid password. Please try again with the correct password.",
+                {"password": ["Invalid password. Please try again."]},
                 code="invalid_password",
             )
 
@@ -72,6 +73,11 @@ class SigninSerializer(Serializer):
     def get_jwt_tokens(self, user: User) -> dict[str, str]:
         """Generate JWT tokens using Simple JWT."""
         refresh = RefreshToken.for_user(user)
+
+        # Update last login timestamp
+        if user:
+            setattr(user, "last_login", timezone.now())
+            user.save(update_fields=["last_login"])
 
         # Getting the access token from refresh token
         access_token = getattr(refresh, "access_token", None)
