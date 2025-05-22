@@ -5,7 +5,7 @@ from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.serializers.signup_serializer import SignupSerializer
-from user_auth.throttles import AuthUserRateThrottle
+from user_auth.throttling import AuthUserRateThrottle
 
 
 class SignupView(APIView):

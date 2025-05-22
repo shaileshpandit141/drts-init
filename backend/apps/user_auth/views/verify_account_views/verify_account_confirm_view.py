@@ -4,7 +4,7 @@ from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.models import User
-from user_auth.throttles import AuthUserRateThrottle
+from user_auth.throttling import AuthUserRateThrottle
 
 
 class VerifyAccountConfirmView(ModelObjectMixin[User], APIView):

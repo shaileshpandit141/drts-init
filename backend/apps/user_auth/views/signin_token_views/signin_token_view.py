@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from user_auth.models import User
 from user_auth.serializers.signin_serializer import SigninSerializer
-from user_auth.throttles import AuthUserRateThrottle
+from user_auth.throttling import AuthUserRateThrottle
 
 
 class SigninTokenView(APIView):

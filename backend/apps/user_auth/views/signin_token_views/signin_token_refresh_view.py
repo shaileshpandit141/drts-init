@@ -1,15 +1,15 @@
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
-from user_auth.throttles import AuthUserRateThrottle
 
 
 class SigninTokenRefreshView(APIView):
     """Custom token refresh view for handling JWT token refresh operations."""
 
-    throttle_classes = [AuthUserRateThrottle]
+    throttle_classes = [UserRateThrottle]
 
     def post(self, request) -> Response:
         """Handle token refresh POST requests."""
