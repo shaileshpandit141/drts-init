@@ -422,15 +422,15 @@ wheels = [
 
 [[package]]
 name = "dns-smtp-email-validator"
-version = "0.1.10"
+version = "0.1.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dnspython" },
-    { name = "python-decouple" },
+    { name = "load-dotenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d9/b8/953f7204f118efc66e229a0ecc455cb7bba44b64697a3eea2ec21a6af159/dns_smtp_email_validator-0.1.10.tar.gz", hash = "sha256:e27177de4f7b25a29396d34fc0f8c7d3489c0e973e32ada15851ffa83a348bad", size = 5895, upload-time = "2025-05-21T10:54:55.246Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6a/b0/bd908e922ae74bce662df3329a2eb87c943ad9a021c8a390ccb7e8ee6ae7/dns_smtp_email_validator-0.1.11.tar.gz", hash = "sha256:4cd5d7fd52e907bfbe589bd16e3acbd8e1f1cda40226ae707eb71bbbb3b7b196", size = 5794, upload-time = "2025-05-22T17:35:51.589Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fa/5f/82f2c8efffcc6401f622ce3359fd02de9e6383282b8d3358623cb352c9e0/dns_smtp_email_validator-0.1.10-py3-none-any.whl", hash = "sha256:6f1e6ef821769296c8c22bb9a41b5fd3ed5e6d94a06c25e85692fe649a0f8b8e", size = 7493, upload-time = "2025-05-21T10:54:53.962Z" },
+    { url = "https://files.pythonhosted.org/packages/ae/f7/409a02a06386807630df6c359a37a8b67ce9ec4d31b71903dbf486981d56/dns_smtp_email_validator-0.1.11-py3-none-any.whl", hash = "sha256:bbcea6fcbebcea53885cb8165c0f9edb7d31a146e1c76036df704bc7da6e0d96", size = 7114, upload-time = "2025-05-22T17:35:49.921Z" },
 ]
 
 [[package]]
@@ -547,6 +547,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a6/e9/eee38ee793d855e1efdccd4149ca31707c664853defbaa808079c81191e8/limited-time-token-handler-0.1.9.tar.gz", hash = "sha256:e1ae9e4f8fb4802df91d01de38a7eab0fcf224faf9c5736a6c23b438d404b0b1", size = 5411, upload-time = "2025-02-23T06:23:44.009Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e2/48/4a6020e6f835a7ed463f8ab67622aed20e489da4620d366b2a07654aaf8c/limited_time_token_handler-0.1.9-py3-none-any.whl", hash = "sha256:fbded97f4997091e745bd8d13bac6e649837be6adabd1c1de1822895955b1185", size = 6766, upload-time = "2025-02-23T06:23:37.503Z" },
+]
+
+[[package]]
+name = "load-dotenv"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "python-dotenv" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d7/95/055d123dde74bd54b99b27a3c2d8c6e218f544e0bd437480f61ccf85a07f/load-dotenv-0.1.0.tar.gz", hash = "sha256:bbe5f40072d4a61eadca66de6c222df5a2d935d6d41b703be1ff75396f635145", size = 6404, upload-time = "2022-09-02T19:55:01.349Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/2e/268a528dfa1f76999435634b0453fdd917ea878a818a6d5981632f7acffb/load_dotenv-0.1.0-py3-none-any.whl", hash = "sha256:614803f720153fb8a5f97124a72aaa3930a67aa5547cbe8603d01ea7f9ac1adf", size = 7175, upload-time = "2022-09-02T19:54:59.85Z" },
 ]
 
 [[package]]
@@ -716,6 +728,15 @@ wheels = [
 ]
 
 [[package]]
+name = "python-dotenv"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/88/2c/7bb1416c5620485aa793f2de31d3df393d3686aa8a8506d11e10e13c5baf/python_dotenv-1.1.0.tar.gz", hash = "sha256:41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5", size = 39920, upload-time = "2025-03-25T10:14:56.835Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1e/18/98a99ad95133c6a6e2005fe89faedf294a748bd5dc803008059409ac9b1e/python_dotenv-1.1.0-py3-none-any.whl", hash = "sha256:d7c01d9e2293916c18baf562d95698754b0dbbb5e74d457c45d4f6561fb9d55d", size = 20256, upload-time = "2025-03-25T10:14:55.034Z" },
+]
+
+[[package]]
 name = "pytz"
 version = "2025.2"
 source = { registry = "https://pypi.org/simple" }
@@ -875,14 +896,14 @@ wheels = [
 
 [[package]]
 name = "typing-inspection"
-version = "0.4.0"
+version = "0.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/82/5c/e6082df02e215b846b4b8c0b887a64d7d08ffaba30605502639d44c06b82/typing_inspection-0.4.0.tar.gz", hash = "sha256:9765c87de36671694a67904bf2c96e395be9c6439bb6c87b5142569dcdd65122", size = 76222, upload-time = "2025-02-25T17:27:59.638Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f8/b1/0c11f5058406b3af7609f121aaa6b609744687f1d158b3c3a5bf4cc94238/typing_inspection-0.4.1.tar.gz", hash = "sha256:6ae134cc0203c33377d43188d4064e9b357dba58cff3185f22924610e70a9d28", size = 75726, upload-time = "2025-05-21T18:55:23.885Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/31/08/aa4fdfb71f7de5176385bd9e90852eaf6b5d622735020ad600f2bab54385/typing_inspection-0.4.0-py3-none-any.whl", hash = "sha256:50e72559fcd2a6367a19f7a7e610e6afcb9fac940c650290eed893d61386832f", size = 14125, upload-time = "2025-02-25T17:27:57.754Z" },
+    { url = "https://files.pythonhosted.org/packages/17/69/cd203477f944c353c31bade965f880aa1061fd6bf05ded0726ca845b6ff7/typing_inspection-0.4.1-py3-none-any.whl", hash = "sha256:389055682238f53b04f7badcb49b989835495a96700ced5dab2d8feae4b26f51", size = 14552, upload-time = "2025-05-21T18:55:22.152Z" },
 ]
 
 [[package]]

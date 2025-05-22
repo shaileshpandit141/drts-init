@@ -41,12 +41,8 @@ class SignupSerializer(serializers.Serializer):
             validator = DNSSMTPEmailValidator(email)
             if not validator.is_valid():
                 raise serializers.ValidationError(
-                    detail={
-                        "email": validator.errors.get(
-                            "email", ["Invalid email address."]
-                        )
-                    },
-                    code=validator.errors.get("code", "invalid_email"),
+                    detail=validator.errors,
+                    code="invalid_email",
                 )
 
         # Validate password meets requirements
