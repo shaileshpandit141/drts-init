@@ -8,6 +8,7 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import MinLengthValidator
+from user_auth.mixins import UniqueUsernameMixin
 
 
 class UserManager(BaseUserManager):
@@ -51,7 +52,7 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
     """Custom user model that uses email as the username field
     instead of a username. Extends Django's AbstractBaseUser
     and PermissionsMixin.
@@ -220,3 +221,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.first_name is None or self.last_name is None:
             return None
         return f"{self.first_name} {self.last_name}".strip()
+
+    def save(self, *args, **kwargs) -> None:
+        """Override the save method to generate a unique username"""
+
+        # Generate a unique username if not provided
+        if not self.username and self.email:
+            self.username = self.generate_username(self.email, 30)
+
+        # Call the parent class's save method
+        super().save(*args, **kwargs)
