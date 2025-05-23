@@ -6,6 +6,8 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.validators import MinLengthValidator
 
 
 class UserManager(BaseUserManager):
@@ -60,8 +62,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta(AbstractBaseUser.Meta, PermissionsMixin.Meta):  # type: ignore
         db_table = "users"
-        verbose_name = "User"
-        verbose_name_plural = "Users"
+        verbose_name = "user"
+        verbose_name_plural = "users"
         ordering = ["-last_login"]
 
     objects = UserManager()
@@ -85,15 +87,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         max_length=30,
         unique=True,
-        null=False,
-        blank=False,
         db_index=False,
         default="",
+        validators=[
+            UnicodeUsernameValidator(),
+            MinLengthValidator(5),
+        ],
         error_messages={
             "invalid": "Please enter a valid last name",
-            "null": "Last name is required",
-            "blank": "Last name cannot be empty",
             "max_length": "Last name cannot be longer than 30 characters",
+            'min_length': 'Username must be at least 3 characters long.',
+            "unique": "A user with that username already exists.",
+
         },
     )
     first_name = models.CharField(
