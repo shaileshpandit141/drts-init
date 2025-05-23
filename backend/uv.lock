@@ -422,15 +422,15 @@ wheels = [
 
 [[package]]
 name = "dns-smtp-email-validator"
-version = "0.1.11"
+version = "0.1.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dnspython" },
     { name = "load-dotenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6a/b0/bd908e922ae74bce662df3329a2eb87c943ad9a021c8a390ccb7e8ee6ae7/dns_smtp_email_validator-0.1.11.tar.gz", hash = "sha256:4cd5d7fd52e907bfbe589bd16e3acbd8e1f1cda40226ae707eb71bbbb3b7b196", size = 5794, upload-time = "2025-05-22T17:35:51.589Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ed/39/eda8dd3de8c6352ffcad7ddf57fff2b3bc79b8455bcbc9af330efd9ea3e1/dns_smtp_email_validator-0.1.12.tar.gz", hash = "sha256:10fd42ff31d595960a4d31ddfdad3b1477127a558f6085573238e579473769c3", size = 5739, upload-time = "2025-05-22T17:50:10.513Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ae/f7/409a02a06386807630df6c359a37a8b67ce9ec4d31b71903dbf486981d56/dns_smtp_email_validator-0.1.11-py3-none-any.whl", hash = "sha256:bbcea6fcbebcea53885cb8165c0f9edb7d31a146e1c76036df704bc7da6e0d96", size = 7114, upload-time = "2025-05-22T17:35:49.921Z" },
+    { url = "https://files.pythonhosted.org/packages/19/b3/0419658efd9a43c4ab15c9b914202ed3f40088a4f658eb235c02eccd8fce/dns_smtp_email_validator-0.1.12-py3-none-any.whl", hash = "sha256:d39d6f637f01fef96c7be0c2449ba50ec0e21261b799ecbd53656a8dab98c34c", size = 7087, upload-time = "2025-05-22T17:50:09.497Z" },
 ]
 
 [[package]]

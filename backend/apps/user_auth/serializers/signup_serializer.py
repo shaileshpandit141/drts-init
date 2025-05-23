@@ -60,16 +60,12 @@ class SignupSerializer(serializers.Serializer):
         # Return the validated data
         return attrs
 
-    def create(self, validated_data: dict) -> User:
-        email = validated_data.get("email", "")
-        username = email.split("@")[0]
+    def create(self, validated_data: dict[str, str]) -> User:
+        email = validated_data["email"]
         password = validated_data.pop("password")
 
         # Create a new user instance
-        user = User(
-            username=username,
-            email=email,
-        )
+        user = User(email=email)
 
         # Set the password for the user
         user.set_password(password)

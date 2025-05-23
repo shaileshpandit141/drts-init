@@ -28,7 +28,6 @@ class UserSerializer(FileFieldUrlMixin, ModelSerializer):
         read_only_fields = [
             "id",
             "email",
-            "username",
             "is_verified",
             "is_staff",
             "is_superuser",

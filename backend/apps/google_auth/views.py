@@ -142,7 +142,6 @@ class GoogleCallbackView(APIView):
 
             # Extract user details
             email = google_data.get("email")
-            username = email.split("@")[0]
             profile_picture = google_data.get("picture")
 
             # Check user email is valid or not
@@ -155,7 +154,7 @@ class GoogleCallbackView(APIView):
                 )
 
             # Handle user profile picture
-            picture = save_image(User, "picture", profile_picture, username)
+            picture = save_image(User, "picture", profile_picture, email)
 
             # Save user and generate JWT tokens
             user, created = User.objects.get_or_create(
@@ -163,7 +162,6 @@ class GoogleCallbackView(APIView):
                 defaults={
                     "first_name": google_data.get("given_name"),
                     "last_name": google_data.get("family_name"),
-                    "username": username,
                     "picture": picture,
                     "is_verified": True,
                 },

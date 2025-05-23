@@ -27,9 +27,6 @@ class UserManager(BaseUserManager):
         if "@" not in email:
             raise ValueError("Invalid email address")
 
-        # Set username from email
-        extra_fields["username"] = email.split("@")[0]
-
         # Create and save user
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -77,7 +74,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=False,
         blank=False,
         db_index=True,
-        default="",
         error_messages={
             "invalid": "Please enter a valid email address",
             "null": "Email address is required",
