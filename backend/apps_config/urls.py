@@ -11,8 +11,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
-
-from .views import IndexTemplateView, custom_404_apiview
+from rest_core.django.views import url_404_apiview
+from .views import IndexTemplateView
 
 # Built-in URL Configurations
 urlpatterns = [
@@ -36,7 +36,7 @@ urlpatterns += [
 ]
 
 # Configure custom error handling
-handler404 = custom_404_apiview  # noqa: F811
+handler404 = url_404_apiview  # noqa: F811
 
 # Enable serving of user-uploaded media files
 if settings.DEBUG:

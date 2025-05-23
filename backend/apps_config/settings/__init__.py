@@ -9,9 +9,9 @@ if ENV is None:
 
 # Import settings based on environment
 if ENV == "development":
-    from .development import *
+    from .development import *  # noqa: F403
 elif ENV == "production":
-    from .production import *
+    from .production import *  # noqa: F403
 else:
     # Raise error if ENV value is not one of the allowed options
     raise Exception(
