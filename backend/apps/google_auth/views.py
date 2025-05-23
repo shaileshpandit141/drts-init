@@ -140,9 +140,13 @@ class GoogleCallbackView(APIView):
                 # Convert response instance to json
                 google_data = response.json()
 
+            print("============================")
+            print("Google Data: ", google_data)
+            print("============================")
+
             # Extract user details
             email = google_data.get("email")
-            profile_picture = google_data.get("picture")
+            # profile_picture = google_data.get("picture")
 
             # Check user email is valid or not
             if not email:
@@ -154,7 +158,7 @@ class GoogleCallbackView(APIView):
                 )
 
             # Handle user profile picture
-            picture = save_image(User, "picture", profile_picture, email)
+            # picture = save_image(User, "picture", profile_picture, email)
 
             # Save user and generate JWT tokens
             user, created = User.objects.get_or_create(
@@ -162,7 +166,7 @@ class GoogleCallbackView(APIView):
                 defaults={
                     "first_name": google_data.get("given_name"),
                     "last_name": google_data.get("family_name"),
-                    "picture": picture,
+                    # "picture": picture,
                     "is_verified": True,
                 },
             )
@@ -170,7 +174,7 @@ class GoogleCallbackView(APIView):
             # Update user details if they already exist
             user.first_name = google_data.get("given_name")
             user.last_name = google_data.get("family_name")
-            setattr(user, "picture", picture)
+            # setattr(user, "picture", picture)
             setattr(user, "is_verified", True)
             user.save()
 
@@ -200,7 +204,11 @@ class GoogleCallbackView(APIView):
                     "access_token": str(access_token),
                 },
             )
-        except Exception:
+        except Exception as error:
+            print("============================")
+            print(error)
+            print("============================")
+
             # Return failure response
             return failure_response(
                 message="Google authentication failed",
