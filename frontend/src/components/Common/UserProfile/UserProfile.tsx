@@ -24,6 +24,13 @@ const UserProfile: React.FC = (): JSX.Element | null => {
     return null;
   }
 
+  function renderImage() {
+    if (data && data.picture) {
+      return <img src={data.picture} alt="user-picture-image" />
+    }
+    return <p className="no-user-image">{data && data.email.slice(0, 1)}</p>
+  }
+
   return (
     <div className="user-profile">
       <button
@@ -31,13 +38,13 @@ const UserProfile: React.FC = (): JSX.Element | null => {
         ref={buttonRef}
         onClick={toggleDropdownMenu}
       >
-        {data && <img src={data.picture} alt="user-picture-image" />}
+        {renderImage()}
       </button>
       <div className="card-container" ref={contentRef}>
         <div className="card-header">
           <Link to="/dashboard" className="dashboard-link">
             <section className="user-profile-image">
-              {data && <img src={data.picture} alt="user-picture-image" />}
+              {renderImage()}
             </section>
             <section className="user-profile-info">
               <p className="email">{data && data.email}</p>

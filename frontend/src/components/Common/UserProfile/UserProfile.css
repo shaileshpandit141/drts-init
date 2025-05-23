@@ -127,4 +127,15 @@
       }
     }
   }
+
+  .no-user-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--status-success);
+  }
 }
