@@ -19,17 +19,13 @@ class SigninSerializer(Serializer):
         email = attrs.get("email", "").strip()
         password = attrs.get("password")
 
-        # Handle email and username based signin
-        user = None
-        if "@" in email:
-            user = User.objects.filter(email__iexact=email).first()
-        else:
-            user = User.objects.filter(username__iexact=email).first()
+        # Handle email based signin
+        user = User.objects.filter(email__iexact=email).first()
 
         # Checking if user is None
         if user is None:
             raise ValidationError(
-                {"email": ["Invalid email or username. Please try again."]},
+                {"email": ["Invalid email address. Please try again."]},
                 code="invalid_credentials",
             )
 
