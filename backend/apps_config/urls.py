@@ -12,6 +12,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 from rest_core.django.views import url_404_apiview
+
 from .views import IndexTemplateView
 
 # Built-in URL Configurations
