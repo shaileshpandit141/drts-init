@@ -92,9 +92,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         error_messages={
             "invalid": "Please enter a valid last name",
             "max_length": "Last name cannot be longer than 30 characters",
-            'min_length': 'Username must be at least 3 characters long.',
+            "min_length": "Username must be at least 3 characters long.",
             "unique": "A user with that username already exists.",
-
         },
     )
     first_name = models.CharField(
@@ -128,19 +127,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     picture = models.ImageField(
         upload_to="users/pictures/",
         max_length=100,
-        null=False,
-        blank=False,
+        null=True,
+        blank=True,
         storage=None,
         db_index=False,
-        default="users/pictures/default.png",
+        default=None,
         error_messages={
             "invalid": "Please provide a valid image file",
             "invalid_image": "The uploaded file must be a valid image format like JPG, PNG or GIF",
             "missing": "Please select an image file to upload",
             "empty": "The uploaded file is empty. Please select a valid image file",
             "max_length": "The filename is too long. 100 characters allowed",
-            "null": "An picture image is required",
-            "blank": "An picture image is required",
         },
     )
     is_active = models.BooleanField(
