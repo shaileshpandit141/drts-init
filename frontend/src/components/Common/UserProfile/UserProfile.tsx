@@ -26,9 +26,9 @@ const UserProfile: React.FC = (): JSX.Element | null => {
 
   function renderImage() {
     if (data && data.picture) {
-      return <img src={data.picture} alt="user-picture-image" />
+      return <img src={data.picture} alt="user-picture-image" />;
     }
-    return <p className="no-user-image">{data && data.email.slice(0, 1)}</p>
+    return <p className="no-user-image">{data && data.email.slice(0, 1)}</p>;
   }
 
   return (
@@ -43,9 +43,7 @@ const UserProfile: React.FC = (): JSX.Element | null => {
       <div className="card-container" ref={contentRef}>
         <div className="card-header">
           <Link to="/dashboard" className="dashboard-link">
-            <section className="user-profile-image">
-              {renderImage()}
-            </section>
+            <section className="user-profile-image">{renderImage()}</section>
             <section className="user-profile-info">
               <p className="email">{data && data.email}</p>
               <p className="view-settings">view dashboard</p>
