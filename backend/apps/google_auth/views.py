@@ -140,13 +140,9 @@ class GoogleCallbackView(APIView):
                 # Convert response instance to json
                 google_data = response.json()
 
-            print("============================")
-            print("Google Data: ", google_data)
-            print("============================")
-
             # Extract user details
             email = google_data.get("email")
-            # profile_picture = google_data.get("picture")
+            profile_picture = google_data.get("picture")
 
             # Check user email is valid or not
             if not email:
@@ -158,24 +154,25 @@ class GoogleCallbackView(APIView):
                 )
 
             # Handle user profile picture
-            # picture = save_image(User, "picture", profile_picture, email)
+            picture = save_image(User, "picture", profile_picture, email)
+
+            user_data = {
+                "first_name": google_data.get("given_name"),
+                "last_name": google_data.get("family_name"),
+                "is_verified": google_data.get("email_verified", False),
+            }
 
             # Save user and generate JWT tokens
             user, created = User.objects.get_or_create(
                 email=email,
-                defaults={
-                    "first_name": google_data.get("given_name"),
-                    "last_name": google_data.get("family_name"),
-                    # "picture": picture,
-                    "is_verified": True,
-                },
+                defaults=user_data,
             )
 
-            # Update user details if they already exist
-            user.first_name = google_data.get("given_name")
-            user.last_name = google_data.get("family_name")
-            # setattr(user, "picture", picture)
-            setattr(user, "is_verified", True)
+            # Always update the user with latest info
+            for field, value in user_data.items():
+                setattr(user, field, value)
+
+            setattr(user, "picture", picture)
             user.save()
 
             """Generate JWT tokens using Simple JWT."""
@@ -205,10 +202,6 @@ class GoogleCallbackView(APIView):
                 },
             )
         except Exception as error:
-            print("============================")
-            print(error)
-            print("============================")
-
             # Return failure response
             return failure_response(
                 message="Google authentication failed",
