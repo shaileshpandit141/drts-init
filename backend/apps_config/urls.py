@@ -36,6 +36,9 @@ urlpatterns += [
     path("api/v1/auth/", include(("apps.google_auth.urls", "google_auth"))),
 ]
 
+# API related URLs Configurations
+urlpatterns += []
+
 # Configure custom error handling
 handler404 = url_404_apiview  # noqa: F811
 
