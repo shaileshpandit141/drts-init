@@ -8,6 +8,165 @@
 	},
 	"item": [
 		{
+			"name": "sign up",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "testuser1@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "abc12345@",
+							"type": "text"
+						},
+						{
+							"key": "confirm_password",
+							"value": "abc12345@",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/signup/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"signup",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify account confirm",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "token",
+							"value": "accoutnverificationtoeknfromemail",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/verify-account/confirm/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"verify-account",
+						"confirm",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "testuser5@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/verify-account/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"verify-account",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign in",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json()",
+							"",
+							"pm.globals.set(\"refresh_token\", response.data.refresh_token)",
+							"pm.globals.set(\"access_token\", response.data.access_token)",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "testuser1@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "abc12345@",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/signin/token/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"signin",
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "user info",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -27,16 +186,55 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/user/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user info update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
 					"formdata": [
 						{
+							"key": "username",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
 							"key": "first_name",
-							"value": "shailesh",
+							"value": "",
 							"type": "text",
 							"disabled": true
 						},
 						{
 							"key": "last_name",
-							"value": "pandit",
+							"value": "",
 							"type": "text",
 							"disabled": true
 						}
@@ -116,106 +314,6 @@
 			"response": []
 		},
 		{
-			"name": "sign in",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"const response = pm.response.json()",
-							"",
-							"pm.globals.set(\"refresh_token\", response.data.refresh_token)",
-							"pm.globals.set(\"access_token\", response.data.access_token)",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "email",
-							"value": "testuser7@gmail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "abc12345@12345",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{base_url}}/auth/signin/token/",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"auth",
-						"signin",
-						"token",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "sign up",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "email",
-							"value": "testuser9@gmail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "abc12345@",
-							"type": "text"
-						},
-						{
-							"key": "confirm_password",
-							"value": "abc12345@",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{base_url}}/auth/signup/",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"auth",
-						"signup",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "sign out",
 			"request": {
 				"auth": {
@@ -248,65 +346,6 @@
 					"path": [
 						"auth",
 						"signout",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "verify account",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "email",
-							"value": "testuser5@gmail.com",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{base_url}}/auth/verify-account/",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"auth",
-						"verify-account",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "verify account confirm",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "token",
-							"value": "accoutnverificationtoeknfromemail",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{base_url}}/auth/verify-account/confirm/",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"auth",
-						"verify-account",
-						"confirm",
 						""
 					]
 				}
