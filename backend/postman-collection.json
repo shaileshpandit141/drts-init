@@ -8,6 +8,10 @@
 	},
 	"item": [
 		{
+			"name": "auth",
+			"item": []
+		},
+		{
 			"name": "sign up",
 			"request": {
 				"auth": {
@@ -21,7 +25,8 @@
 						{
 							"key": "email",
 							"value": "testuser1@gmail.com",
-							"type": "text"
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "password",
