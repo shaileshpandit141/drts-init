@@ -4,7 +4,13 @@ from rest_framework.throttling import SimpleRateThrottle
 
 
 class AuthUserRateThrottle(SimpleRateThrottle):
-    """Throttle requests based on user authentication status and device."""
+    """
+    Throttle requests based on user authentication status and device.
+
+    This throttle generates a cache key that is specific to each view, request method,
+    request IP, and device identifier. For authenticated users, the device is identified
+    by the user's ID; for unauthenticated users, it uses a hashed user agent.
+    """
 
     # Define the scope for this throttle class
     # This scope should match the key in settings DEFAULT_THROTTLE_RATES
@@ -12,8 +18,22 @@ class AuthUserRateThrottle(SimpleRateThrottle):
 
     def get_cache_key(self, request, view) -> str:
         """
-        Generate a cache key unique to each device on the same network.
-        Use a combination of View, User IP and device-specific identifier.
+        Generate a unique cache key for throttling.
+
+        The cache key is constructed using:
+          - The fully qualified view name (module and class name)
+          - The HTTP request method
+          - The router IP address derived from the request
+          - A device ID, which is based on the user authentication status:
+              * For authenticated users: "user_{user_id}"
+              * For unauthenticated users: MD5 hash of the HTTP_USER_AGENT
+
+        Parameters:
+          request: The incoming HTTP request.
+          view: The view handling the request.
+
+        Returns:
+          A string representing the unique cache key.
         """
         # Get the router IP address from the request
         router_ip = self.get_ident(request)
