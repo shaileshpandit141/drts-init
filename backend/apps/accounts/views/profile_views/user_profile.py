@@ -1,5 +1,5 @@
 from accounts.permissions import IsUserAccountVerified
-from accounts.serializers.user import UserSerializer
+from accounts.serializers.user_serializers import UserSerializer
 from rest_core.response import failure_response, success_response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -7,7 +7,7 @@ from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 
 
-class UserInfoView(APIView):
+class UserProfileView(APIView):
     """API View for managing authenticated user information."""
 
     permission_classes = [IsAuthenticated, IsUserAccountVerified]

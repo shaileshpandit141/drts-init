@@ -6,7 +6,7 @@ from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-class SigninTokenRefreshView(APIView):
+class TokenRefreshView(APIView):
     """Custom token refresh view for handling JWT token refresh operations."""
 
     throttle_classes = [UserRateThrottle]

@@ -6,43 +6,55 @@ registration, password management, and profile data. All paths are prefixed with
 when included in the main URLs.
 """
 
+from accounts.views.deactivation_views import AccountDeactivationView
+from accounts.views.password_views import (
+    PasswordChangeView,
+    PasswordResetConfirmView,
+    PasswordResetView,
+)
+from accounts.views.profile_views import UserProfileView
+from accounts.views.signin_views import (
+    TokenBlockView,
+    TokenRefreshView,
+    TokenRetriveView,
+)
+from accounts.views.signup_views import (
+    AccountVerificationConfirmView,
+    AccountVerificationView,
+    SignupView,
+)
 from django.urls import path
-
-from .views.change_password import ChangePasswordView
-from .views.deactivate_account import DeactivateAccountView
-from .views.reset_password import ResetPasswordConfirmView, ResetPasswordView
-from .views.signin_token import SigninTokenRefreshView, SigninTokenView
-from .views.signout import SignoutView
-from .views.signup import SignupView
-from .views.user_info import UserInfoView
-from .views.verify_account import VerifyAccountConfirmView, VerifyAccountView
 
 urlpatterns = [
     path("signup/", SignupView.as_view(), name="signup"),
-    path("signin/token/", SigninTokenView.as_view(), name="signin-token"),
     path(
-        "signin/token/refresh/",
-        SigninTokenRefreshView.as_view(),
-        name="signin-token-refresh",
-    ),
-    path("signout/", SignoutView.as_view(), name="signout"),
-    path("verify-account/", VerifyAccountView.as_view(), name="verify-account"),
-    path(
-        "verify-account/confirm/",
-        VerifyAccountConfirmView.as_view(),
-        name="verify-account-confirm",
-    ),
-    path("change-password/", ChangePasswordView.as_view(), name="change-password"),
-    path("reset-password/", ResetPasswordView.as_view(), name="reset-password"),
-    path(
-        "reset-password/confirm/",
-        ResetPasswordConfirmView.as_view(),
-        name="reset-password-confirm",
+        "account-verification/",
+        AccountVerificationView.as_view(),
+        name="account-verification",
     ),
     path(
-        "deactivate-account/",
-        DeactivateAccountView.as_view(),
-        name="deactivate-account",
+        "account-verification/confirm/",
+        AccountVerificationConfirmView.as_view(),
+        name="account-verification-confirm",
     ),
-    path("user/", UserInfoView.as_view(), name="user-info"),
+    path("token/retrive/", TokenRetriveView.as_view(), name="token-retrive"),
+    path(
+        "token/refresh/",
+        TokenRefreshView.as_view(),
+        name="token-refresh",
+    ),
+    path("token/block/", TokenBlockView.as_view(), name="token-block"),
+    path("password/change/", PasswordChangeView.as_view(), name="password-change"),
+    path("password/reset/", PasswordResetView.as_view(), name="password-reset"),
+    path(
+        "password/reset/confirm/",
+        PasswordResetConfirmView.as_view(),
+        name="password-reset-confirm",
+    ),
+    path(
+        "account-deactivation/",
+        AccountDeactivationView.as_view(),
+        name="account-deactivation",
+    ),
+    path("user/", UserProfileView.as_view(), name="user-profile"),
 ]

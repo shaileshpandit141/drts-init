@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework.serializers import CharField, Serializer, ValidationError
 
 
-class ChangePasswordSerializer(Serializer):
+class PasswordChangeSerializer(Serializer):
     """Serializer for changing user password."""
 
     current_password = CharField(write_only=True, style={"input_type": "password"})

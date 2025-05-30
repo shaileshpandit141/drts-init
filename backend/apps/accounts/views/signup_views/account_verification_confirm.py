@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-class VerifyAccountConfirmView(ModelObjectMixin[User], APIView):
+class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
     """API View for verifying user accounts via email confirmation."""
 
     throttle_classes = [AuthUserRateThrottle]

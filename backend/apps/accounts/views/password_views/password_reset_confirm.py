@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-class ResetPasswordConfirmView(ModelObjectMixin[User], APIView):
+class PasswordResetConfirmView(ModelObjectMixin[User], APIView):
     """API View to handle password reset and confirmation."""
 
     throttle_classes = [AuthUserRateThrottle]

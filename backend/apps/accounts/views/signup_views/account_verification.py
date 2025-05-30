@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-class VerifyAccountView(ModelObjectMixin[User], APIView):
+class AccountVerificationView(ModelObjectMixin[User], APIView):
     """API View for handling account verification."""
 
     throttle_classes = [AuthUserRateThrottle]

@@ -6,7 +6,7 @@ from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 
 
-class DeactivateAccountView(APIView):
+class AccountDeactivationView(APIView):
     """API view for deactivating user accounts."""
 
     permission_classes = [IsAuthenticated]

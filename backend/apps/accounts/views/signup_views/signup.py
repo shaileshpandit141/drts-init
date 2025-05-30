@@ -1,4 +1,4 @@
-from accounts.serializers.signup import SignupSerializer
+from accounts.serializers.signup_serializers import SignupSerializer
 from accounts.throttling import AuthUserRateThrottle
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.build_absolute_uri import build_absolute_uri

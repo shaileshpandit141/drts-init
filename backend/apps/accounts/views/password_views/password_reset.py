@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-class ResetPasswordView(ModelObjectMixin[User], APIView):
+class PasswordResetView(ModelObjectMixin[User], APIView):
     """API View to hansle password reset."""
 
     throttle_classes = [AuthUserRateThrottle]

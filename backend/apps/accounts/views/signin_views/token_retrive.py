@@ -1,12 +1,12 @@
 from accounts.models import User
-from accounts.serializers.signin import SigninSerializer
+from accounts.serializers.signin_serializers import SigninSerializer
 from accounts.throttling import AuthUserRateThrottle
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-class SigninTokenView(APIView):
+class TokenRetriveView(APIView):
     throttle_classes = [AuthUserRateThrottle]
     queryset = User.objects.filter(is_active=True)
 

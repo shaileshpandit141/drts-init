@@ -8,10 +8,10 @@
 	},
 	"item": [
 		{
-			"name": "Authentication",
+			"name": "Account Management",
 			"item": [
 				{
-					"name": "User Auth Management",
+					"name": "Signup",
 					"item": [
 						{
 							"name": "Signup",
@@ -72,13 +72,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/verify-account/",
+									"raw": "{{base_url}}/auth/account-verification/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"verify-account",
+										"account-verification",
 										""
 									]
 								}
@@ -101,13 +101,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/verify-account/confirm/",
+									"raw": "{{base_url}}/auth/account-verification/confirm/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"verify-account",
+										"account-verification",
 										"confirm",
 										""
 									]
@@ -119,10 +119,10 @@
 					"description": "Handles user registration, and account activation."
 				},
 				{
-					"name": "Token Management",
+					"name": "Token",
 					"item": [
 						{
-							"name": "Get Token",
+							"name": "Token Retrive",
 							"event": [
 								{
 									"listen": "test",
@@ -165,14 +165,14 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/signin/token/",
+									"raw": "{{base_url}}/auth/token/retrive/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"signin",
 										"token",
+										"retrive",
 										""
 									]
 								}
@@ -180,7 +180,7 @@
 							"response": []
 						},
 						{
-							"name": "Refresh Token",
+							"name": "Token Refresh",
 							"event": [
 								{
 									"listen": "test",
@@ -223,13 +223,12 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/signin/token/refresh/",
+									"raw": "{{base_url}}/auth/token/refresh/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"signin",
 										"token",
 										"refresh",
 										""
@@ -239,7 +238,7 @@
 							"response": []
 						},
 						{
-							"name": "Signout",
+							"name": "Token Block",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -264,13 +263,14 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/signout/",
+									"raw": "{{base_url}}/auth/token/block/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"signout",
+										"token",
+										"block",
 										""
 									]
 								}
@@ -281,7 +281,7 @@
 					"description": "Manages access and refresh tokens, including renewal and logout."
 				},
 				{
-					"name": "User Management",
+					"name": "User",
 					"item": [
 						{
 							"name": "User Details",
@@ -397,13 +397,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/deactivate-account/",
+									"raw": "{{base_url}}/auth/account-deactivation/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"deactivate-account",
+										"account-deactivation",
 										""
 									]
 								}
@@ -414,10 +414,10 @@
 					"description": "Provides endpoints for accessing and modifying authenticated user account details."
 				},
 				{
-					"name": "Password Management",
+					"name": "Password",
 					"item": [
 						{
-							"name": "Change Password",
+							"name": "Password Change",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -452,13 +452,14 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/change-password/",
+									"raw": "{{base_url}}/auth/password/change/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"change-password",
+										"password",
+										"change",
 										""
 									]
 								}
@@ -466,7 +467,7 @@
 							"response": []
 						},
 						{
-							"name": "Reset Password",
+							"name": "Password Reset",
 							"event": [
 								{
 									"listen": "test",
@@ -513,13 +514,14 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/reset-password/",
+									"raw": "{{base_url}}/auth/password/reset/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"reset-password",
+										"password",
+										"reset",
 										""
 									]
 								}
@@ -527,7 +529,7 @@
 							"response": []
 						},
 						{
-							"name": "Reset Password Confirm",
+							"name": "Password Reset Confirm",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -547,13 +549,14 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/reset-password/confirm/",
+									"raw": "{{base_url}}/auth/password/reset/confirm/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"reset-password",
+										"password",
+										"reset",
 										"confirm",
 										""
 									]

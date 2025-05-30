@@ -5,7 +5,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-class SignoutView(APIView):
+class TokenBlockView(APIView):
     """API view for user sign out functionality."""
 
     def post(self, request) -> Response:
