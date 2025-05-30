@@ -32,7 +32,7 @@ urlpatterns = [
 # ===============================
 # Auth related URLs Configurations
 urlpatterns += [
-    path("api/v1/auth/", include(("apps.user_auth.urls", "user_auth"))),
+    path("api/v1/auth/", include(("apps.accounts.urls", "accounts"))),
     path("api/v1/auth/", include(("apps.google_auth.urls", "google_auth"))),
 ]
 

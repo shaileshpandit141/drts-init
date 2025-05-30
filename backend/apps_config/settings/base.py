@@ -60,7 +60,7 @@ INSTALLED_APPS += [
 # User Define applications Settings
 # ---------------------------------
 INSTALLED_APPS += [
-    "apps.user_auth",
+    "apps.accounts",
     "apps.google_auth",
 ]
 
@@ -106,7 +106,7 @@ ASGI_APPLICATION = "apps_config.asgi.application"
 
 # User Model Configuration Setting
 # --------------------------------
-AUTH_USER_MODEL = "user_auth.User"
+AUTH_USER_MODEL = "accounts.User"
 
 # Default primary key field type Configuration Setting
 # ----------------------------------------------------

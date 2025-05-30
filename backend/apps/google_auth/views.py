@@ -1,5 +1,7 @@
 from urllib.parse import urlencode
 
+from accounts.models import User
+from accounts.throttling import AuthUserRateThrottle
 from django.conf import settings
 from django.utils import timezone
 from google.auth.transport import requests
@@ -9,8 +11,6 @@ from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from user_auth.models import User
-from user_auth.throttling import AuthUserRateThrottle
 
 from core.save_image import save_image
 
@@ -201,7 +201,7 @@ class GoogleCallbackView(APIView):
                     "access_token": str(access_token),
                 },
             )
-        except Exception as error:
+        except Exception:
             # Return failure response
             return failure_response(
                 message="Google authentication failed",
