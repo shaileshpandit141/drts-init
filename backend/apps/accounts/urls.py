@@ -37,7 +37,7 @@ urlpatterns = [
         AccountVerificationConfirmView.as_view(),
         name="account-verification-confirm",
     ),
-    path("token/retrive/", TokenRetriveView.as_view(), name="token-retrive"),
+    path("token/", TokenRetriveView.as_view(), name="token-retrive"),
     path(
         "token/refresh/",
         TokenRefreshView.as_view(),

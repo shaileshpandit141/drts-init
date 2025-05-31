@@ -165,14 +165,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/token/retrive/",
+									"raw": "{{base_url}}/auth/token/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
 										"token",
-										"retrive",
 										""
 									]
 								}
