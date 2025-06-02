@@ -5,6 +5,7 @@ interface DrawerProps {
   children: React.ReactNode;
   isOpen: boolean;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  position?: "fixed" | "absolute";
   className?: string;
   style?: React.CSSProperties;
 }
@@ -15,6 +16,7 @@ const Drawer: React.FC<DrawerProps> = ({
   children,
   onClick,
   isOpen,
+  position = "fixed",
   className,
   style,
 }): JSX.Element => {
@@ -65,7 +67,11 @@ const Drawer: React.FC<DrawerProps> = ({
     ${isDeactivated && !isOpen ? "drawer--inactive" : ""}`;
 
   return (
-    <div className={drawerClassName} onClick={handleClick} style={style}>
+    <div
+      className={drawerClassName}
+      onClick={handleClick}
+      style={{ position: position, ...style }}
+    >
       {children}
     </div>
   );
