@@ -53,8 +53,8 @@ class PasswordResetView(ModelObjectMixin[User], APIView):
                 ),
                 context={"user": user, "active_url": f"{reset_confirm_uri}/{token}"},
                 templates=Templates(
-                    text_template="users/reset_password/confirm_message.txt",
-                    html_template="users/reset_password/confirm_message.html",
+                    text_template="accounts/password_reset/confirm_message.txt",
+                    html_template="accounts/password_reset/confirm_message.html",
                 ),
             )
 

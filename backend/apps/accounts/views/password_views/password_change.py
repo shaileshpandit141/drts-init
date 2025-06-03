@@ -41,8 +41,8 @@ class PasswordChangeView(APIView):
             ),
             context={"user": request.user},
             templates=Templates(
-                text_template="users/change_password/success_message.txt",
-                html_template="users/change_password/success_message.html",
+                text_template="accounts/password_change/success_message.txt",
+                html_template="accounts/password_change/success_message.html",
             ),
         )
 

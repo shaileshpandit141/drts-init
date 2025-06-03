@@ -54,8 +54,8 @@ class AccountDeactivationView(APIView):
             ),
             context={"user": user},
             templates=Templates(
-                text_template="users/deactivate_account/confirm_message.txt",
-                html_template="users/deactivate_account/confirm_message.html",
+                text_template="accounts/account_deactivation/confirm_message.txt",
+                html_template="accounts/account_deactivation/confirm_message.html",
             ),
         )
 

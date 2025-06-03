@@ -69,8 +69,8 @@ class AccountVerificationView(ModelObjectMixin[User], APIView):
                 ),
                 context={"user": user, "activate_url": activate_url},
                 templates=Templates(
-                    text_template="users/verify_account/confirm_message.txt",
-                    html_template="users/verify_account/confirm_message.html",
+                    text_template="accounts/account_verification/confirm_message.txt",
+                    html_template="accounts/account_verification/confirm_message.html",
                 ),
             )
 
