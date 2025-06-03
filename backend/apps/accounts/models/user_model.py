@@ -60,8 +60,6 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         default="",
         error_messages={
             "invalid": "Please enter a valid first name",
-            "null": "First name is required",
-            "blank": "First name cannot be empty",
             "max_length": "First name cannot be longer than 30 characters",
         },
     )
@@ -74,8 +72,6 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         default="",
         error_messages={
             "invalid": "Please enter a valid last name",
-            "null": "Last name is required",
-            "blank": "Last name cannot be empty",
             "max_length": "Last name cannot be longer than 30 characters",
         },
     )
@@ -99,41 +95,25 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         default=True,
         null=False,
         db_index=False,
-        error_messages={
-            "invalid": "Please specify whether the user is active",
-            "null": "Active status is required",
-            "blank": "Active status cannot be empty",
-        },
+        error_messages={"invalid": "Please specify whether the user is active"},
     )
     is_staff = models.BooleanField(
         default=False,
         null=False,
         db_index=False,
-        error_messages={
-            "invalid": "Please specify whether the user is staff",
-            "null": "Staff status is required",
-            "blank": "Staff status cannot be empty",
-        },
+        error_messages={"invalid": "Please specify whether the user is staff"},
     )
     is_superuser = models.BooleanField(
         default=False,
         null=False,
         db_index=False,
-        error_messages={
-            "invalid": "Please specify whether the user is a superuser",
-            "null": "Superuser status is required",
-            "blank": "Superuser status cannot be empty",
-        },
+        error_messages={"invalid": "Please specify whether the user is a superuser"},
     )
     is_verified = models.BooleanField(
         default=False,
         null=False,
         db_index=False,
-        error_messages={
-            "invalid": "Please specify whether the account is verified",
-            "null": "Account verification status is required",
-            "blank": "Account verification status cannot be empty",
-        },
+        error_messages={"invalid": "Please specify whether the account is verified"},
     )
     date_joined = models.DateTimeField(
         auto_now=False,
@@ -141,11 +121,7 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         null=False,
         blank=False,
         db_index=False,
-        error_messages={
-            "invalid": "Please enter a valid date and time",
-            "null": "Date joined is required",
-            "blank": "Date joined cannot be empty",
-        },
+        error_messages={"invalid": "Please enter a valid date and time"},
     )
     last_login = models.DateTimeField(
         auto_now=True,
@@ -153,11 +129,7 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         null=False,
         blank=False,
         db_index=False,
-        error_messages={
-            "invalid": "Please enter a valid date and time",
-            "null": "Last login date is required",
-            "blank": "Last login date cannot be empty",
-        },
+        error_messages={"invalid": "Please enter a valid date and time"},
     )
 
     def __str__(self) -> str:
