@@ -15,15 +15,17 @@ class UserProfileView(APIView):
 
     permission_classes = [IsAuthenticated, IsUserAccountVerified]
     throttle_classes = [UserRateThrottle]
+    cache_key = "user_data"
+
+    def get_cache_key(self, request) -> str:
+        "Return cache key base on user id"
+        return f"{self.cache_key}_{request.user.id}"
 
     def get(self, request) -> Response:
         """Retrieve current user"s profile information."""
 
-        # Define cache key as for user
-        cache_key = f"user_data_{request.user.id}"
-
         # Get cached data if avlaible
-        user_data: dict[str, Any] | None = cache.get(cache_key)
+        user_data: dict[str, Any] | None = cache.get(self.get_cache_key(request))
         if user_data:
             return success_response(
                 message="User profile fetched successfully",
@@ -38,7 +40,11 @@ class UserProfileView(APIView):
         )
 
         # Cached user data of 5 minutes
-        cache.set(cache_key, serializer.data, timeout=300)
+        cache.set(
+            self.get_cache_key(request),
+            serializer.data,
+            timeout=300,
+        )
 
         # Return success response
         return success_response(
@@ -67,6 +73,9 @@ class UserProfileView(APIView):
 
         # Save valid serializer data
         serializer.save()
+
+        # Delete Cahce Key if profile updated.
+        cache.delete(self.get_cache_key(request))
 
         # Return updated data
         return success_response(
