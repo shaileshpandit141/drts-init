@@ -12,7 +12,6 @@ from accounts.views.password_views import (
     PasswordResetConfirmView,
     PasswordResetView,
 )
-from accounts.views.profile_views import UserProfileView
 from accounts.views.signin_views import (
     TokenBlockView,
     TokenRefreshView,
@@ -23,6 +22,7 @@ from accounts.views.signup_views import (
     AccountVerificationView,
     SignupView,
 )
+from accounts.views.user_profile_views import UserProfileView
 from django.urls import path
 
 urlpatterns = [
