@@ -1,5 +1,8 @@
+from typing import Any
+
 from accounts.permissions import IsUserAccountVerified
 from accounts.serializers.user_serializers import UserSerializer
+from django.core.cache import cache
 from rest_core.response import failure_response, success_response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -16,6 +19,17 @@ class UserProfileView(APIView):
     def get(self, request) -> Response:
         """Retrieve current user"s profile information."""
 
+        # Define cache key as for user
+        cache_key = f"user_data_{request.user.id}"
+
+        # Get cached data if avlaible
+        user_data: dict[str, Any] | None = cache.get(cache_key)
+        if user_data:
+            return success_response(
+                message="User profile fetched successfully",
+                data=user_data,
+            )
+
         # Create user serializer instance
         serializer = UserSerializer(
             instance=request.user,
@@ -23,9 +37,12 @@ class UserProfileView(APIView):
             context={"request": request},
         )
 
+        # Cached user data of 5 minutes
+        cache.set(cache_key, serializer.data, timeout=300)
+
         # Return success response
         return success_response(
-            message="User profile data fetched successfully",
+            message="User profile fetched successfully",
             data=serializer.data,
         )
 
