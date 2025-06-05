@@ -358,16 +358,16 @@ wheels = [
 
 [[package]]
 name = "django"
-version = "5.2.1"
+version = "5.2.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asgiref" },
     { name = "sqlparse" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ac/10/0d546258772b8f31398e67c85e52c66ebc2b13a647193c3eef8ee433f1a8/django-5.2.1.tar.gz", hash = "sha256:57fe1f1b59462caed092c80b3dd324fd92161b620d59a9ba9181c34746c97284", size = 10818735, upload-time = "2025-05-07T14:06:17.543Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/39/17/4567ee12bb84114c544d5c4a792e7226db517ac78f552111e9dc62d1de14/django-5.2.2.tar.gz", hash = "sha256:85852e517f84435e9b13421379cd6c43ef5b48a9c8b391d29a26f7900967e952", size = 10827542, upload-time = "2025-06-04T13:52:40.879Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/90/92/7448697b5838b3a1c6e1d2d6a673e908d0398e84dc4f803a2ce11e7ffc0f/django-5.2.1-py3-none-any.whl", hash = "sha256:a9b680e84f9a0e71da83e399f1e922e1ab37b2173ced046b541c72e1589a5961", size = 8301833, upload-time = "2025-05-07T14:06:10.955Z" },
+    { url = "https://files.pythonhosted.org/packages/b4/5c/5d00acab6c062b154e5a0f092938ae5a0c698dbc4362b68e23200960f32c/django-5.2.2-py3-none-any.whl", hash = "sha256:997ef2162d04ead6869551b22cde4e06da1f94cf595f4af3f3d3afeae1f3f6fe", size = 8302562, upload-time = "2025-06-04T13:52:33.14Z" },
 ]
 
 [[package]]
@@ -798,7 +798,7 @@ wheels = [
 
 [[package]]
 name = "rest-core"
-version = "0.1.45"
+version = "0.1.50"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
@@ -806,9 +806,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "pytz" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fa/01/6ba5ee4fc088b5fd527434185805a7fa94b989b394172f9cda00e3e490fb/rest_core-0.1.45.tar.gz", hash = "sha256:ae47006868df804596990ecc74f972985b100d6179848b6a4eb631ed5ee1bcd5", size = 36270, upload-time = "2025-05-23T07:17:18.054Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/27/29/9d1b89c08528eb68027c872bc7d29c005b715611127b49729ccd4b165d96/rest_core-0.1.50.tar.gz", hash = "sha256:1bdc8823ce37d9f6de87f375afb306607cabd5c2091bdedd6352d68b17c9102e", size = 38332, upload-time = "2025-06-05T18:36:20.088Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6c/aa/e77768a063bbc6fcc5917b1045d3efd00c15d2889c2fbe3ef39072515122/rest_core-0.1.45-py3-none-any.whl", hash = "sha256:e7a19498655585d691e84e0126ba3eb8c0152deaa5847de0213b57f339bcf23b", size = 51932, upload-time = "2025-05-23T07:17:15.29Z" },
+    { url = "https://files.pythonhosted.org/packages/77/da/a935379d4db190ec849c634d458c3a6a7da9216387add8cf904d6e7767a1/rest_core-0.1.50-py3-none-any.whl", hash = "sha256:d216a01815257e018f79e42b288f6e420ffedc1a72d63bb95adf9ea1d5bfd0cf", size = 54537, upload-time = "2025-06-05T18:36:17.922Z" },
 ]
 
 [[package]]
