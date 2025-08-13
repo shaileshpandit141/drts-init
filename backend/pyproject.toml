@@ -28,6 +28,7 @@ dependencies = [
   "django-redis==5.4.0",
   "djangorestframework>=3.15.2",
   "djangorestframework-simplejwt==5.3.1",
+  "djangorestframework-stubs>=3.16.1",
   "dns-smtp-email-validator>=0.1.10",
   "dnspython==2.7.0",
   "google-auth==2.38.0",

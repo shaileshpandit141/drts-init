@@ -13,7 +13,7 @@ class SignupView(APIView):
     # throttle_classes = [AuthUserRateThrottle]
 
     def post(self, request) -> Response:
-        """Handle user registration"""
+        """Handle user registration."""
         # Get the verification URL from the request data
         verification_uri = request.data.get("verification_uri", None)
 

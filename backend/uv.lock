@@ -147,6 +147,7 @@ dependencies = [
     { name = "django-redis" },
     { name = "djangorestframework" },
     { name = "djangorestframework-simplejwt" },
+    { name = "djangorestframework-stubs" },
     { name = "dns-smtp-email-validator" },
     { name = "dnspython" },
     { name = "google-auth" },
@@ -216,6 +217,7 @@ requires-dist = [
     { name = "django-redis", specifier = "==5.4.0" },
     { name = "djangorestframework", specifier = ">=3.15.2" },
     { name = "djangorestframework-simplejwt", specifier = "==5.3.1" },
+    { name = "djangorestframework-stubs", specifier = ">=3.16.1" },
     { name = "dns-smtp-email-validator", specifier = ">=0.1.10" },
     { name = "dnspython", specifier = "==2.7.0" },
     { name = "google-auth", specifier = "==2.38.0" },
@@ -563,6 +565,34 @@ wheels = [
 ]
 
 [[package]]
+name = "django-stubs"
+version = "5.2.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "django-stubs-ext" },
+    { name = "types-pyyaml" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bc/27/ab9813da817a29ae69ec92af31ad8fc58ce3c904f23ea604bd3bdd9adc37/django_stubs-5.2.2.tar.gz", hash = "sha256:2a04b510c7a812f88223fd7e6d87fb4ea98717f19c8e5c8b59691d83ad40a8a6", size = 243049, upload-time = "2025-07-17T08:35:02.747Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/55/cb/bb387a1d40691ad54fec2be9e5093becebd63cca0ccb9348cbb27602e1d1/django_stubs-5.2.2-py3-none-any.whl", hash = "sha256:79bd0fdbc78958a8f63e0b062bd9d03f1de539664476c0be62ade5f063c9e41e", size = 485188, upload-time = "2025-07-17T08:35:00.356Z" },
+]
+
+[[package]]
+name = "django-stubs-ext"
+version = "5.2.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fc/06/5e94715d103e6cc72380cb0d0b6682a7d5ad2c366cee478c94d77aad777d/django_stubs_ext-5.2.2.tar.gz", hash = "sha256:d9d151b919fe2438760f5bd938f03e1cb08c84d0651f9e5917f1313907e42683", size = 6244, upload-time = "2025-07-17T08:34:35.054Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4e/38/2903676f97f7902ee31984a06756b0e8836e897f4b617e1a03be4a43eb4f/django_stubs_ext-5.2.2-py3-none-any.whl", hash = "sha256:8833bbe32405a2a0ce168d3f75a87168f61bd16939caf0e8bf173bccbd8a44c5", size = 8816, upload-time = "2025-07-17T08:34:33.715Z" },
+]
+
+[[package]]
 name = "djangorestframework"
 version = "3.16.0"
 source = { registry = "https://pypi.org/simple" }
@@ -586,6 +616,22 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ac/f3/f2ce06fcd1c53e12b26cc5a3ec9e0acd47eb4be02e1d24de50edee5c5abf/djangorestframework_simplejwt-5.3.1.tar.gz", hash = "sha256:6c4bd37537440bc439564ebf7d6085e74c5411485197073f508ebdfa34bc9fae", size = 94266, upload-time = "2023-12-04T06:37:22.761Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f2/ab/88f73cf08d2ad3fb9f71b956dceca5680a57f121e5ce9a604f365877d57e/djangorestframework_simplejwt-5.3.1-py3-none-any.whl", hash = "sha256:381bc966aa46913905629d472cd72ad45faa265509764e20ffd440164c88d220", size = 101339, upload-time = "2023-12-04T06:38:25.362Z" },
+]
+
+[[package]]
+name = "djangorestframework-stubs"
+version = "3.16.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django-stubs" },
+    { name = "requests" },
+    { name = "types-pyyaml" },
+    { name = "types-requests" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5a/c0/c671b8a95534454327335f6c2441f101bc6d63a2c772677ab95e5e899ed6/djangorestframework_stubs-3.16.1.tar.gz", hash = "sha256:8e2662e2a751de5f535fbf7be03b534eb00a89bb9f1937d11a73f568dfb23dd1", size = 34824, upload-time = "2025-07-15T12:28:42.651Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/45/cb/6eb9584b64278355bda5d15c22a347b5c5f1c4b922d30fdc8c30feb76fc1/djangorestframework_stubs-3.16.1-py3-none-any.whl", hash = "sha256:0c8f05469473264603e450619d0466c3e4012ebed124cc0d52ac04dfa32ace00", size = 54697, upload-time = "2025-07-15T12:28:41.378Z" },
 ]
 
 [[package]]
@@ -1234,6 +1280,27 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/51/91/bc9fd5aa84703f874dea27313b11fde505d343f3ef3ad702bddbe20bfd6e/txaio-23.1.1.tar.gz", hash = "sha256:f9a9216e976e5e3246dfd112ad7ad55ca915606b60b84a757ac769bd404ff704", size = 53704, upload-time = "2023-01-15T14:11:27.475Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7d/6c/a53cc9a97c2da76d9cd83c03f377468599a28f2d4ad9fc71c3b99640e71e/txaio-23.1.1-py2.py3-none-any.whl", hash = "sha256:aaea42f8aad50e0ecfb976130ada140797e9dcb85fad2cf72b0f37f8cefcb490", size = 30512, upload-time = "2023-01-15T14:11:24.999Z" },
+]
+
+[[package]]
+name = "types-pyyaml"
+version = "6.0.12.20250809"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/36/21/52ffdbddea3c826bc2758d811ccd7f766912de009c5cf096bd5ebba44680/types_pyyaml-6.0.12.20250809.tar.gz", hash = "sha256:af4a1aca028f18e75297da2ee0da465f799627370d74073e96fee876524f61b5", size = 17385, upload-time = "2025-08-09T03:14:34.867Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/35/3e/0346d09d6e338401ebf406f12eaf9d0b54b315b86f1ec29e34f1a0aedae9/types_pyyaml-6.0.12.20250809-py3-none-any.whl", hash = "sha256:032b6003b798e7de1a1ddfeefee32fac6486bdfe4845e0ae0e7fb3ee4512b52f", size = 20277, upload-time = "2025-08-09T03:14:34.055Z" },
+]
+
+[[package]]
+name = "types-requests"
+version = "2.32.4.20250809"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ed/b0/9355adb86ec84d057fea765e4c49cce592aaf3d5117ce5609a95a7fc3dac/types_requests-2.32.4.20250809.tar.gz", hash = "sha256:d8060de1c8ee599311f56ff58010fb4902f462a1470802cf9f6ed27bc46c4df3", size = 23027, upload-time = "2025-08-09T03:17:10.664Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2b/6f/ec0012be842b1d888d46884ac5558fd62aeae1f0ec4f7a581433d890d4b5/types_requests-2.32.4.20250809-py3-none-any.whl", hash = "sha256:f73d1832fb519ece02c85b1f09d5f0dd3108938e7d47e7f94bbfa18a6782b163", size = 20644, upload-time = "2025-08-09T03:17:09.716Z" },
 ]
 
 [[package]]
