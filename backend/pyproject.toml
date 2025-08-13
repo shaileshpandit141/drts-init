@@ -66,3 +66,15 @@ dependencies = [
   "urllib3==2.3.0",
   "zope-interface==7.2",
 ]
+
+# Autofmt tool configuration
+# ==========================
+[tool.autofmt]
+watch_path = "."
+formatters = ["black", "ruff"]
+cooldown_seconds = 1.0
+
+[dependency-groups]
+dev = [
+    "autofmt>=0.1.1",
+]
