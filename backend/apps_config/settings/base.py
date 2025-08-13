@@ -228,6 +228,36 @@ GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", cast=str)
 GOOGLE_CLIENT_SECRET = config("GOOGLE_CLIENT_SECRET", cast=str)
 GOOGLE_REDIRECT_URI = config("GOOGLE_REDIRECT_URI", cast=str)
 
+# Redis configuration for production
+# ----------------------------------
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": config("REDIS_CACHE_LOCATION", cast=str),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+# Celery Configuration Settings
+# -----------------------------
+# Redis as broker
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+
+# Where results are stored
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+
+# Recommended settings
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+
+# Task time limits (avoid runaway tasks)
+CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 mins
+CELERY_TASK_SOFT_TIME_LIMIT = 25 * 60
+
 # Log-Related Directory Configuration Setup
 # -----------------------------------------
 LOG_DIR = os.path.join(BASE_DIR, "logs")

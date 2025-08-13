@@ -59,18 +59,6 @@ DATABASES = {
     }
 }
 
-# Redis configuration for production
-# ----------------------------------
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": config("REDIS_CACHE_LOCATION", cast=str),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-    }
-}
-
 
 # Security Settings for production environment
 # These settings ensure secure communication and protect against common vulnerabilities
