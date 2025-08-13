@@ -3,6 +3,7 @@
 __pycache__
 .ropeproject
 **/.ruff_cache
+temp/*
 
 # Ignore the backend dependency and cache
 backend/.env
