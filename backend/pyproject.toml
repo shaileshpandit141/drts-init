@@ -13,6 +13,7 @@ dependencies = [
   "autobahn==24.4.2",
   "automat==24.8.1",
   "cachetools==5.5.2",
+  "celery[redis]>=5.5.3",
   "certifi==2025.1.31",
   "cffi==1.17.1",
   "charset-normalizer==3.4.1",
