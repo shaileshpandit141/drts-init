@@ -1,4 +1,5 @@
 from accounts.serializers.signup_serializers import SignupSerializer
+from accounts.tasks import send_signup_email
 from accounts.throttling import AuthUserRateThrottle
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.build_absolute_uri import build_absolute_uri
@@ -9,9 +10,9 @@ from rest_framework.views import APIView
 
 
 class SignupView(APIView):
-    """API view for handling user signup functionality"""
+    """API view for handling user signup functionality."""
 
-    throttle_classes = [AuthUserRateThrottle]
+    # throttle_classes = [AuthUserRateThrottle]
 
     def post(self, request) -> Response:
         """Handle user registration"""
@@ -48,28 +49,14 @@ class SignupView(APIView):
         if verification_uri is None:
             activate_url = build_absolute_uri(
                 request=request,
-                view_name="accounts:verify-account-confirm",
+                view_name="accounts:account-verification-confirm",
                 query_params={"token": token},
             )
         else:
             activate_url = f"{verification_uri}/{token}"
 
-        # Creating the Email Service instance
-        email = EmailService(
-            subject="Verify Your Account",
-            emails=Emails(
-                from_email=None,
-                to_emails=[getattr(user, "email", "Unknown")],
-            ),
-            context={"user": user, "activate_url": activate_url},
-            templates=Templates(
-                text_template="users/verify_account/confirm_message.txt",
-                html_template="users/verify_account/confirm_message.html",
-            ),
-        )
-
-        # Send account verification email
-        email.send(fallback=False)
+        # Send asynchronously email with account verification link
+        send_signup_email.delay(user.id, activate_url)
 
         # Return success response object
         return success_response(
