@@ -3,6 +3,7 @@ from accounts.tasks import send_signup_email
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.build_absolute_uri import build_absolute_uri
 from rest_core.response import failure_response, success_response
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -12,7 +13,7 @@ class SignupView(APIView):
 
     # throttle_classes = [AuthUserRateThrottle]
 
-    def post(self, request) -> Response:
+    def post(self, request: Request) -> Response:
         """Handle user registration."""
         # Get the verification URL from the request data
         verification_uri = request.data.get("verification_uri", None)
@@ -28,10 +29,10 @@ class SignupView(APIView):
 
         # Save serializer data if it valid
         serializer.save()
-        user = serializer.instance
+        user = serializer.instance  # type: ignore  # noqa: PGH003
 
         # Generate verification token and URL
-        generator = LimitedTimeTokenGenerator({"user_id": user.id})
+        generator = LimitedTimeTokenGenerator({"user_id": user.id})  # type: ignore  # noqa: PGH003
         token = generator.generate()
         if token is None:
             return success_response(
