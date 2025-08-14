@@ -77,4 +77,4 @@ formatters = ["black", "ruff"]
 cooldown_seconds = 1.0
 
 [dependency-groups]
-dev = ["autofmt>=0.1.1"]
+dev = ["autofmt>=0.1.1", "mypy>=1.17.1"]

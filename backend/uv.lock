@@ -191,6 +191,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "autofmt" },
+    { name = "mypy" },
 ]
 
 [package.metadata]
@@ -260,7 +261,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "autofmt", specifier = ">=0.1.1" }]
+dev = [
+    { name = "autofmt", specifier = ">=0.1.1" },
+    { name = "mypy", specifier = ">=1.17.1" },
+]
 
 [[package]]
 name = "billiard"
