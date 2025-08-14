@@ -1,5 +1,3 @@
-from accounts.models import User
-from accounts.throttling import AuthUserRateThrottle
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.build_absolute_uri import build_absolute_uri
 from rest_core.email_service import Emails, EmailService, Templates
@@ -7,6 +5,9 @@ from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from apps.accounts.models import User
+from apps.accounts.throttling import AuthUserRateThrottle
 
 
 class AccountVerificationView(ModelObjectMixin[User], APIView):
@@ -17,7 +18,6 @@ class AccountVerificationView(ModelObjectMixin[User], APIView):
 
     def post(self, request) -> Response:
         """Process a request to resend an account verification email."""
-
         # Gatting submitted data from request
         email = request.data.get("email", None)
         verification_uri = request.data.get("verification_uri", None)
@@ -42,7 +42,7 @@ class AccountVerificationView(ModelObjectMixin[User], APIView):
         # Check if user is verified or not
         if not getattr(user, "is_verified", False):
             # Generate verification token and URL
-            generator = LimitedTimeTokenGenerator({"user_id": getattr(user, "id")})
+            generator = LimitedTimeTokenGenerator({"user_id": user.id})
             token = generator.generate()
             if token is None:
                 return failure_response(
@@ -84,9 +84,8 @@ class AccountVerificationView(ModelObjectMixin[User], APIView):
                     "detail": "We've sent a verification link to your email address."
                 },
             )
-        else:
-            # Return already verified success response
-            return success_response(
-                message="Account Already Verified",
-                data={"detail": "Your account has already been verified."},
-            )
+        # Return already verified success response
+        return success_response(
+            message="Account Already Verified",
+            data={"detail": "Your account has already been verified."},
+        )

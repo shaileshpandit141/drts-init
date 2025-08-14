@@ -1,9 +1,10 @@
 from typing import Any
 
-from accounts.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework.serializers import CharField, Serializer, ValidationError
+
+from apps.accounts.models import User
 
 
 class PasswordChangeSerializer(Serializer):

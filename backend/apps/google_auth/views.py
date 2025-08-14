@@ -1,7 +1,5 @@
 from urllib.parse import urlencode
 
-from accounts.models import User
-from accounts.throttling import AuthUserRateThrottle
 from django.conf import settings
 from django.utils import timezone
 from google.auth.transport import requests
@@ -12,6 +10,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from apps.accounts.models import User
+from apps.accounts.throttling import AuthUserRateThrottle
 from core.save_image import save_image
 
 
@@ -52,7 +52,6 @@ class GoogleTokenExchangeView(APIView):
 
     def get(self, request) -> Response:
         """Exchange authorization code for an access token."""
-
         # Get google code from request
         auth_code = request.GET.get("code")
 
@@ -100,7 +99,6 @@ class GoogleCallbackView(APIView):
 
     def post(self, request) -> Response:
         """Verify Google token (ID token or access token)."""
-
         # Get google token from request
         token = request.data.get("token")
 
@@ -172,7 +170,7 @@ class GoogleCallbackView(APIView):
             for field, value in user_data.items():
                 setattr(user, field, value)
 
-            setattr(user, "picture", picture)
+            user.picture = picture
             user.save()
 
             """Generate JWT tokens using Simple JWT."""
@@ -190,7 +188,7 @@ class GoogleCallbackView(APIView):
 
             # Update last login timestamp
             if user:
-                setattr(user, "last_login", timezone.now())
+                user.last_login = timezone.now()
                 user.save(update_fields=["last_login"])
 
             # Return success response

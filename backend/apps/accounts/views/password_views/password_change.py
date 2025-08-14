@@ -1,10 +1,11 @@
-from accounts.serializers.password_serializers import PasswordChangeSerializer
 from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
+
+from apps.accounts.serializers.password_serializers import PasswordChangeSerializer
 
 
 class PasswordChangeView(APIView):
@@ -15,7 +16,6 @@ class PasswordChangeView(APIView):
 
     def post(self, request) -> Response:
         """Changes user password after validation."""
-
         # Creating the serializer instance
         serializer = PasswordChangeSerializer(
             data=request.data,

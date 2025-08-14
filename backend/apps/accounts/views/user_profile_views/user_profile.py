@@ -1,13 +1,14 @@
 from typing import Any
 
-from accounts.permissions import IsUserAccountVerified
-from accounts.serializers.user_serializers import UserSerializer
 from django.core.cache import cache
 from rest_core.response import failure_response, success_response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
+
+from apps.accounts.permissions import IsUserAccountVerified
+from apps.accounts.serializers.user_serializers import UserSerializer
 
 
 class UserProfileView(APIView):
@@ -18,12 +19,11 @@ class UserProfileView(APIView):
     cache_key = "user_data"
 
     def get_cache_key(self, request) -> str:
-        "Return cache key base on user id"
+        """Return cache key base on user id"""
         return f"{self.cache_key}_{request.user.id}"
 
     def get(self, request) -> Response:
         """Retrieve current user"s profile information."""
-
         # Get cached data if avlaible
         user_data: dict[str, Any] | None = cache.get(self.get_cache_key(request))
         if user_data:
@@ -54,7 +54,6 @@ class UserProfileView(APIView):
 
     def patch(self, request) -> Response:
         """Update authenticated user's profile information."""
-
         # Create user serializer instance with new data
         serializer = UserSerializer(
             data=request.data,

@@ -1,12 +1,13 @@
 from typing import Any
 
-from accounts.models import User
 from decouple import config
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from dns_smtp_email_validator import DNSSMTPEmailValidator
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+
+from apps.accounts.models import User
 
 
 class SignupSerializer(serializers.Serializer):
@@ -25,7 +26,6 @@ class SignupSerializer(serializers.Serializer):
 
     def validate(self, attrs) -> Any:
         """Validate the input data for user signup"""
-
         # Extract signup credentials from the request
         email = attrs.get("email", "")
         password = attrs.get("password")

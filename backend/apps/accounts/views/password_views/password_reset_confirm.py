@@ -1,5 +1,3 @@
-from accounts.models import User
-from accounts.throttling import AuthUserRateThrottle
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from limited_time_token_handler import LimitedTimeTokenDecoder
@@ -7,6 +5,9 @@ from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from apps.accounts.models import User
+from apps.accounts.throttling import AuthUserRateThrottle
 
 
 class PasswordResetConfirmView(ModelObjectMixin[User], APIView):
@@ -17,7 +18,6 @@ class PasswordResetConfirmView(ModelObjectMixin[User], APIView):
 
     def post(self, request) -> Response:
         """Handle POST request to confirm and reset password."""
-
         # Get token and new password from request
         token = request.data.get("token", None)
         new_password = request.data.get("new_password", None)
@@ -41,7 +41,6 @@ class PasswordResetConfirmView(ModelObjectMixin[User], APIView):
 
     def _reset_password(self, token: str, new_password: str) -> Response:
         """Handle the password reset password process."""
-
         # Decode token and get user id
         decorder = LimitedTimeTokenDecoder(token)
         if not decorder.is_valid():

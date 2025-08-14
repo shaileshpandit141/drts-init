@@ -1,9 +1,10 @@
 from typing import Any
 
-from accounts.models import User
 from django.utils import timezone
 from rest_framework.serializers import CharField, Serializer, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from apps.accounts.models import User
 
 
 class SigninSerializer(Serializer):
@@ -14,7 +15,6 @@ class SigninSerializer(Serializer):
 
     def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
         """Validate the input data for user sign-in."""
-
         # Extract signin credentials from the request
         email = attrs.get("email", "").strip()
         password = attrs.get("password")
@@ -82,7 +82,7 @@ class SigninSerializer(Serializer):
 
         # Update last login timestamp
         if user:
-            setattr(user, "last_login", timezone.now())
+            user.last_login = timezone.now()
             user.save(update_fields=["last_login"])
 
         # Finaly returning the tokens

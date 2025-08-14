@@ -1,10 +1,11 @@
-from accounts.models import User
-from accounts.throttling import AuthUserRateThrottle
 from limited_time_token_handler import LimitedTimeTokenDecoder
 from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from apps.accounts.models import User
+from apps.accounts.throttling import AuthUserRateThrottle
 
 
 class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
@@ -15,7 +16,6 @@ class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
 
     def get(self, request) -> Response:
         """Handle GET request for account verification."""
-
         # Get token from query parameters
         token = request.query_params.get("token")
 
@@ -24,7 +24,6 @@ class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
 
     def post(self, request) -> Response:
         """Handle POST request for account verification."""
-
         # Get token from request data
         token = request.data.get("token")
 
@@ -33,7 +32,6 @@ class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
 
     def _verify_token(self, token: str) -> Response:
         """Verify the provided token and activate the user account."""
-
         # Check if token is provided or not
         if not token:
             return failure_response(
@@ -70,7 +68,7 @@ class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
             )
 
         # Verify the user account
-        setattr(user, "is_verified", True)
+        user.is_verified = True
         user.save()
 
         # Return success response

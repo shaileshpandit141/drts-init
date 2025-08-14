@@ -1,10 +1,12 @@
-from accounts.models import User
 from rest_core.serializers.mixins import FileFieldUrlMixin
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
+from apps.accounts.models import User
+
 
 class UserSerializer(FileFieldUrlMixin, ModelSerializer):
-    """Serializer for User model that handles serialization and
+    """
+    Serializer for User model that handles serialization and
     deserialization of User objects.
     """
 
@@ -39,7 +41,8 @@ class UserSerializer(FileFieldUrlMixin, ModelSerializer):
 
 
 class UserPublicSerializer(FileFieldUrlMixin, ModelSerializer):
-    """Serializer for User model that handles serialization and
+    """
+    Serializer for User model that handles serialization and
     deserialization of User objects.
     """
 

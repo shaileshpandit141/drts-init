@@ -1,11 +1,12 @@
-from accounts.serializers.signup_serializers import SignupSerializer
-from accounts.tasks import send_signup_email
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.build_absolute_uri import build_absolute_uri
 from rest_core.response import failure_response, success_response
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from apps.accounts.serializers.signup_serializers import SignupSerializer
+from apps.accounts.tasks import send_signup_email
 
 
 class SignupView(APIView):

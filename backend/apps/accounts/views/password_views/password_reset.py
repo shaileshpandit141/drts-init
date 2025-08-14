@@ -1,11 +1,12 @@
-from accounts.models import User
-from accounts.throttling import AuthUserRateThrottle
 from limited_time_token_handler import LimitedTimeTokenGenerator
 from rest_core.email_service import Emails, EmailService, Templates
 from rest_core.response import failure_response, success_response
 from rest_core.views.mixins import ModelObjectMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from apps.accounts.models import User
+from apps.accounts.throttling import AuthUserRateThrottle
 
 
 class PasswordResetView(ModelObjectMixin[User], APIView):
@@ -16,7 +17,6 @@ class PasswordResetView(ModelObjectMixin[User], APIView):
 
     def post(self, request) -> Response:
         """Process reset password request and send reset email."""
-
         # Get email from request
         email = request.data.get("email")
         reset_confirm_uri = request.data.get("reset_confirm_uri", None)
@@ -34,7 +34,7 @@ class PasswordResetView(ModelObjectMixin[User], APIView):
         # Process request for verified users
         if getattr(user, "is_verified", False):
             # Generate password reset token
-            generator = LimitedTimeTokenGenerator({"user_id": getattr(user, "id")})
+            generator = LimitedTimeTokenGenerator({"user_id": user.id})
             token = generator.generate()
             if token is None:
                 return failure_response(
@@ -66,12 +66,11 @@ class PasswordResetView(ModelObjectMixin[User], APIView):
                 message="Forgot password email sent.",
                 data={"detail": "Please check your inbox for the Forgot password."},
             )
-        else:
-            # Return failure response
-            return failure_response(
-                message="Please verify your account to continue.",
-                errors={
-                    "detail": "You must verify your account to access this resource.",
-                    "code": "account_not_varified",
-                },
-            )
+        # Return failure response
+        return failure_response(
+            message="Please verify your account to continue.",
+            errors={
+                "detail": "You must verify your account to access this resource.",
+                "code": "account_not_varified",
+            },
+        )

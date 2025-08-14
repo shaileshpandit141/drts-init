@@ -1,7 +1,5 @@
 from typing import ClassVar
 
-from accounts.managers.user_manager import UserManager
-from accounts.mixins import UniqueUsernameMixin
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import MinLengthValidator
@@ -13,6 +11,9 @@ from django.db.models import (
     EmailField,
     ImageField,
 )
+
+from apps.accounts.managers.user_manager import UserManager
+from apps.accounts.mixins import UniqueUsernameMixin
 
 
 class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):

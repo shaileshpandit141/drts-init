@@ -1,5 +1,4 @@
 import os
-import sys
 from datetime import timedelta
 from pathlib import Path
 from typing import Any
@@ -9,10 +8,6 @@ from decouple import Csv, config
 # Configuration Settings File for the django backend
 # --------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-# Main applications Directory Path Configuration Settings
-# -------------------------------------------------------
-sys.path.append(os.path.join(BASE_DIR, "apps"))
 
 # Security Configuration Settings
 # -------------------------------
@@ -60,8 +55,8 @@ INSTALLED_APPS += [
 # User Define applications Settings
 # ---------------------------------
 INSTALLED_APPS += [
-    "apps.accounts",
-    "apps.google_auth",
+    "apps.accounts.apps.AccountsConfig",
+    "apps.google_auth.apps.GoogleAuthConfig",
 ]
 
 # Middleware Configuration Settings

@@ -1,9 +1,10 @@
-from accounts.models import User
-from accounts.serializers.signin_serializers import SigninSerializer
-from accounts.throttling import AuthUserRateThrottle
 from rest_core.response import failure_response, success_response
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from apps.accounts.models import User
+from apps.accounts.serializers.signin_serializers import SigninSerializer
+from apps.accounts.throttling import AuthUserRateThrottle
 
 
 class TokenRetriveView(APIView):
@@ -12,7 +13,6 @@ class TokenRetriveView(APIView):
 
     def post(self, request) -> Response:
         """Handle user sign-in and JWT token generation."""
-
         # Create a signin serializer instance
         serializer = SigninSerializer(data=request.data)
 

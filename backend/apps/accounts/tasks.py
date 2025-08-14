@@ -1,6 +1,7 @@
-from accounts.models import User
 from celery import shared_task
 from rest_core.email_service import Emails, EmailService, Templates
+
+from apps.accounts.models import User
 
 
 @shared_task
