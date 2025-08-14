@@ -2,26 +2,16 @@
 # -------------------------------------------
 from datetime import timedelta
 
-from decouple import Csv, config
-
 from .base import *  # noqa: F403
 from .base import BASE_DIR, LOGGING, REST_FRAMEWORK, SIMPLE_JWT
 
 # Enable debug mode for development purposes only
 # -----------------------------------------------
-DEBUG = True
+DEBUG = True  # type: ignore[]
 
 # Configure Logging for development
 # ---------------------------------
 LOGGING["loggers"]["django"]["level"] = "DEBUG"
-
-# List of host/domain names that Django can serve
-# -----------------------------------------------
-ALLOWED_HOSTS = config("HOST", cast=Csv())
-
-# Configure CORS Settings
-# -----------------------
-CORS_ALLOWED_ORIGINS = config("FRONTEND_URL", cast=Csv())
 
 # REST Framework Configuration Settings
 # -------------------------------------

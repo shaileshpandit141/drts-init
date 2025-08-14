@@ -1,5 +1,5 @@
 """
-ASGI Configuration for Apps Config Project
+ASGI Configuration for Apps Config Project.
 
 This module configures the ASGI (Asynchronous Server Gateway Interface) for the Django apps config project.
 ASGI provides a standard interface between async-capable Python web servers, frameworks and applications.

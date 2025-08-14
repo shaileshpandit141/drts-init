@@ -51,7 +51,7 @@ dependencies = [
   "pymemcache==4.0.0",
   "pyopenssl==24.3.0",
   "pyparsing==3.2.1",
-  "python-decouple==3.8",
+  "python-dotenv>=1.1.1",
   "pytz>=2024.2",
   "redis==5.2.1",
   "requests==2.32.3",

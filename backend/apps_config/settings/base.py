@@ -1,9 +1,8 @@
-import os
 from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
-from decouple import Csv, config
+from core.environment import GetEnv
 
 # Configuration Settings File for the django backend
 # --------------------------------------------------
@@ -11,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Security Configuration Settings
 # -------------------------------
-SECRET_KEY = config("SECRET_KEY", cast=str)
+SECRET_KEY: str = GetEnv.str("SECRET_KEY")
 
 # DEBUG Configuration Settings
 # ----------------------------
@@ -19,11 +18,15 @@ DEBUG = False
 
 # Allowed Host Configuration Settings
 # -----------------------------------
-ALLOWED_HOSTS = config("HOST", cast=Csv())
+ALLOWED_HOSTS: list[str] = GetEnv.list("HOST")
 
 # Frontend URL Configuration Setting
 # ----------------------------------
-FRONTEND_URL = config("FRONTEND_URL", cast=str)
+FRONTEND_URL = GetEnv.str("FRONTEND_URL")
+
+# Configure CORS Settings
+# -----------------------
+CORS_ALLOWED_ORIGINS: list[str] = GetEnv.list("CORS_ALLOWED_ORIGINS")
 
 # Login Redirect URL Configuration Setting
 # ----------------------------------------
@@ -44,20 +47,24 @@ INSTALLED_APPS = [
 
 # Third-party applications Settings
 # ---------------------------------
-INSTALLED_APPS += [
-    "rest_framework",
-    "rest_framework_simplejwt",
-    "rest_framework_simplejwt.token_blacklist",
-    "corsheaders",
-    "rest_core",
-]
+INSTALLED_APPS.extend(
+    [
+        "rest_framework",
+        "rest_framework_simplejwt",
+        "rest_framework_simplejwt.token_blacklist",
+        "corsheaders",
+        "rest_core",
+    ]
+)
 
 # User Define applications Settings
 # ---------------------------------
-INSTALLED_APPS += [
-    "apps.accounts.apps.AccountsConfig",
-    "apps.google_auth.apps.GoogleAuthConfig",
-]
+INSTALLED_APPS.extend(
+    [
+        "apps.accounts.apps.AccountsConfig",
+        "apps.google_auth.apps.GoogleAuthConfig",
+    ]
+)
 
 # Middleware Configuration Settings
 # ---------------------------------
@@ -205,30 +212,33 @@ AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 
 # EMAIL Configuration Settings
 # ----------------------------
-try:
-    EMAIL_BACKEND = config("EMAIL_BACKEND", cast=str)
-    EMAIL_HOST = config("EMAIL_HOST", cast=str)
-    EMAIL_PORT = config("EMAIL_PORT", cast=int)
-    EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)
-    EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)
-    EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str)
-    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str)
-    DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", cast=str, default=EMAIL_HOST_USER)
-except Exception:
+if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND = GetEnv.str("EMAIL_BACKEND")  # type: ignore[]
+    EMAIL_HOST = GetEnv.str("EMAIL_HOST")
+    EMAIL_PORT = GetEnv.int("EMAIL_PORT")
+    EMAIL_USE_TLS = GetEnv.bool("EMAIL_USE_TLS", default=True)
+    EMAIL_USE_SSL = GetEnv.bool("EMAIL_USE_SSL", default=False)
+    EMAIL_HOST_USER = GetEnv.str("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = GetEnv.str("EMAIL_HOST_PASSWORD")
+    DEFAULT_FROM_EMAIL = GetEnv.str(
+        "DEFAULT_FROM_EMAIL",
+        default=EMAIL_HOST_USER,
+    )
 
 # Google OAuth2 Configuration Settings
 # ------------------------------------
-GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", cast=str)
-GOOGLE_CLIENT_SECRET = config("GOOGLE_CLIENT_SECRET", cast=str)
-GOOGLE_REDIRECT_URI = config("GOOGLE_REDIRECT_URI", cast=str)
+GOOGLE_CLIENT_ID = GetEnv.str("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = GetEnv.str("GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI = GetEnv.str("GOOGLE_REDIRECT_URI")
 
 # Redis configuration for production
 # ----------------------------------
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": config("REDIS_CACHE_LOCATION", cast=str),
+        "LOCATION": GetEnv.str("REDIS_CACHE_LOCATION"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -255,11 +265,11 @@ CELERY_TASK_SOFT_TIME_LIMIT = 25 * 60
 
 # Log-Related Directory Configuration Setup
 # -----------------------------------------
-LOG_DIR = os.path.join(BASE_DIR, "logs")
+LOG_DIR = BASE_DIR / "logs"
 
 # Create log directory if it doesn't exist
 # ----------------------------------------
-os.makedirs(LOG_DIR, exist_ok=True)
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # Logging Configuration Settings
 # ------------------------------
@@ -301,7 +311,7 @@ LOGGING: dict[str, Any] = {
         "file": {
             "level": "INFO",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(LOG_DIR, "django.log"),
+            "filename": LOG_DIR / "django.log",
             "maxBytes": 5 * 1024 * 1024,  # 5MB per file
             "backupCount": 3,  # Keep last 3 log files
             "formatter": "verbose",

@@ -2,26 +2,18 @@
 # -------------------------------------------
 from datetime import timedelta
 
-from decouple import Csv, config
+from core.environment import GetEnv
 
 from .base import *  # noqa: F403
 from .base import LOGGING, REST_FRAMEWORK
 
 # Disable debug mode for production environment for security
 # ----------------------------------------------------------
-DEBUG = False
+DEBUG = False  # type: ignore[]
 
 # Configure Logging for production
 # --------------------------------
 LOGGING["loggers"]["django"]["level"] = "INFO"
-
-# List of host/domain names that Django can serve
-# -----------------------------------------------
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
-
-# Configure CORS Settings
-# -----------------------
-CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=Csv())
 
 # REST Framework Configuration Settings
 # -------------------------------------
@@ -51,11 +43,11 @@ SIMPLE_JWT.update(  # noqa: F405
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME", cast=str),
-        "USER": config("DB_USER", cast=str),
-        "PASSWORD": config("DB_PASSWORD", cast=str),
-        "HOST": config("DB_HOST", cast=str),
-        "PORT": config("DB_PORT", cast=str),
+        "NAME": GetEnv.str("DB_NAME"),
+        "USER": GetEnv.str("DB_USER"),
+        "PASSWORD": GetEnv.str("DB_PASSWORD"),
+        "HOST": GetEnv.str("DB_HOST"),
+        "PORT": GetEnv.str("DB_PORT"),
     }
 }
 

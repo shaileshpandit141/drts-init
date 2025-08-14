@@ -1,5 +1,6 @@
 """
 Django's command-line utility for administrative tasks.
+
 This script serves as the main entry point for Django management commands.
 It handles configuration of the Django environment and executes administrative tasks.
 """
@@ -7,7 +8,10 @@ It handles configuration of the Django environment and executes administrative t
 import os
 import sys
 
-from decouple import config
+from dotenv import load_dotenv
+
+# Load all .env variables
+load_dotenv()
 
 
 def main() -> None:
@@ -26,24 +30,24 @@ def main() -> None:
     # Set the Django settings module path
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "apps_config.settings")
 
-    # Load host and port configuration from environment variables
-    # using python-decouple for safer configuration management
-    HOST = config("HOST", cast=str, default="localhost")
-    PORT = config("PORT", cast=int, default=8000)
+    # Load host and port from environment variables
+    host: str = os.getenv("HOST") or "localhost"
+    port: str = os.getenv("PORT") or "8000"
 
     try:
-        from django.core.management import execute_from_command_line
+        from django.core.management import execute_from_command_line  # noqa: PLC0415
     except ImportError as exc:
-        raise ImportError(
-            "Couldn't import Django. Are you sure it's installed and "
-            "available on your PYTHONPATH environment variable? Did you "
-            "forget to activate a virtual environment?"
-        ) from exc
+        msg: tuple[str, str, str] = (
+            "Could not import Django. Are you sure it is installed and",
+            "available on your PYTHONPATH environment variable? Did you",
+            "forget to activate a virtual environment?",
+        )
+        raise ImportError(*msg) from exc
 
     # If no command is provided or the command is 'runserver',
     # append the host:port configuration to the command
     if len(sys.argv) == 1 or sys.argv[1] == "runserver":
-        sys.argv = sys.argv[:2] + [f"{HOST}:{PORT}"]
+        sys.argv = [*sys.argv[:2], f"{host}:{port}"]
 
     # Execute the Django management command
     execute_from_command_line(sys.argv)
