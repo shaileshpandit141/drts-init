@@ -47,6 +47,7 @@ dependencies = [
   "pyasn1==0.6.1",
   "pyasn1-modules==0.4.1",
   "pycparser==2.22",
+  "pydantic-settings>=2.10.1",
   "pyjwt==2.10.1",
   "pymemcache==4.0.0",
   "pyopenssl==24.3.0",
