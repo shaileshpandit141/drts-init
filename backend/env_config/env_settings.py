@@ -22,12 +22,12 @@ class RedisConfig(BaseModel):
 class EmailConfig(BaseModel):
     backend: str
     host: str
-    port: str
+    port: int
     use_tls: bool
     use_ssl: bool
     host_user: str
     host_password: str
-    from_email: str
+    default_from_email: str
 
 
 class GoogleOAuth2Config(BaseModel):
