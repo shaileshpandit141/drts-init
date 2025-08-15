@@ -48,6 +48,7 @@ class EnvSettings(BaseSettings):
     environ: Literal["dev", "prod"]
     email_verification: bool
     allowed_hosts: list[str]
+    cors_allowed_origins: list[str]
     database: DatabaseConfig
     redis: RedisConfig
     email: EmailConfig
