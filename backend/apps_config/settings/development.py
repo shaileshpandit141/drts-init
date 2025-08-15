@@ -43,7 +43,7 @@ SIMPLE_JWT.update(
 
 # SQLite Database Configuration for development environment
 # ---------------------------------------------------------
-DATABASES = {
+DATABASES: dict[str, dict[str, object]] = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",

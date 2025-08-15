@@ -1,5 +1,6 @@
 from urllib.parse import urlencode
 
+from core.save_image import save_image
 from django.conf import settings
 from django.utils import timezone
 from google.auth.transport import requests
@@ -12,7 +13,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.models import User
 from apps.accounts.throttling import AuthUserRateThrottle
-from core.save_image import save_image
 
 
 class GoogleLoginView(APIView):

@@ -8,10 +8,7 @@ It handles configuration of the Django environment and executes administrative t
 import os
 import sys
 
-from dotenv import load_dotenv
-
-# Load all .env variables
-load_dotenv()
+from env_config import env_settings
 
 
 def main() -> None:
@@ -30,10 +27,6 @@ def main() -> None:
     # Set the Django settings module path
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "apps_config.settings")
 
-    # Load host and port from environment variables
-    host: str = os.getenv("HOST") or "localhost"
-    port: str = os.getenv("PORT") or "8000"
-
     try:
         from django.core.management import execute_from_command_line  # noqa: PLC0415
     except ImportError as exc:
@@ -47,7 +40,7 @@ def main() -> None:
     # If no command is provided or the command is 'runserver',
     # append the host:port configuration to the command
     if len(sys.argv) == 1 or sys.argv[1] == "runserver":
-        sys.argv = [*sys.argv[:2], f"{host}:{port}"]
+        sys.argv = [*sys.argv[:2], f"{env_settings.host}:{env_settings.port}"]
 
     # Execute the Django management command
     execute_from_command_line(sys.argv)

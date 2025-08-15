@@ -1,9 +1,10 @@
 from typing import Any
 
-from decouple import config
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from dns_smtp_email_validator import DNSSMTPEmailValidator
+
+# from dns_smtp_email_validator import DNSSMTPEmailValidator
+from env_config import env_settings
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -25,31 +26,26 @@ class SignupSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs) -> Any:
-        """Validate the input data for user signup"""
+        """Validate the input data for user signup."""
         # Extract signup credentials from the request
         email = attrs.get("email", "")
         password = attrs.get("password")
         confirm_password = attrs.get("confirm_password")
 
-        # Check if email verification is required
-        DNS_SMTP_EMAIL_VERIFICATION = config(
-            "DNS_SMTP_EMAIL_VERIFICATION", default=True, cast=bool
-        )
-
         # Validate the email is exist in the internet or not
-        if DNS_SMTP_EMAIL_VERIFICATION:
-            validator = DNSSMTPEmailValidator(email)
-            if not validator.is_valid():
-                raise serializers.ValidationError(
-                    detail=validator.errors,
-                    code="invalid_email",
-                )
+        # if env_settings.email_verification:
+        #     validator = DNSSMTPEmailValidator(email)
+        #     if not validator.is_valid():
+        #         raise serializers.ValidationError(
+        #             detail=validator.errors,
+        #             code="invalid_email",
+        #         )
 
         # Validate password meets requirements
         try:
             validate_password(password)
         except ValidationError as error:
-            raise serializers.ValidationError({"password": error.messages})
+            raise serializers.ValidationError({"password": error.messages}) from error
 
         # Validate password and confirm password match or not
         if password != confirm_password:

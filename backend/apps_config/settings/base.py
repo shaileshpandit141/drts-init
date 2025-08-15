@@ -2,7 +2,7 @@ from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
-from core.environment import GetEnv
+from env_config import env_settings
 
 # Configuration Settings File for the django backend
 # --------------------------------------------------
@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Security Configuration Settings
 # -------------------------------
-SECRET_KEY: str = GetEnv.str("SECRET_KEY")
+SECRET_KEY = env_settings.secret_key
 
 # DEBUG Configuration Settings
 # ----------------------------
@@ -18,15 +18,11 @@ DEBUG = False
 
 # Allowed Host Configuration Settings
 # -----------------------------------
-ALLOWED_HOSTS: list[str] = GetEnv.list("HOST")
-
-# Frontend URL Configuration Setting
-# ----------------------------------
-FRONTEND_URL = GetEnv.str("FRONTEND_URL")
+ALLOWED_HOSTS = env_settings.allowed_hosts
 
 # Configure CORS Settings
 # -----------------------
-CORS_ALLOWED_ORIGINS: list[str] = GetEnv.list("CORS_ALLOWED_ORIGINS")
+CORS_ALLOWED_ORIGINS = env_settings.cors_allowed_origins
 
 # Login Redirect URL Configuration Setting
 # ----------------------------------------
@@ -212,33 +208,31 @@ AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 
 # EMAIL Configuration Settings
 # ----------------------------
-if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+if env_settings.email_verification:
+    EMAIL_BACKEND = env_settings.email.backend  # type: ignore[]
+    EMAIL_HOST = env_settings.email.host
+    EMAIL_PORT = env_settings.email.port
+    EMAIL_USE_TLS = env_settings.email.use_tls
+    EMAIL_USE_SSL = env_settings.email.use_ssl
+    EMAIL_HOST_USER = env_settings.email.host_user
+    EMAIL_HOST_PASSWORD = env_settings.email.host_password
+    DEFAULT_FROM_EMAIL = env_settings.email.default_from_email
 else:
-    EMAIL_BACKEND = GetEnv.str("EMAIL_BACKEND")  # type: ignore[]
-    EMAIL_HOST = GetEnv.str("EMAIL_HOST")
-    EMAIL_PORT = GetEnv.int("EMAIL_PORT")
-    EMAIL_USE_TLS = GetEnv.bool("EMAIL_USE_TLS", default=True)
-    EMAIL_USE_SSL = GetEnv.bool("EMAIL_USE_SSL", default=False)
-    EMAIL_HOST_USER = GetEnv.str("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = GetEnv.str("EMAIL_HOST_PASSWORD")
-    DEFAULT_FROM_EMAIL = GetEnv.str(
-        "DEFAULT_FROM_EMAIL",
-        default=EMAIL_HOST_USER,
-    )
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # type: ignore[]
+
 
 # Google OAuth2 Configuration Settings
 # ------------------------------------
-GOOGLE_CLIENT_ID = GetEnv.str("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = GetEnv.str("GOOGLE_CLIENT_SECRET")
-GOOGLE_REDIRECT_URI = GetEnv.str("GOOGLE_REDIRECT_URI")
+GOOGLE_CLIENT_ID = env_settings.google.client_id
+GOOGLE_CLIENT_SECRET = env_settings.google.client_secret
+GOOGLE_REDIRECT_URI = env_settings.google.redirect_url
 
 # Redis configuration for production
 # ----------------------------------
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": GetEnv.str("REDIS_CACHE_LOCATION"),
+        "LOCATION": env_settings.redis.cache_location,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },

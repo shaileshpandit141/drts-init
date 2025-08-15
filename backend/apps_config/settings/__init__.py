@@ -1,19 +1,13 @@
-from decouple import config
+from env_config import env_settings
+from exceptions import MissingEnvironmentVariableError
 
-# Get Django environment setting with None as default
-ENV = config("DJANGO_ENV", default=None)
-
-# Validate that DJANGO_ENV is set
-if ENV is None:
-    raise Exception("DJANGO_ENV environment variable is not set")
+environ = env_settings.environ
 
 # Import settings based on environment
-if ENV == "development":
+if environ == "dev":
     from .development import *  # noqa: F403
-elif ENV == "production":
+elif environ == "prod":
     from .production import *  # noqa: F403
 else:
-    # Raise error if ENV value is not one of the allowed options
-    raise Exception(
-        "Please define the DJANGO_ENV mode as development, production, or testing"
-    )
+    msg: str = "Please define the Environ mode as dev, prod"
+    raise MissingEnvironmentVariableError(msg)

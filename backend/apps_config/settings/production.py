@@ -2,7 +2,7 @@
 # -------------------------------------------
 from datetime import timedelta
 
-from core.environment import GetEnv
+from env_config import env_settings
 
 from .base import *  # noqa: F403
 from .base import LOGGING, REST_FRAMEWORK
@@ -40,14 +40,14 @@ SIMPLE_JWT.update(  # noqa: F405
 
 # PostgreSQL database configuration Settings
 # ------------------------------------------
-DATABASES = {
+DATABASES: dict[str, dict[str, object]] = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": GetEnv.str("DB_NAME"),
-        "USER": GetEnv.str("DB_USER"),
-        "PASSWORD": GetEnv.str("DB_PASSWORD"),
-        "HOST": GetEnv.str("DB_HOST"),
-        "PORT": GetEnv.str("DB_PORT"),
+        "ENGINE": env_settings.database.engine,
+        "NAME": env_settings.database.name,
+        "USER": env_settings.database.user,
+        "PASSWORD": env_settings.database.password,
+        "HOST": env_settings.database.host,
+        "PORT": env_settings.database.port,
     }
 }
 
