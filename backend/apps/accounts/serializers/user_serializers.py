@@ -1,33 +1,26 @@
+from typing import ClassVar
+
 from rest_core.serializers.mixins import FileFieldUrlMixin
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from apps.accounts.models import User
 
 
-class UserSerializer(FileFieldUrlMixin, ModelSerializer):
-    """
-    Serializer for User model that handles serialization and
-    deserialization of User objects.
-    """
+class UserSerializer(FileFieldUrlMixin, ModelSerializer[User]):
+    """Serializer for User model."""
 
     # Get the full name of the user
     full_name = SerializerMethodField(read_only=True)
+    s = ModelSerializer.Meta()
 
-    class Meta:
+    class Meta:  # type: ignore[override]
         model = User
-        fields = [
-            "id",
-            "email",
-            "username",
-            "first_name",
-            "last_name",
-            "full_name",
-            "picture",
-            "is_verified",
-            "is_staff",
-            "is_superuser",
+        exclude: ClassVar[list[str]] = [
+            "is_active",
+            "date_joined",
+            "last_login",
         ]
-        read_only_fields = [
+        read_only_fields: ClassVar[list[str]] = [
             "id",
             "email",
             "is_verified",
@@ -35,23 +28,20 @@ class UserSerializer(FileFieldUrlMixin, ModelSerializer):
             "is_superuser",
         ]
 
-    def get_full_name(self, obj) -> str:
-        """Return the full name of the user."""
+    def get_full_name(self, obj: User) -> str:
+        """Return the full name."""
         return obj.get_full_name()
 
 
-class UserPublicSerializer(FileFieldUrlMixin, ModelSerializer):
-    """
-    Serializer for User model that handles serialization and
-    deserialization of User objects.
-    """
+class UserPublicSerializer(FileFieldUrlMixin, ModelSerializer[User]):
+    """Serializer for User model."""
 
     # Get the full name of the user
     full_name = SerializerMethodField(read_only=True)
 
-    class Meta:
+    class Meta:  # type: ignore[override]
         model = User
-        fields = [
+        fields: ClassVar[list[str]] = [
             "id",
             "email",
             "username",
@@ -60,8 +50,11 @@ class UserPublicSerializer(FileFieldUrlMixin, ModelSerializer):
             "full_name",
             "picture",
         ]
-        read_only_fields = ["id", "email"]
+        read_only_fields: ClassVar[list[str]] = [
+            "id",
+            "email",
+        ]
 
-    def get_full_name(self, obj) -> str:
+    def get_full_name(self, obj: User) -> str:
         """Return the full name of the user."""
         return obj.get_full_name()
