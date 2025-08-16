@@ -1,6 +1,5 @@
 from urllib.parse import urlencode
 
-from core.save_image import save_image
 from django.conf import settings
 from django.utils import timezone
 from google.auth.transport import requests
@@ -140,7 +139,6 @@ class GoogleCallbackView(APIView):
 
             # Extract user details
             email = google_data.get("email")
-            profile_picture = google_data.get("picture")
 
             # Check user email is valid or not
             if not email:
@@ -151,9 +149,6 @@ class GoogleCallbackView(APIView):
                     },
                 )
 
-            # Handle user profile picture
-            picture = save_image(User, "picture", profile_picture, email)
-
             user_data = {
                 "first_name": google_data.get("given_name"),
                 "last_name": google_data.get("family_name"),
@@ -161,7 +156,7 @@ class GoogleCallbackView(APIView):
             }
 
             # Save user and generate JWT tokens
-            user, created = User.objects.get_or_create(
+            user, _ = User.objects.get_or_create(
                 email=email,
                 defaults=user_data,
             )
@@ -170,7 +165,6 @@ class GoogleCallbackView(APIView):
             for field, value in user_data.items():
                 setattr(user, field, value)
 
-            user.picture = picture
             user.save()
 
             """Generate JWT tokens using Simple JWT."""
@@ -188,7 +182,7 @@ class GoogleCallbackView(APIView):
 
             # Update last login timestamp
             if user:
-                user.last_login = timezone.now()
+                user.last_login = str(timezone.now())
                 user.save(update_fields=["last_login"])
 
             # Return success response
