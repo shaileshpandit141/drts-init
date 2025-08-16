@@ -47,7 +47,6 @@ class EnvSettings(BaseSettings):
     host: str
     port: int
     environ: Literal["dev", "prod"]
-    email_verification: bool
     allowed_hosts: list[str]
     cors_allowed_origins: list[str]
     database: DatabaseConfig
