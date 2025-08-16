@@ -35,9 +35,9 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"  # Use email as the unique identifier
-    REQUIRED_FIELDS: ClassVar[list[str]] = (
-        []
-    )  # Email & password are required by default
+    REQUIRED_FIELDS: ClassVar[
+        list[str]
+    ] = []  # Email & password are required by default
 
     email: EmailField[str, str] = EmailField(
         max_length=254,
@@ -156,11 +156,11 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         """Returns the user's first name if it exists."""
         return (str(self.first_name)).strip()
 
-    def get_full_name(self) -> str | None:
+    def get_full_name(self) -> str:
         """Returns the user"s full name otherwise None."""
         if self.first_name and self.last_name:
             return f"{self.first_name} {self.last_name}".strip()
-        return None
+        return self.email
 
     def save(self, *args: tuple[str], **kwargs: object) -> None:
         """Override the save method to generate a unique username."""
