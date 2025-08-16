@@ -11,14 +11,20 @@ class UserSerializer(FileFieldUrlMixin, ModelSerializer[User]):
 
     # Get the full name of the user
     full_name = SerializerMethodField(read_only=True)
-    s = ModelSerializer.Meta()
 
     class Meta:  # type: ignore[override]
         model = User
-        exclude: ClassVar[list[str]] = [
-            "is_active",
-            "date_joined",
-            "last_login",
+        fields: ClassVar[list[str]] = [
+            "id",
+            "full_name",
+            "email",
+            "username",
+            "first_name",
+            "last_name",
+            "picture",
+            "is_staff",
+            "is_superuser",
+            "is_verified",
         ]
         read_only_fields: ClassVar[list[str]] = [
             "id",

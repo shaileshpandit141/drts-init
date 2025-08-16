@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import Any, ClassVar
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.validators import UnicodeUsernameValidator
@@ -13,6 +13,8 @@ from django.db.models import (
     EmailField,
     ImageField,
 )
+from django.utils import timezone
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.managers.user_manager import UserManager
 from apps.accounts.mixins import UniqueUsernameMixin
@@ -170,3 +172,23 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
 
         # Call the parent class's save method
         super().save(*args, **kwargs)  # type: ignore  # noqa: PGH003
+
+    def get_jwt_tokens(
+        self,
+        *,
+        access: bool = True,
+    ) -> dict[str, Any]:
+        """Generate Jwt token."""
+        refresh_token = RefreshToken.for_user(self)
+        tokens: dict[str, Any] = {
+            "refresh_token": str(refresh_token),
+        }
+        if access:
+            access_token: str = str(refresh_token.access_token)  # type: ignore  # noqa: PGH003
+            tokens["access_token"] = access_token
+
+        # Update last_login timestamp
+        self.last_login = str(timezone.now())
+        self.save(update_fields=["last_login"])
+
+        return tokens

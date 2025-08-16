@@ -208,7 +208,7 @@ AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 
 # EMAIL Configuration Settings
 # ----------------------------
-if env_settings.email_verification:
+if env_settings.environ == "prod":
     EMAIL_BACKEND = env_settings.email.backend  # type: ignore[]
     EMAIL_HOST = env_settings.email.host
     EMAIL_PORT = env_settings.email.port

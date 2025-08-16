@@ -1,5 +1,9 @@
+from collections.abc import Sequence
+
 from rest_core.response import failure_response, success_response
+from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.throttling import BaseThrottle
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
@@ -8,10 +12,14 @@ from apps.accounts.throttling import AuthUserRateThrottle
 
 
 class TokenRetriveView(APIView):
-    throttle_classes = [AuthUserRateThrottle]
+    """Handle token retrival."""
+
+    throttle_classes: Sequence[type[BaseThrottle]] = [
+        AuthUserRateThrottle,
+    ]
     queryset = User.objects.filter(is_active=True)
 
-    def post(self, request) -> Response:
+    def post(self, request: Request) -> Response:
         """Handle user sign-in and JWT token generation."""
         # Create a signin serializer instance
         serializer = SigninSerializer(data=request.data)
@@ -20,14 +28,14 @@ class TokenRetriveView(APIView):
         if not serializer.is_valid():
             return failure_response(
                 message="Sign in failed - Invalid credentials.",
-                errors=serializer.errors,
+                errors=serializer.errors,  # type: ignore[]
             )
 
-        # Get the JWT by calling save method of the serializer
-        jwt_tokens = serializer.save()
+        # Calling save method and get user
+        user = serializer.save()
 
         # Return the success response with JWT tokens
         return success_response(
             message="Welcome back! You have successfully signed in.",
-            data=jwt_tokens,
+            data=user.get_jwt_tokens(),
         )
