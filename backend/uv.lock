@@ -149,7 +149,6 @@ dependencies = [
     { name = "djangorestframework" },
     { name = "djangorestframework-simplejwt" },
     { name = "djangorestframework-stubs" },
-    { name = "dns-smtp-email-validator" },
     { name = "dnspython" },
     { name = "google-auth" },
     { name = "google-auth-httplib2" },
@@ -186,6 +185,7 @@ dependencies = [
     { name = "twisted" },
     { name = "txaio" },
     { name = "typing-extensions" },
+    { name = "univalidator" },
     { name = "urllib3" },
     { name = "zope-interface" },
 ]
@@ -223,7 +223,6 @@ requires-dist = [
     { name = "djangorestframework", specifier = ">=3.15.2" },
     { name = "djangorestframework-simplejwt", specifier = "==5.3.1" },
     { name = "djangorestframework-stubs", specifier = ">=3.16.1" },
-    { name = "dns-smtp-email-validator", specifier = ">=0.1.10" },
     { name = "dnspython", specifier = "==2.7.0" },
     { name = "google-auth", specifier = "==2.38.0" },
     { name = "google-auth-httplib2", specifier = "==0.2.0" },
@@ -260,6 +259,7 @@ requires-dist = [
     { name = "twisted", specifier = "==24.11.0" },
     { name = "txaio", specifier = "==23.1.1" },
     { name = "typing-extensions", specifier = "==4.12.2" },
+    { name = "univalidator", specifier = ">=0.2.1" },
     { name = "urllib3", specifier = "==2.3.0" },
     { name = "zope-interface", specifier = "==7.2" },
 ]
@@ -645,19 +645,6 @@ wheels = [
 ]
 
 [[package]]
-name = "dns-smtp-email-validator"
-version = "0.1.12"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "dnspython" },
-    { name = "load-dotenv" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/ed/39/eda8dd3de8c6352ffcad7ddf57fff2b3bc79b8455bcbc9af330efd9ea3e1/dns_smtp_email_validator-0.1.12.tar.gz", hash = "sha256:10fd42ff31d595960a4d31ddfdad3b1477127a558f6085573238e579473769c3", size = 5739, upload-time = "2025-05-22T17:50:10.513Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/19/b3/0419658efd9a43c4ab15c9b914202ed3f40088a4f658eb235c02eccd8fce/dns_smtp_email_validator-0.1.12-py3-none-any.whl", hash = "sha256:d39d6f637f01fef96c7be0c2449ba50ec0e21261b799ecbd53656a8dab98c34c", size = 7087, upload-time = "2025-05-22T17:50:09.497Z" },
-]
-
-[[package]]
 name = "dnspython"
 version = "2.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -791,18 +778,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a6/e9/eee38ee793d855e1efdccd4149ca31707c664853defbaa808079c81191e8/limited-time-token-handler-0.1.9.tar.gz", hash = "sha256:e1ae9e4f8fb4802df91d01de38a7eab0fcf224faf9c5736a6c23b438d404b0b1", size = 5411, upload-time = "2025-02-23T06:23:44.009Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e2/48/4a6020e6f835a7ed463f8ab67622aed20e489da4620d366b2a07654aaf8c/limited_time_token_handler-0.1.9-py3-none-any.whl", hash = "sha256:fbded97f4997091e745bd8d13bac6e649837be6adabd1c1de1822895955b1185", size = 6766, upload-time = "2025-02-23T06:23:37.503Z" },
-]
-
-[[package]]
-name = "load-dotenv"
-version = "0.1.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "python-dotenv" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/d7/95/055d123dde74bd54b99b27a3c2d8c6e218f544e0bd437480f61ccf85a07f/load-dotenv-0.1.0.tar.gz", hash = "sha256:bbe5f40072d4a61eadca66de6c222df5a2d935d6d41b703be1ff75396f635145", size = 6404, upload-time = "2022-09-02T19:55:01.349Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/14/2e/268a528dfa1f76999435634b0453fdd917ea878a818a6d5981632f7acffb/load_dotenv-0.1.0-py3-none-any.whl", hash = "sha256:614803f720153fb8a5f97124a72aaa3930a67aa5547cbe8603d01ea7f9ac1adf", size = 7175, upload-time = "2022-09-02T19:54:59.85Z" },
 ]
 
 [[package]]
@@ -1372,6 +1347,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/95/32/1a225d6164441be760d75c2c42e2780dc0873fe382da3e98a2e1e48361e5/tzdata-2025.2.tar.gz", hash = "sha256:b60a638fcc0daffadf82fe0f57e53d06bdec2f36c4df66280ae79bce6bd6f2b9", size = 196380, upload-time = "2025-03-23T13:54:43.652Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5c/23/c7abc0ca0a1526a0774eca151daeb8de62ec457e77262b66b359c3c7679e/tzdata-2025.2-py2.py3-none-any.whl", hash = "sha256:1a403fada01ff9221ca8044d701868fa132215d84beb92242d9acd2147f667a8", size = 347839, upload-time = "2025-03-23T13:54:41.845Z" },
+]
+
+[[package]]
+name = "univalidator"
+version = "0.2.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dnspython" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1f/6a/7f993894619cdd9ced1d87f41bbfb18087f0505e17087b5561db2b7ac5f6/univalidator-0.2.1.tar.gz", hash = "sha256:6b5d0f6122f20e30cf2ecad492457b49796431b61dda4f2122c908aa479bc04c", size = 13000, upload-time = "2025-08-16T06:19:14.309Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fc/19/ebda221b1a27ddd112834669789baf341747f6fa7b20b001f4757fe9f251/univalidator-0.2.1-py3-none-any.whl", hash = "sha256:eb3fe8fff2145777327c9ef91f970d9b40c879c6b8b4d4e8c41edb42b9918d6a", size = 8901, upload-time = "2025-08-16T06:19:12.208Z" },
 ]
 
 [[package]]

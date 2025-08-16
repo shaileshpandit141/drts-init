@@ -30,7 +30,6 @@ dependencies = [
   "djangorestframework>=3.15.2",
   "djangorestframework-simplejwt==5.3.1",
   "djangorestframework-stubs>=3.16.1",
-  "dns-smtp-email-validator>=0.1.10",
   "dnspython==2.7.0",
   "google-auth==2.38.0",
   "google-auth-httplib2==0.2.0",
@@ -67,6 +66,7 @@ dependencies = [
   "twisted==24.11.0",
   "txaio==23.1.1",
   "typing-extensions==4.12.2",
+  "univalidator>=0.2.1",
   "urllib3==2.3.0",
   "zope-interface==7.2",
 ]
