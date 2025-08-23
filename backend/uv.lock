@@ -223,7 +223,7 @@ requires-dist = [
     { name = "djangorestframework", specifier = ">=3.15.2" },
     { name = "djangorestframework-simplejwt", specifier = "==5.3.1" },
     { name = "djangorestframework-stubs", specifier = ">=3.16.1" },
-    { name = "djresttoolkit", specifier = ">=0.17.0" },
+    { name = "djresttoolkit", specifier = ">=0.17.2" },
     { name = "dnspython", specifier = "==2.7.0" },
     { name = "google-auth", specifier = "==2.38.0" },
     { name = "google-auth-httplib2", specifier = "==0.2.0" },
@@ -646,7 +646,7 @@ wheels = [
 
 [[package]]
 name = "djresttoolkit"
-version = "0.17.0"
+version = "0.17.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "faker" },
@@ -654,9 +654,9 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/55/d3/0b5cb8fe6b1df91fefb1344b0b8624d5a92f604ee72620ccd2870b047796/djresttoolkit-0.17.0.tar.gz", hash = "sha256:9a09b46fb98436388f832adbb9110ca89f4d7c2560326348cac2da496f87ae25", size = 36701, upload-time = "2025-08-23T15:26:56.411Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/11/3a/2ac7aba96ef2786c51bf9717eb482d2433ff782f7252093ae609c40301d0/djresttoolkit-0.17.2.tar.gz", hash = "sha256:1ca4fc5f2b4642e0b218471de364aafce32c6582d192dad9dd5251d061bd6627", size = 1100809, upload-time = "2025-08-23T15:58:23.048Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9c/7d/aa0823cb57ccd93e56e0ed9603ec0f7a30320c9a69eb66c3eeae9797b53c/djresttoolkit-0.17.0-py3-none-any.whl", hash = "sha256:171f17fa6bc28738be9910b1983b5b5f3bdc80c0ac49fcec42d37c88a1df36e1", size = 54371, upload-time = "2025-08-23T15:26:52.975Z" },
+    { url = "https://files.pythonhosted.org/packages/e3/83/56601cbc5d6706cfa1bc8aef9eaa2b0b7aa2544a89704ed5dafc73443fc4/djresttoolkit-0.17.2-py3-none-any.whl", hash = "sha256:c69aadfb8553e673609debd4edf1a0468d1b514a86ef3e7e71e200eb4e2a0529", size = 42730, upload-time = "2025-08-23T15:58:02.829Z" },
 ]
 
 [[package]]
