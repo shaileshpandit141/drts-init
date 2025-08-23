@@ -149,6 +149,7 @@ dependencies = [
     { name = "djangorestframework" },
     { name = "djangorestframework-simplejwt" },
     { name = "djangorestframework-stubs" },
+    { name = "djresttoolkit" },
     { name = "dnspython" },
     { name = "google-auth" },
     { name = "google-auth-httplib2" },
@@ -176,7 +177,6 @@ dependencies = [
     { name = "redis" },
     { name = "requests" },
     { name = "requests-oauthlib" },
-    { name = "rest-core" },
     { name = "rest-framework-simplejwt" },
     { name = "rsa" },
     { name = "service-identity" },
@@ -223,6 +223,7 @@ requires-dist = [
     { name = "djangorestframework", specifier = ">=3.15.2" },
     { name = "djangorestframework-simplejwt", specifier = "==5.3.1" },
     { name = "djangorestframework-stubs", specifier = ">=3.16.1" },
+    { name = "djresttoolkit", specifier = ">=0.17.0" },
     { name = "dnspython", specifier = "==2.7.0" },
     { name = "google-auth", specifier = "==2.38.0" },
     { name = "google-auth-httplib2", specifier = "==0.2.0" },
@@ -250,7 +251,6 @@ requires-dist = [
     { name = "redis", specifier = "==5.2.1" },
     { name = "requests", specifier = "==2.32.3" },
     { name = "requests-oauthlib", specifier = "==2.0.0" },
-    { name = "rest-core", specifier = ">=0.1.40" },
     { name = "rest-framework-simplejwt", specifier = "==0.0.2" },
     { name = "rsa", specifier = "==4.9" },
     { name = "service-identity", specifier = "==24.2.0" },
@@ -645,12 +645,39 @@ wheels = [
 ]
 
 [[package]]
+name = "djresttoolkit"
+version = "0.17.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "faker" },
+    { name = "pydantic" },
+    { name = "pydantic-settings" },
+    { name = "pyyaml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/55/d3/0b5cb8fe6b1df91fefb1344b0b8624d5a92f604ee72620ccd2870b047796/djresttoolkit-0.17.0.tar.gz", hash = "sha256:9a09b46fb98436388f832adbb9110ca89f4d7c2560326348cac2da496f87ae25", size = 36701, upload-time = "2025-08-23T15:26:56.411Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9c/7d/aa0823cb57ccd93e56e0ed9603ec0f7a30320c9a69eb66c3eeae9797b53c/djresttoolkit-0.17.0-py3-none-any.whl", hash = "sha256:171f17fa6bc28738be9910b1983b5b5f3bdc80c0ac49fcec42d37c88a1df36e1", size = 54371, upload-time = "2025-08-23T15:26:52.975Z" },
+]
+
+[[package]]
 name = "dnspython"
 version = "2.7.0"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/b5/4a/263763cb2ba3816dd94b08ad3a33d5fdae34ecb856678773cc40a3605829/dnspython-2.7.0.tar.gz", hash = "sha256:ce9c432eda0dc91cf618a5cedf1a4e142651196bbcd2c80e89ed5a907e5cfaf1", size = 345197, upload-time = "2024-10-05T20:14:59.362Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/68/1b/e0a87d256e40e8c888847551b20a017a6b98139178505dc7ffb96f04e954/dnspython-2.7.0-py3-none-any.whl", hash = "sha256:b4c34b7d10b51bcc3a5071e7b8dee77939f1e878477eeecc965e9835f63c6c86", size = 313632, upload-time = "2024-10-05T20:14:57.687Z" },
+]
+
+[[package]]
+name = "faker"
+version = "37.5.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tzdata" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ce/5d/7797a74e8e31fa227f0303239802c5f09b6722bdb6638359e7b6c8f30004/faker-37.5.3.tar.gz", hash = "sha256:8315d8ff4d6f4f588bd42ffe63abd599886c785073e26a44707e10eeba5713dc", size = 1907147, upload-time = "2025-07-30T15:52:19.528Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4b/bf/d06dd96e7afa72069dbdd26ed0853b5e8bd7941e2c0819a9b21d6e6fc052/faker-37.5.3-py3-none-any.whl", hash = "sha256:386fe9d5e6132a915984bf887fcebcc72d6366a25dd5952905b31b141a17016d", size = 1949261, upload-time = "2025-07-30T15:52:17.729Z" },
 ]
 
 [[package]]
@@ -1146,22 +1173,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/42/f2/05f29bc3913aea15eb670be136045bf5c5bbf4b99ecb839da9b422bb2c85/requests-oauthlib-2.0.0.tar.gz", hash = "sha256:b3dffaebd884d8cd778494369603a9e7b58d29111bf6b41bdc2dcd87203af4e9", size = 55650, upload-time = "2024-03-22T20:32:29.939Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3b/5d/63d4ae3b9daea098d5d6f5da83984853c1bbacd5dc826764b249fe119d24/requests_oauthlib-2.0.0-py2.py3-none-any.whl", hash = "sha256:7dd8a5c40426b779b0868c404bdef9768deccf22749cde15852df527e6269b36", size = 24179, upload-time = "2024-03-22T20:32:28.055Z" },
-]
-
-[[package]]
-name = "rest-core"
-version = "0.1.52"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "django" },
-    { name = "djangorestframework" },
-    { name = "djangorestframework-stubs" },
-    { name = "pydantic" },
-    { name = "pytz" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a4/d6/66909735ba14896c550a82ccdc9d5da439536f7850cc83494e17a71dc819/rest_core-0.1.52.tar.gz", hash = "sha256:939cde5e982c0437500fe5341fc853dabaa6844508f7f1cac707d9bced8ae44f", size = 30201, upload-time = "2025-08-16T15:51:58.73Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3a/5d/cc6978bcbcfe854ba227db553324149ea392140a63bd21ad8b81399a0440/rest_core-0.1.52-py3-none-any.whl", hash = "sha256:edbe659361ca27e0dcae1c8753c42c7bc32557637b30395aa309621e011b2e14", size = 36784, upload-time = "2025-08-16T15:46:20.217Z" },
 ]
 
 [[package]]
