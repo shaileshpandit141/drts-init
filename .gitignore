@@ -6,6 +6,7 @@ __pycache__
 
 # Ignore the backend dependency and cache
 backend/.env
+backend/.environ.yaml
 backend/**/.venv
 backend/**/__pycache__
 backend/**/migrations
@@ -17,3 +18,5 @@ backend/uploads/*
 frontend/node_modules
 frontend/package-lock.json
 frontend/.env
+temp
+
