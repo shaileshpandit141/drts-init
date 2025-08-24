@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <meta
+      name="format-detection"
+      content="telephone=no, date=no, address=no, email=no"
+    />
+    <title>"Drts-Init"</title>
+  </head>
+  <body style="margin: 0; padding: 0">
+    <center role="article" aria-roledescription="email" lang="en">
+      <table
+        role="presentation"
+        cellspacing="0"
+        cellpadding="0"
+        border="0"
+        width="100%"
+      >
+        <tr>
+          <td align="center">
+            <table
+              role="presentation"
+              class="email-container"
+              width="600"
+              cellspacing="0"
+              cellpadding="0"
+              border="0"
+              style="width: 100%"
+            >
+              {% include "emails/components/header.html" %}
+
+              <tr>
+                <td style="padding: 24px">
+                  <table
+                    role="presentation"
+                    width="100%"
+                    cellspacing="0"
+                    cellpadding="0"
+                    border="0"
+                    class="card"
+                    style="background: #ffffff; border-radius: 8px"
+                  >
+                    <tr>
+                      <td class="p-sm" style="padding: 28px">
+                        {% block content %}{% endblock %}
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              {% include "emails/components/footer.html" %}
+            </table>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </body>
+</html>
