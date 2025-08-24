@@ -4,6 +4,8 @@ from typing import Any
 
 from env_config import env_settings
 
+from apps_config.loggingconfig import get_logging
+
 # Configuration Settings File for the django backend
 # --------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -257,80 +259,6 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 mins
 CELERY_TASK_SOFT_TIME_LIMIT = 25 * 60
 
-# Log-Related Directory Configuration Setup
-# -----------------------------------------
-LOG_DIR = BASE_DIR / "logs"
-
-# Create log directory if it doesn't exist
-# ----------------------------------------
-LOG_DIR.mkdir(parents=True, exist_ok=True)
-
 # Logging Configuration Settings
 # ------------------------------
-LOGGING: dict[str, Any] = {
-    "version": 1,  # Version of the logging configuration
-    "disable_existing_loggers": False,  # Keep default loggers like Django"s
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
-            "style": "{",
-        },
-        "simple": {
-            "format": "\033[1;36m{levelname}\033[0m {message}\n",
-            "style": "{",
-        },
-        "colorful": {
-            "()": "colorlog.ColoredFormatter",
-            "format": "%(log_color)s%(levelname)-8s%(reset)s %(message)s\n",
-            "log_colors": {
-                "DEBUG": "cyan",
-                "INFO": "green",
-                "WARNING": "yellow",
-                "ERROR": "red",
-                "CRITICAL": "red,bg_white",
-            },
-        },
-    },
-    "filters": {
-        "require_debug_false": {
-            "()": "django.utils.log.RequireDebugFalse",
-        },
-    },
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "colorful",
-        },
-        "file": {
-            "level": "INFO",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": LOG_DIR / "django.log",
-            "maxBytes": 5 * 1024 * 1024,  # 5MB per file
-            "backupCount": 3,  # Keep last 3 log files
-            "formatter": "verbose",
-        },
-        "mail_admins": {
-            "level": "ERROR",
-            "class": "django.utils.log.AdminEmailHandler",
-            "filters": ["require_debug_false"],
-            "formatter": "verbose",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-            "propagate": True,
-        },
-        "django.request": {
-            "handlers": ["mail_admins", "file"],
-            "level": "ERROR",
-            "propagate": False,
-        },
-        "custom_logger": {
-            "handlers": ["console", "file"],
-            "level": "DEBUG",
-        },
-    },
-}
+LOGGING: dict[str, Any] = get_logging(BASE_DIR / "logs")
