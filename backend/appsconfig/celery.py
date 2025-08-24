@@ -3,9 +3,9 @@ import os
 from celery import Celery
 
 # Set default Django settings
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "apps_config.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "appsconfig.settings")
 
-app = Celery("apps_config")
+app = Celery("appsconfig")
 
 # Load settings from Django, namespace CELERY_
 app.config_from_object("django.conf:settings", namespace="CELERY")  # type: ignore[arg-type]

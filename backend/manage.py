@@ -8,7 +8,7 @@ It handles configuration of the Django environment and executes administrative t
 import os
 import sys
 
-from env_config import env_settings
+from envconfig import env_settings
 
 
 def main() -> None:
@@ -25,7 +25,7 @@ def main() -> None:
     - PORT: The port number to use (default: 8000)
     """
     # Set the Django settings module path
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "apps_config.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "appsconfig.settings")
 
     try:
         from django.core.management import execute_from_command_line  # noqa: PLC0415

@@ -2,7 +2,7 @@
 # -------------------------------------------
 from datetime import timedelta
 
-from env_config import env_settings
+from envconfig import env_settings
 
 from .base import *  # noqa: F403
 from .base import LOGGING, REST_FRAMEWORK

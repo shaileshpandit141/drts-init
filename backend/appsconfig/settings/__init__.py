@@ -1,4 +1,4 @@
-from env_config import env_settings
+from envconfig import env_settings
 
 environ = env_settings.environ
 

@@ -1,6 +1,5 @@
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from env_config import env_settings
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from univalidator.composites import CompositeValidator
@@ -37,7 +36,7 @@ class SignupSerializer(serializers.Serializer[User]):
             ]
         )
 
-        if env_settings.environ == "prod" and not email_validator.validate(email):
+        if not email_validator.validate(email):
             raise serializers.ValidationError(
                 detail=email_validator.errors,
                 code="invalid_email",

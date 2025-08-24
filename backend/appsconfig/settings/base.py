@@ -2,9 +2,9 @@ from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
-from env_config import env_settings
+from envconfig import env_settings
 
-from apps_config.loggingconfig import get_logging
+from appsconfig.loggingconfig import get_logging
 
 # Configuration Settings File for the django backend
 # --------------------------------------------------
@@ -80,7 +80,7 @@ MIDDLEWARE = [
 
 # Root urls file Configuration Settings
 # -------------------------------------
-ROOT_URLCONF = "apps_config.urls"
+ROOT_URLCONF = "appsconfig.urls"
 
 # Templates Configuration Settings
 # --------------------------------
@@ -102,7 +102,7 @@ TEMPLATES = [
 
 # Application Server Configuration Setting
 # ----------------------------------------
-ASGI_APPLICATION = "apps_config.asgi.application"
+ASGI_APPLICATION = "appsconfig.asgi.application"
 
 # User Model Configuration Setting
 # --------------------------------
