@@ -244,10 +244,10 @@ CACHES = {
 # Celery Configuration Settings
 # -----------------------------
 # Redis as broker
-CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_BROKER_URL = env_settings.celery.broker_url
 
 # Where results are stored
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = env_settings.celery.result_backend
 
 # Recommended settings
 CELERY_ACCEPT_CONTENT = ["json"]

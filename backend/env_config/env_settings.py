@@ -34,6 +34,11 @@ class GoogleOAuth2Config(BaseModel):
     redirect_url: str
 
 
+class CeleryConfig(BaseModel):
+    broker_url: str
+    result_backend: str
+
+
 class EnvSettings(EnvBaseSettings["EnvSettings"]):
     """Env Settings class to handle env loads."""
 
@@ -47,6 +52,7 @@ class EnvSettings(EnvBaseSettings["EnvSettings"]):
     redis: RedisConfig
     email: EmailConfig
     google: GoogleOAuth2Config
+    celery: CeleryConfig
 
 
 env_settings = EnvSettings.load(warning=False)
