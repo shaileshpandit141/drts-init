@@ -1,11 +1,4 @@
-import os  # noqa: INP001
-
-import django
 from appsconfig.celery import app
-
-# Ensure Django is setup
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "appsconfig.settings")
-django.setup()
 
 
 def run_celery(
