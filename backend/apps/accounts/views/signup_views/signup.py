@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.serializers.signup_serializers import SignupSerializer
-from apps.accounts.tasks import send_signup_email
+from apps.accounts.tasks import send_account_activation_email
 
 
 class SignupView(APIView):
@@ -19,8 +19,8 @@ class SignupView(APIView):
 
     def post(self, request: Request) -> Response:
         """Handle user registration."""
-        # Get the verification URL from the request data
-        verification_uri = request.data.get("verification_uri", None)
+        # Get the activation URL from the request data
+        activation_uri = request.data.get("activation_uri", None)
 
         # Create an instance of the SignupSerializer
         serializer = SignupSerializer(data=request.data)
@@ -36,7 +36,7 @@ class SignupView(APIView):
         serializer.save()
         user = serializer.instance  # type: ignore  # noqa: PGH003
 
-        # Generate verification token and URL
+        # Generate activation token and URL
         generator = LimitedTimeTokenGenerator({"user_id": user.id})  # type: ignore  # noqa: PGH003
         token = generator.generate()
         if token is None:
@@ -44,19 +44,19 @@ class SignupView(APIView):
                 {"detail": "Token generation failed. Please try again later."}
             )
 
-        # Get the absolute URL for verification
-        if verification_uri is None:
+        # Get the absolute URL for activation
+        if activation_uri is None:
             activate_url = build_absolute_uri(
                 request=request,
-                url_name="accounts:account-verification-confirm",
+                url_name="accounts:account-activation-confirm",
                 query_params={"token": token},
             )
         else:
-            activate_url = f"{verification_uri}/{token}"
+            activate_url = f"{activation_uri}/{token}"
 
-        # Send asynchronously email with account verification link
+        # Send asynchronously email with account activation link
         if user:
-            send_signup_email.delay(user.id, activate_url)  # type: ignore[attr-defined]
+            send_account_activation_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
 
         # Return success response object
         return Response(

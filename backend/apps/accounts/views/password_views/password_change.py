@@ -6,6 +6,7 @@ from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 
 from apps.accounts.serializers import PasswordChangeSerializer
+from apps.accounts.tasks import send_password_change_email
 
 
 class PasswordChangeView(APIView):
@@ -29,7 +30,10 @@ class PasswordChangeView(APIView):
             )
 
         # Save the new password
-        serializer.save()
+        user = serializer.save()
+
+        # Send asynchronously email with account activation link
+        send_password_change_email.delay(user.email)  # type: ignore[attr-defined]
 
         # Return success password change response
         return Response(

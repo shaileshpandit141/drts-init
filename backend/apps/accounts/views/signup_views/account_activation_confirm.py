@@ -12,7 +12,7 @@ from apps.accounts.models import User
 from apps.accounts.throttling import AuthUserRateThrottle
 
 
-class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
+class AccountActivationConfirmView(RetrieveObjectMixin[User], APIView):
     """API View for verifying user accounts via email confirmation."""
 
     throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012

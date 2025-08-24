@@ -1,5 +1,9 @@
-from .account_verification import AccountVerificationView
-from .account_verification_confirm import AccountVerificationConfirmView
+from .account_activation import AccountActivationView
+from .account_activation_confirm import AccountActivationConfirmView
 from .signup import SignupView
 
-__all__ = ["SignupView", "AccountVerificationView", "AccountVerificationConfirmView"]
+__all__ = [
+    "AccountActivationConfirmView",
+    "AccountActivationView",
+    "SignupView",
+]

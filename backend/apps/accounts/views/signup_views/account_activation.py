@@ -10,19 +10,20 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
+from apps.accounts.tasks import send_account_activation_email
 from apps.accounts.throttling import AuthUserRateThrottle
 
 
-class AccountVerificationView(RetrieveObjectMixin[User], APIView):
-    """API View for handling account verification."""
+class AccountActivationView(RetrieveObjectMixin[User], APIView):
+    """API View for handling account activation."""
 
     throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request: Request) -> Response:
-        """Process a request to resend an account verification email."""
+        """Process a request to resend an account activation email."""
         email = request.data.get("email", None)
-        verification_uri = request.data.get("verification_uri", None)
+        activation_uri = request.data.get("activation_uri", None)
 
         # Handle if user not include email in payload
         if email is None:
@@ -46,14 +47,18 @@ class AccountVerificationView(RetrieveObjectMixin[User], APIView):
                 raise ValidationError({"token": ["Token generation failed."]})
 
             # Get the absolute URL for verification
-            if verification_uri is None:
+            if activation_uri is None:
                 activate_url = build_absolute_uri(
                     request=request,
                     url_name="accounts:verify-account-confirm",
                     query_params={"token": token},
                 )
             else:
-                activate_url = f"{verification_uri}/{token}"
+                activate_url = f"{activation_uri}/{token}"
+
+            # Send asynchronously email with account activation link
+            if user:
+                send_account_activation_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
 
             # Return success response
             return Response(

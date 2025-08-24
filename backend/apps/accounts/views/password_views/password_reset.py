@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
+from apps.accounts.tasks import send_password_reset_email
 from apps.accounts.throttling import AuthUserRateThrottle
 
 
@@ -39,6 +40,12 @@ class PasswordResetView(RetrieveObjectMixin[User], APIView):
                 raise ValidationError(
                     {"detail": "Failed to generate token. Please try again later."}
                 )
+
+            # Send asynchronously email with account activation link
+            send_password_reset_email.delay(  # type: ignore[attr-defined]
+                user.email,
+                f"{reset_confirm_uri}/{token}",
+            )
 
             # Return success response
             return Response(
