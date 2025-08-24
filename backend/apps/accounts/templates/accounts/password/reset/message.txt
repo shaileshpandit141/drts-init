@@ -1,15 +1,15 @@
-Hello {{ user.get_full_name|default:user.email }},
+Hello {{ email }},
 
 We received a request to reset the password for your account on [Website Name]. For your security, we want to ensure this request was made by you.
 
 Important Information:
 - This password reset request was initiated on [Date/Time]
-- Associated email address: {{ user.email }}
+- Associated email address: {{ email }}
 - If successful, your old password will be invalidated immediately
 
 To reset your password, please click the secure link below:
 
-{{ active_url }}
+{{ uri }}
 
 This link will expire in 24 hours for security purposes. After clicking the link, you'll be able to create a new password for your account.
 

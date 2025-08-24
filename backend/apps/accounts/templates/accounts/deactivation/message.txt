@@ -1,6 +1,6 @@
 Subject: Account Deactivation Confirmation
 
-Dear [User],
+Dear {{ email }},
 
 This email confirms that your account has been successfully deactivated. All associated data and personal information have been removed from our active systems as per your request.
 
@@ -9,4 +9,4 @@ If this was done in error or you'd like to reactivate your account in the future
 Thank you for being our customer. We're sorry to see you go.
 
 Best regards,
-[Company Name] Team
+{{ site_name }} Team

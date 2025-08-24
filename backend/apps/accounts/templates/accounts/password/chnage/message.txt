@@ -1,6 +1,6 @@
 Subject: Password Changed Successfully - Your Account Security Update
 
-Hello {{ user.get_full_name|default:user.email }},
+Hello {{ email }},
 
 Your password has been successfully changed for your account on [Site Name].
 
@@ -14,6 +14,6 @@ You can log in with your new password here: [Login URL]
 IMPORTANT: If you did not make this change, please contact our support team immediately at support@example.com, as your account may be at risk.
 
 Thank you for helping us keep your account secure,
-Your [Site Name] Security Team
+Your {{ site_name }} Security Team
 
 This is an automated message, please do not reply to this email.

@@ -1,10 +1,10 @@
-Hello {{ user.get_full_name|default:user.email }},
+Hello {{ email }},
 
-Welcome to [Service Name]! We're excited to have you join our community.
+Welcome to {{ site_name }}! We're excited to have you join our community.
 
 To complete your registration and access all features of your account, please activate it by clicking the verification link below:
 
-{{ activate_url }}
+{{ uri }}
 
 This link will expire in 24 hours for security purposes. If you don't activate within this time, you'll need to re verify your account again.
 
@@ -18,4 +18,4 @@ What happens next?
 Thank you for choosing our service! If you have any questions, our support team is here to help.
 
 Best regards,
-The [Service Name] Team
+The {{ site_name }} Team
