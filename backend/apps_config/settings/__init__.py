@@ -1,5 +1,4 @@
 from env_config import env_settings
-from exceptions import MissingEnvironmentVariableError
 
 environ = env_settings.environ
 
@@ -10,4 +9,4 @@ elif environ == "prod":
     from .production import *  # noqa: F403
 else:
     msg: str = "Please define the Environ mode as dev, prod"
-    raise MissingEnvironmentVariableError(msg)
+    raise OSError(msg)

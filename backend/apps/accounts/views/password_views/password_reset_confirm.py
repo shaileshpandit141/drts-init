@@ -1,8 +1,12 @@
 from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from limited_time_token_handler import LimitedTimeTokenDecoder
-from rest_core.response import failure_response, success_response
-from rest_core.views.mixins import ModelObjectMixin
+from django.core.exceptions import ValidationError as DjValidationError
+from djresttoolkit.views.mixins import RetrieveObjectMixin
+from limited_time_token_handler import (  # type: ignore  # noqa: PGH003
+    LimitedTimeTokenDecoder,
+)
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -10,48 +14,31 @@ from apps.accounts.models import User
 from apps.accounts.throttling import AuthUserRateThrottle
 
 
-class PasswordResetConfirmView(ModelObjectMixin[User], APIView):
+class PasswordResetConfirmView(RetrieveObjectMixin[User], APIView):
     """API View to handle password reset and confirmation."""
 
-    throttle_classes = [AuthUserRateThrottle]
+    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
-    def post(self, request) -> Response:
+    def post(self, request: Request) -> Response:
         """Handle POST request to confirm and reset password."""
-        # Get token and new password from request
         token = request.data.get("token", None)
         new_password = request.data.get("new_password", None)
 
-        # Check if token is provided or not
+        # Check if token and new password are provided or not
         if token is None:
-            return failure_response(
-                message="Token is required.",
-                errors={"token": ["Token cannot be blank."]},
-            )
-
-        # Check if new password is provided or not
+            raise ValidationError({"token": ["This field is required."]})
         if new_password is None:
-            return failure_response(
-                message="New password is required.",
-                errors={"new_password": ["New password cannot be blank."]},
-            )
+            raise ValidationError({"new_password": ["This field is required."]})
 
         # Call the _reset_password method to handle password reset
         return self._reset_password(token, new_password)
 
     def _reset_password(self, token: str, new_password: str) -> Response:
         """Handle the password reset password process."""
-        # Decode token and get user id
         decorder = LimitedTimeTokenDecoder(token)
         if not decorder.is_valid():
-            return failure_response(
-                message="The password reset token has expired or is invalid.",
-                errors={
-                    "token": [
-                        "Invalid or expired token. Please request a new password reset."
-                    ]
-                },
-            )
+            raise ValidationError({"detail": "Invalid or expired token."})
 
         # Decodeing token
         payload = decorder.decode()
@@ -61,26 +48,20 @@ class PasswordResetConfirmView(ModelObjectMixin[User], APIView):
 
         # Check if user exists
         if user is None:
-            return failure_response(
-                message="User not found with the provided token.",
-                errors={"detail": "User not found with the provided token."},
-            )
+            raise ValidationError({"detail": "User not found with the provided token."})
 
         # Validate and set new password
         try:
             validate_password(new_password)
-        except ValidationError as error:
-            return failure_response(
-                message="Password validation error.",
-                errors={"password": error.messages},
-            )
+        except DjValidationError as error:
+            raise ValidationError({"password": error.messages}) from error
 
         # Set new password and save user
         user.set_password(new_password)
         user.save()
 
         # Return success response
-        return success_response(
-            message="Your password has been reset successfully.",
+        return Response(
             data={"detail": "Your password has been successfully reset."},
+            status=status.HTTP_200_OK,
         )

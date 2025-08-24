@@ -6,13 +6,10 @@ It maps URLs to their corresponding views and configures static file serving and
 """
 
 from django.conf import settings
-from django.conf.urls import handler404  # type: ignore  # noqa: PGH003
 from django.conf.urls.static import static  # type: ignore  # noqa: PGH003
 from django.contrib import admin
-from django.http import JsonResponse
 from django.urls import include, path
 from django.views.generic.base import RedirectView
-from rest_core.django.views import url_404_apiview
 
 from .views import IndexTemplateView
 
@@ -40,8 +37,6 @@ urlpatterns += [
 # API related URLs Configurations
 urlpatterns += []
 
-# Configure custom error handling
-handler404: JsonResponse = url_404_apiview  # type: ignore  # noqa: F811, PGH003
 
 # Enable serving of user-uploaded media files
 if settings.DEBUG:

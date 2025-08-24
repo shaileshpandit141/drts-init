@@ -1,6 +1,9 @@
-from limited_time_token_handler import LimitedTimeTokenGenerator
-from rest_core.build_absolute_uri import build_absolute_uri
-from rest_core.response import failure_response, success_response
+from djresttoolkit.urls import build_absolute_uri
+from limited_time_token_handler import (  # type: ignore  # noqa: PGH003
+    LimitedTimeTokenGenerator,
+)
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -24,8 +27,9 @@ class SignupView(APIView):
 
         # Validate the serializer data
         if not serializer.is_valid():
-            return failure_response(
-                message="Sign up failed - Invalid credentials", errors=serializer.errors
+            return Response(
+                data=serializer.errors,  # type: ignore  # noqa: PGH003
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         # Save serializer data if it valid
@@ -36,29 +40,26 @@ class SignupView(APIView):
         generator = LimitedTimeTokenGenerator({"user_id": user.id})  # type: ignore  # noqa: PGH003
         token = generator.generate()
         if token is None:
-            return success_response(
-                message="Sign up success - Token generation failed.",
-                data={
-                    "detail": "Sign up success but token generation failed.",
-                    "token": "You need to generate an account verification token and verify it.",
-                },
+            raise ValidationError(
+                {"detail": "Token generation failed. Please try again later."}
             )
 
         # Get the absolute URL for verification
         if verification_uri is None:
             activate_url = build_absolute_uri(
                 request=request,
-                view_name="accounts:account-verification-confirm",
+                url_name="accounts:account-verification-confirm",
                 query_params={"token": token},
             )
         else:
             activate_url = f"{verification_uri}/{token}"
 
         # Send asynchronously email with account verification link
-        send_signup_email.delay(user.id, activate_url)
+        if user:
+            send_signup_email.delay(user.id, activate_url)  # type: ignore[attr-defined]
 
         # Return success response object
-        return success_response(
-            message="Sign up successful",
+        return Response(
             data={"detail": "Success! Please check your email to verify your account."},
+            status=status.HTTP_201_CREATED,
         )

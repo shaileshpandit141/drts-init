@@ -1,10 +1,7 @@
-import warnings
-from pathlib import Path
-from typing import Any, ClassVar, Literal
+from typing import Literal
 
-import yaml  # type: ignore # noqa: PGH003
+from djresttoolkit.envconfig import EnvBaseSettings
 from pydantic import BaseModel
-from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class DatabaseConfig(BaseModel):
@@ -37,11 +34,8 @@ class GoogleOAuth2Config(BaseModel):
     redirect_url: str
 
 
-class EnvSettings(BaseSettings):
+class EnvSettings(EnvBaseSettings["EnvSettings"]):
     """Env Settings class to handle env loads."""
-
-    env_file: str = ".env"
-    yaml_file: ClassVar[str] = ".environ.yaml"
 
     secret_key: str
     host: str
@@ -53,37 +47,6 @@ class EnvSettings(BaseSettings):
     redis: RedisConfig
     email: EmailConfig
     google: GoogleOAuth2Config
-
-    model_config = SettingsConfigDict(
-        env_file=env_file,
-        env_file_encoding="utf-8",
-        env_nested_delimiter="__",
-    )
-
-    @classmethod
-    def load(
-        cls,
-        *,
-        env_file: str | None = None,
-        ymal_file: str | None = None,
-        warning: bool = True,
-    ) -> "EnvSettings":
-        """Load from YAML first, then override with .env."""
-        if env_file:
-            cls.env_file = env_file
-        if ymal_file:
-            cls.yaml_file = ymal_file
-
-        config_file = Path(cls.yaml_file)
-        yaml_data: dict[str, Any] = {}
-        if config_file.exists():
-            with config_file.open("r") as f:
-                yaml_data = yaml.safe_load(f) or {}
-        elif warning:
-            msg: str = f"Config file {config_file} not found, using only env vars."
-            warnings.warn(msg, UserWarning, stacklevel=1)
-
-        return cls(**yaml_data)
 
 
 env_settings = EnvSettings.load(warning=False)

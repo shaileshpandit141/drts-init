@@ -1,6 +1,7 @@
-from rest_core.email_service import Emails, EmailService, Templates
-from rest_core.response import failure_response, success_response
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
@@ -9,63 +10,34 @@ from rest_framework.views import APIView
 class AccountDeactivationView(APIView):
     """API view for deactivating user accounts."""
 
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle]
+    permission_classes = [IsAuthenticated]  # noqa: RUF012
+    throttle_classes = [UserRateThrottle]  # noqa: RUF012
 
-    def post(self, request) -> Response:
+    def post(self, request: Request) -> Response:
         """Deactivate the authenticated user's account."""
-
-        # Get user and password from request
         user = request.user
         password = request.data.get("password", None)
 
         # Handle if password is blank
         if password is None:
-            return failure_response(
-                message="Password is required to deactivate your account",
-                errors={
-                    "password": [
-                        "Please enter your password to confirm account deactivation."
-                    ]
-                },
-            )
+            raise ValidationError({"password": ["This field is required."]})
 
         # Verify password matches
         if not user.check_password(password):
-            return failure_response(
-                message="Incorrect password provided",
-                errors={
+            raise ValidationError(
+                {
                     "password": [
                         "The password you entered is incorrect. Please try again."
                     ]
-                },
+                }
             )
 
         # Deactivate the account
         user.is_active = False
         user.save()
 
-        # Creating the Email Service instance
-        email = EmailService(
-            subject="Account Deactivation Confirmation",
-            emails=Emails(
-                from_email=None,
-                to_emails=[user.email],
-            ),
-            context={"user": user},
-            templates=Templates(
-                text_template="accounts/account_deactivation/confirm_message.txt",
-                html_template="accounts/account_deactivation/confirm_message.html",
-            ),
-        )
-
-        # Send deactivation confirmation email
-        email.send(fallback=False)
-
         # Return success response
-        return success_response(
-            message="Account deactivated successfully",
-            data={
-                "detail": "Your account has been deactivated. You will be signed out shortly."
-            },
+        return Response(
+            data={"detail": "Your account has been deactivated."},
+            status=status.HTTP_200_OK,
         )

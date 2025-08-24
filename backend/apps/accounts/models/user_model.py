@@ -7,6 +7,7 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.db.models import (
+    BigAutoField,
     BooleanField,
     CharField,
     DateTimeField,
@@ -40,6 +41,14 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS: ClassVar[
         list[str]
     ] = []  # Email & password are required by default
+
+    id: BigAutoField[int, int] = BigAutoField(
+        primary_key=True,
+        unique=True,
+        null=False,
+        db_index=True,
+        error_messages={"invalid": "Please enter a valid ID"},
+    )
 
     email: EmailField[str, str] = EmailField(
         max_length=254,

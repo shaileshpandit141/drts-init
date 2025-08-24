@@ -1,6 +1,10 @@
-from limited_time_token_handler import LimitedTimeTokenDecoder
-from rest_core.response import failure_response, success_response
-from rest_core.views.mixins import ModelObjectMixin
+from djresttoolkit.views.mixins import RetrieveObjectMixin
+from limited_time_token_handler import (  # type: ignore  # noqa: PGH003
+    LimitedTimeTokenDecoder,
+)
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -8,43 +12,40 @@ from apps.accounts.models import User
 from apps.accounts.throttling import AuthUserRateThrottle
 
 
-class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
+class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
     """API View for verifying user accounts via email confirmation."""
 
-    throttle_classes = [AuthUserRateThrottle]
+    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
-    def get(self, request) -> Response:
+    def get(self, request: Request) -> Response:
         """Handle GET request for account verification."""
-        # Get token from query parameters
         token = request.query_params.get("token")
 
         # Call the _verify_token method to handle verification
         return self._verify_token(token)
 
-    def post(self, request) -> Response:
+    def post(self, request: Request) -> Response:
         """Handle POST request for account verification."""
-        # Get token from request data
         token = request.data.get("token")
 
         # Call the _verify_token method to handle verification
         return self._verify_token(token)
 
-    def _verify_token(self, token: str) -> Response:
+    def _verify_token(self, token: str | None) -> Response:
         """Verify the provided token and activate the user account."""
-        # Check if token is provided or not
-        if not token:
-            return failure_response(
-                message="Token is missing",
-                errors={"token": ["Please provide a valid verification token."]},
+        if token is None:
+            raise ValidationError(
+                {"detail": "This field is required."},
+                code="required",
             )
 
         # Decode the token and get user ID
         decoder = LimitedTimeTokenDecoder(token)
         if not decoder.is_valid():
-            return failure_response(
-                message="Invalid token",
-                errors={"token": ["The verification token is invalid or has expired."]},
+            raise ValidationError(
+                {"detail": "The token is invalid or has expired."},
+                code="invalid",
             )
 
         # Decode the token
@@ -55,16 +56,16 @@ class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
 
         # Check if user exists or not
         if user is None:
-            return failure_response(
-                message="Invalid verification token",
-                errors={"token": ["The token is valid but the user does not exist."]},
+            raise ValidationError(
+                {"detail": "The token is valid but the user does not exist."},
+                code="not_found",
             )
 
         # Check if user is already verified
         if getattr(user, "is_verified", False):
-            return success_response(
-                message="Account Already Verified",
-                data={"detail": "This account has already been verified."},
+            raise ValidationError(
+                {"detail": "This account has already been verified."},
+                code="already_verified",
             )
 
         # Verify the user account
@@ -72,7 +73,7 @@ class AccountVerificationConfirmView(ModelObjectMixin[User], APIView):
         user.save()
 
         # Return success response
-        return success_response(
-            message="Account verification successful",
+        return Response(
             data={"detail": "Your account has been verified successfully."},
+            status=status.HTTP_200_OK,
         )

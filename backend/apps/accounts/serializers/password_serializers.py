@@ -7,7 +7,7 @@ from rest_framework.serializers import CharField, Serializer, ValidationError
 from apps.accounts.models import User
 
 
-class PasswordChangeSerializer(Serializer):
+class PasswordChangeSerializer(Serializer[User]):
     """Serializer for changing user password."""
 
     current_password = CharField(write_only=True, style={"input_type": "password"})
@@ -43,7 +43,7 @@ class PasswordChangeSerializer(Serializer):
         try:
             validate_password(new_password, user=user)
         except DjangoValidationError as error:
-            raise ValidationError({"new_password": error.messages})
+            raise ValidationError({"new_password": error.messages}) from error
 
         # Validate password and confirm password match or not
         if new_password != confirm_password:
@@ -66,16 +66,16 @@ class PasswordChangeSerializer(Serializer):
         # Return the validated data
         return attrs
 
-    def save(self, **kwargs) -> dict[str, str]:
-        """Set the new password and return new JWT tokens."""
+    def save(self, **kwargs: object) -> User:  # noqa: ARG002
+        """Set the new password and return the updated user instance."""
         user = self.context["request"].user
 
         # Get new password from validated data
-        new_password = self.validated_data["new_password"]  # type: ignore
+        new_password = self.validated_data["new_password"]
 
         # Set new password
         user.set_password(new_password)
         user.save(update_fields=["password"])
 
-        # Return success dictionary
-        return {"detail": "Your password has been updated successfully."}
+        # Return the updated user instance
+        return user

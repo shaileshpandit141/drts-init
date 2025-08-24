@@ -49,7 +49,7 @@ INSTALLED_APPS.extend(
         "rest_framework_simplejwt",
         "rest_framework_simplejwt.token_blacklist",
         "corsheaders",
-        "rest_core",
+        "djresttoolkit",
     ]
 )
 
@@ -73,7 +73,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "rest_core.middlewares.ResponseTimeMiddleware",
+    "djresttoolkit.middlewares.ResponseTimeMiddleware",
 ]
 
 # Root urls file Configuration Settings
@@ -159,14 +159,14 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication"
     ],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
-    "EXCEPTION_HANDLER": "rest_core.exceptions.base_exception_handler",
+    "EXCEPTION_HANDLER": "djresttoolkit.views.exception_handler",
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
         "rest_framework.parsers.FormParser",
         "rest_framework.parsers.MultiPartParser",
     ],
     "DEFAULT_RENDERER_CLASSES": [
-        "rest_core.renderers.StructuredJSONRenderer",
+        "djresttoolkit.renderers.ThrottleInfoJSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
     "DEFAULT_THROTTLE_CLASSES": [
@@ -177,7 +177,7 @@ REST_FRAMEWORK = {
         "auth": "8/hour",
         "user": "1000/day",
     },
-    "DEFAULT_PAGINATION_CLASS": "rest_core.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "djresttoolkit.pagination.PageNumberPagination",
     "PAGE_SIZE": 4,
     "MAX_PAGE_SIZE": 8,
     "DEFAULT_FILTER_BACKENDS": [

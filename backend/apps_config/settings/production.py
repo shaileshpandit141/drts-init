@@ -20,7 +20,7 @@ LOGGING["loggers"]["django"]["level"] = "INFO"
 REST_FRAMEWORK.update(
     {
         "DEFAULT_RENDERER_CLASSES": [
-            "rest_core.renderers.StructuredJSONRenderer",
+            "djresttoolkit.renderers.ThrottleInfoJSONRenderer",
         ],
         "PAGE_SIZE": 16,
         "MAX_PAGE_SIZE": 32,

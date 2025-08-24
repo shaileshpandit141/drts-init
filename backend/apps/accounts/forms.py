@@ -1,12 +1,15 @@
+from typing import cast
+
 from django import forms
 from django.contrib.auth.forms import UserChangeForm as DjangoUserChangeForm
 from django.contrib.auth.forms import UserCreationForm as DjangoUserCreationForm
 from django.core.validators import validate_email
+from django.forms import ValidationError
 
 from .models import User
 
 
-class UserCreationForm(DjangoUserCreationForm):
+class UserCreationForm(DjangoUserCreationForm):  # type: ignore  # noqa: PGH003
     """A form for creating new users. Extends Django's built-in UserCreationForm."""
 
     password1 = forms.CharField(
@@ -34,7 +37,7 @@ class UserCreationForm(DjangoUserCreationForm):
     is_verified = forms.BooleanField(required=False)
     is_staff = forms.BooleanField(required=False)
 
-    class Meta(DjangoUserCreationForm.Meta):  # type: ignore
+    class Meta(DjangoUserCreationForm.Meta):  # type: ignore  # noqa: PGH003
         model = User
         fields = (
             "email",
@@ -47,52 +50,56 @@ class UserCreationForm(DjangoUserCreationForm):
             "is_staff",
         )
 
-    def clean_email(self):
+    def clean_email(self) -> str:
         """Custom validation for email field."""
-
         email = self.cleaned_data.get("email")
         if not email:
-            raise forms.ValidationError("Email is required.")
+            msg: str = "Email is required."
+            raise ValidationError(msg)
 
         try:
             validate_email(email)
-        except forms.ValidationError:
-            raise forms.ValidationError("Please enter a valid email address.")
+        except ValidationError as error:
+            msg = "Please enter a valid email address."
+            raise ValidationError(msg) from error
 
         if User.objects.filter(email=email.lower()).exists():
-            raise forms.ValidationError("A user with this email already exists.")
+            msg = "A user with this email already exists."
+            raise ValidationError(msg)
 
         return email.lower()
 
-    def clean_password2(self):
+    def clean_password2(self) -> str:
         """Verify that both passwords match and meet minimum requirements."""
-
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
 
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            msg = "Passwords don't match"
+            raise ValidationError(msg)
 
         if not password1:
-            raise forms.ValidationError("Password is required")
+            msg = "Password is required"
+            raise ValidationError(msg)
 
-        if len(password1) < 8:
-            raise forms.ValidationError("Password must be at least 8 characters long")
+        if len(password1) < 8:  # noqa: PLR2004
+            msg = "Password must be at least 8 characters long"
+            raise ValidationError(msg)
 
         if password2 is None:
             return ""
 
         return password2
 
-    def save(self, commit=True) -> User:
-        user = super().save(commit=False)
+    def save(self, commit: bool = True) -> User:  # noqa: FBT001, FBT002
+        user = cast("User", super().save(commit=False))
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user
 
 
-class UserChangeForm(DjangoUserChangeForm):
+class UserChangeForm(DjangoUserChangeForm):  # type: ignore  # noqa: PGH003
     """A form for updating users. Extends Django's built-in UserChangeForm."""
 
     email = forms.EmailField(
@@ -117,7 +124,7 @@ class UserChangeForm(DjangoUserChangeForm):
     is_verified = forms.BooleanField(required=False)
     is_staff = forms.BooleanField(required=False)
 
-    class Meta(DjangoUserChangeForm.Meta):  # type: ignore
+    class Meta(DjangoUserChangeForm.Meta):  # type: ignore  # noqa: PGH003
         model = User
         fields = (
             "email",
@@ -130,29 +137,31 @@ class UserChangeForm(DjangoUserChangeForm):
             "is_staff",
         )
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         super().__init__(*args, **kwargs)
-        if self.instance and self.instance.picture:
+        user = cast("User", self.instance)  # type: ignore  # noqa: PGH003
+        if user and user.picture:
             self.fields[
                 "picture"
-            ].help_text = f'<a href="{self.instance.picture.url}" target="_blank" style="padding-inline: 4px;">View Current picture</a>'
+            ].help_text = f'<a href="{user.picture.url}" target="_blank" style="padding-inline: 4px;">View Current picture</a>'
 
     def clean_email(self) -> str:
         """Validation for email field."""
-
         email = self.cleaned_data.get("email")
         if not email:
-            raise forms.ValidationError("Email is required.")
+            msg = "Email is required."
+            raise ValidationError(msg)
 
         try:
             validate_email(email)
-        except forms.ValidationError:
-            raise forms.ValidationError("Please enter a valid email address.")
+        except ValidationError as error:
+            msg = "Please enter a valid email address."
+            raise ValidationError(msg) from error
 
         return email.lower()
 
-    def save(self, commit=True) -> User:
-        user = super().save(commit=False)
+    def save(self, commit: bool = True) -> User:  # noqa: FBT001, FBT002
+        user = cast("User", super().save(commit=False))
         if commit:
             user.save()
         return user

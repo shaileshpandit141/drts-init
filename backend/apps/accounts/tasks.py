@@ -1,5 +1,5 @@
 from celery import shared_task
-from rest_core.email_service import Emails, EmailService, Templates
+from djresttoolkit.mail import EmailSender
 
 from apps.accounts.models import User
 
@@ -9,18 +9,17 @@ def send_signup_email(user_id: int, activate_url: str) -> None:
     """Creating the Email Service and send it to user."""
     user = User.objects.get(pk=user_id)
 
-    email = EmailService(
-        subject="Verify Your Account",
-        emails=Emails(
-            from_email=None,
-            to_emails=[user.email],
-        ),
-        context={"user": user, "activate_url": activate_url},
-        templates=Templates(
-            text_template="accounts/account_verification/confirm_message.txt",
-            html_template="accounts/account_verification/confirm_message.html",
-        ),
+    email_sender = EmailSender(
+        {
+            "subject": "Verify Your Account",
+            "from_email": None,
+            "context": {"user": user, "activate_url": activate_url},
+            "template": {
+                "text": "accounts/account_verification/confirm_message.txt",
+                "html": "accounts/account_verification/confirm_message.html",
+            },
+        }
     )
 
     # Send account verification email
-    email.send(fallback=False)
+    email_sender.send(to=[user.email])

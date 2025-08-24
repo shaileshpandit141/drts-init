@@ -22,7 +22,7 @@ REST_FRAMEWORK.update(
             "rest_framework.authentication.SessionAuthentication",
         ],
         "DEFAULT_RENDERER_CLASSES": [
-            "rest_core.renderers.StructuredJSONRenderer",
+            "djresttoolkit.renderers.ThrottleInfoJSONRenderer",
             "rest_framework.renderers.BrowsableAPIRenderer",
         ],
         "PAGE_SIZE": 4,

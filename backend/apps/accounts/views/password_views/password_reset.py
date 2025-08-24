@@ -1,7 +1,10 @@
-from limited_time_token_handler import LimitedTimeTokenGenerator
-from rest_core.email_service import Emails, EmailService, Templates
-from rest_core.response import failure_response, success_response
-from rest_core.views.mixins import ModelObjectMixin
+from djresttoolkit.views.mixins import RetrieveObjectMixin
+from limited_time_token_handler import (  # type: ignore  # noqa: PGH003
+    LimitedTimeTokenGenerator,
+)
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -9,15 +12,14 @@ from apps.accounts.models import User
 from apps.accounts.throttling import AuthUserRateThrottle
 
 
-class PasswordResetView(ModelObjectMixin[User], APIView):
+class PasswordResetView(RetrieveObjectMixin[User], APIView):
     """API View to hansle password reset."""
 
-    throttle_classes = [AuthUserRateThrottle]
+    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
-    def post(self, request) -> Response:
+    def post(self, request: Request) -> Response:
         """Process reset password request and send reset email."""
-        # Get email from request
         email = request.data.get("email")
         reset_confirm_uri = request.data.get("reset_confirm_uri", None)
 
@@ -26,51 +28,28 @@ class PasswordResetView(ModelObjectMixin[User], APIView):
 
         # Check provided email is exists or not
         if user is None:
-            return failure_response(
-                message="Invalid email address.",
-                errors={"email": ["Email address cannot be blank."]},
-            )
+            raise ValidationError({"email": ["Email address cannot be blank."]})
 
         # Process request for verified users
         if getattr(user, "is_verified", False):
             # Generate password reset token
-            generator = LimitedTimeTokenGenerator({"user_id": user.id})
+            generator = LimitedTimeTokenGenerator({"user_id": user.id})  # type: ignore  # noqa: PGH003
             token = generator.generate()
             if token is None:
-                return failure_response(
-                    message="Failed to generate token. Please try again later.",
-                    errors={
-                        "detail": "Failed to generate token. Please try again later."
-                    },
+                raise ValidationError(
+                    {"detail": "Failed to generate token. Please try again later."}
                 )
 
-            # Creating the Email Service instance
-            email = EmailService(
-                subject="Password Reset Request",
-                emails=Emails(
-                    from_email=None,
-                    to_emails=[user.email],
-                ),
-                context={"user": user, "active_url": f"{reset_confirm_uri}/{token}"},
-                templates=Templates(
-                    text_template="accounts/password_reset/confirm_message.txt",
-                    html_template="accounts/password_reset/confirm_message.html",
-                ),
-            )
-
-            # Send reset password email
-            email.send(fallback=False)
-
             # Return success response
-            return success_response(
-                message="Forgot password email sent.",
+            return Response(
                 data={"detail": "Please check your inbox for the Forgot password."},
+                status=status.HTTP_200_OK,
             )
         # Return failure response
-        return failure_response(
-            message="Please verify your account to continue.",
-            errors={
+        return Response(
+            data={
                 "detail": "You must verify your account to access this resource.",
                 "code": "account_not_varified",
             },
+            status=status.HTTP_403_FORBIDDEN,
         )
