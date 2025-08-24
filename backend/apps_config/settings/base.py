@@ -210,17 +210,14 @@ AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 
 # EMAIL Configuration Settings
 # ----------------------------
-if env_settings.environ == "prod":
-    EMAIL_BACKEND = env_settings.email.backend  # type: ignore[]
-    EMAIL_HOST = env_settings.email.host
-    EMAIL_PORT = env_settings.email.port
-    EMAIL_USE_TLS = env_settings.email.use_tls
-    EMAIL_USE_SSL = env_settings.email.use_ssl
-    EMAIL_HOST_USER = env_settings.email.host_user
-    EMAIL_HOST_PASSWORD = env_settings.email.host_password
-    DEFAULT_FROM_EMAIL = env_settings.email.default_from_email
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # type: ignore[]
+EMAIL_BACKEND = env_settings.email.backend  # type: ignore[]
+EMAIL_HOST = env_settings.email.host
+EMAIL_PORT = env_settings.email.port
+EMAIL_USE_TLS = env_settings.email.use_tls
+EMAIL_USE_SSL = env_settings.email.use_ssl
+EMAIL_HOST_USER = env_settings.email.host_user
+EMAIL_HOST_PASSWORD = env_settings.email.host_password
+DEFAULT_FROM_EMAIL = env_settings.email.default_from_email
 
 
 # Google OAuth2 Configuration Settings
