@@ -1,4 +1,6 @@
-from rest_core.response import failure_response, success_response
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
@@ -8,10 +10,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class TokenBlockView(APIView):
     """API view for user sign out functionality."""
 
-    def post(self, request) -> Response:
+    def post(self, request: Request) -> Response:
         """Handle user sign out by blacklisting their refresh token."""
-
-        # Get required data from response
         refresh_token = request.data.get("refresh_token", "")
 
         try:
@@ -20,13 +20,11 @@ class TokenBlockView(APIView):
             token.blacklist()
 
             # Return success response
-            return success_response(
-                message="You have been successfully signed out.",
+            return Response(
                 data={"detail": "Your session has been terminated."},
+                status=status.HTTP_200_OK,
             )
-        except TokenError:
-            # Return failure response
-            return failure_response(
-                message="Invalid refresh token.",
-                errors={"refresh_token": ["The provided token is invalid or expired."]},
-            )
+        except TokenError as error:
+            raise ValidationError(
+                {"refresh_token": ["The provided token is invalid or expired."]}
+            ) from error

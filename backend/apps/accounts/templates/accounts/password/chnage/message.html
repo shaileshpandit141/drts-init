@@ -1,0 +1,29 @@
+{% extends "emails/base.html" %} {% block content %}
+<section>
+  <p>Hello {{ email }},</p>
+  <p>
+    Your password has been successfully changed for your account on {{ site_name
+    }}.
+  </p>
+  <p><strong>Security Information:</strong></p>
+  <ul>
+    <li>Your password was changed at {{ timestamp }}</li>
+    <li>You can now use your new password to log in to your account</li>
+    <li>
+      For security reasons, you will be logged out of all other active sessions
+    </li>
+  </ul>
+  <p>
+    <strong>Important:</strong> If you did not make this change, please contact
+    our support team immediately at support@example.com, as your account may be
+    at risk.
+  </p>
+  <p>
+    Thank you for helping us keep your account secure,<br />
+    Your {{ site_name }} Security Team
+  </p>
+  <p style="font-size: 12px; color: #666">
+    This is an automated message, please do not reply to this email.
+  </p>
+</section>
+{% endblock content %}

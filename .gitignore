@@ -1,22 +1,21 @@
-# Ignore the hidden dependency  and cache
+# Root Dir, Files Ignore
 .venv
-__pycache__
 .ropeproject
-**/.ruff_cache
+.ruff_cache
+__pycache__
+temp/*
 
-# Ignore the backend dependency and cache
-backend/.env
-backend/.environ.yaml
+# Backend Dir, Files Ignore
+backend/.env*
 backend/**/.venv
 backend/**/__pycache__
+backend/**/.ruff_cache
 backend/**/migrations
 backend/db.sqlite3
-backend/logs/django.log
+backend/logs/*
 backend/uploads/*
 
-# Ignore the frontend dependency
+# Frontend Dir, Files Ignore
+frontend/.env
 frontend/node_modules
 frontend/package-lock.json
-frontend/.env
-temp
-

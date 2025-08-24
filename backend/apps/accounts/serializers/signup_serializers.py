@@ -1,15 +1,14 @@
-from typing import Any
-
-from accounts.models import User
-from decouple import config
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from dns_smtp_email_validator import DNSSMTPEmailValidator
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from univalidator.composites import CompositeValidator
+from univalidator.validators import MXEmailRecordValidator, RegexEmailValidator
+
+from apps.accounts.models import User
 
 
-class SignupSerializer(serializers.Serializer):
+class SignupSerializer(serializers.Serializer[User]):
     email = serializers.EmailField(
         validators=[
             UniqueValidator(
@@ -23,33 +22,37 @@ class SignupSerializer(serializers.Serializer):
         write_only=True, style={"input_type": "password"}
     )
 
-    def validate(self, attrs) -> Any:
-        """Validate the input data for user signup"""
-
-        # Extract signup credentials from the request
+    def validate(self, attrs: dict[str, str]) -> dict[str, str]:
+        """Validate the input data for user signup."""
         email = attrs.get("email", "")
         password = attrs.get("password")
         confirm_password = attrs.get("confirm_password")
 
-        # Check if email verification is required
-        DNS_SMTP_EMAIL_VERIFICATION = config(
-            "DNS_SMTP_EMAIL_VERIFICATION", default=True, cast=bool
+        # Validate the email address
+        email_validator = CompositeValidator[str](
+            validators=[
+                RegexEmailValidator(),
+                MXEmailRecordValidator(),
+            ]
         )
 
-        # Validate the email is exist in the internet or not
-        if DNS_SMTP_EMAIL_VERIFICATION:
-            validator = DNSSMTPEmailValidator(email)
-            if not validator.is_valid():
-                raise serializers.ValidationError(
-                    detail=validator.errors,
-                    code="invalid_email",
-                )
+        if not email_validator.validate(email):
+            raise serializers.ValidationError(
+                detail=email_validator.errors,
+                code="invalid_email",
+            )
+
+        if password is None:
+            raise serializers.ValidationError(
+                detail=["Password field can't be null"],
+                code="invalid_password",
+            )
 
         # Validate password meets requirements
         try:
             validate_password(password)
         except ValidationError as error:
-            raise serializers.ValidationError({"password": error.messages})
+            raise serializers.ValidationError({"password": error.messages}) from error
 
         # Validate password and confirm password match or not
         if password != confirm_password:

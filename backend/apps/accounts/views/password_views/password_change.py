@@ -1,22 +1,22 @@
-from accounts.serializers.password_serializers import PasswordChangeSerializer
-from rest_core.email_service import Emails, EmailService, Templates
-from rest_core.response import failure_response, success_response
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
+
+from apps.accounts.serializers import PasswordChangeSerializer
+from apps.accounts.tasks import send_password_change_email
 
 
 class PasswordChangeView(APIView):
     """Changes authenticated user's password."""
 
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle]
+    permission_classes = [IsAuthenticated]  # noqa: RUF012
+    throttle_classes = [UserRateThrottle]  # noqa: RUF012
 
-    def post(self, request) -> Response:
+    def post(self, request: Request) -> Response:
         """Changes user password after validation."""
-
-        # Creating the serializer instance
         serializer = PasswordChangeSerializer(
             data=request.data,
             context={"request": request},
@@ -24,33 +24,19 @@ class PasswordChangeView(APIView):
 
         # Validating the serializer data
         if not serializer.is_valid():
-            return failure_response(
-                message="Invalid Password Change Request",
-                errors=serializer.errors,
+            return Response(
+                data=serializer.errors,  # type: ignore  # noqa: PGH003
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         # Save the new password
-        message = serializer.save()
+        user = serializer.save()
 
-        # Creating the Email Service instance
-        email = EmailService(
-            subject="Password Change Notification",
-            emails=Emails(
-                from_email=None,
-                to_emails=[request.user.email],
-            ),
-            context={"user": request.user},
-            templates=Templates(
-                text_template="accounts/password_change/success_message.txt",
-                html_template="accounts/password_change/success_message.html",
-            ),
-        )
-
-        # Send password changed success email
-        email.send(fallback=False)
+        # Send asynchronously email with account activation link
+        send_password_change_email.delay(user.email)  # type: ignore[attr-defined]
 
         # Return success password change response
-        return success_response(
-            message="Password Changed Successfully",
-            data=message,
+        return Response(
+            data={"detail": "Your password has been changed successfully."},
+            status=status.HTTP_200_OK,
         )

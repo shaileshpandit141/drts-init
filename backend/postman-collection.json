@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "e150837e-6c71-4922-80ae-7c36796418f1",
-		"name": "Django Initial Backend API's Collections",
+		"name": "Drts init API's Collections",
 		"description": "This document outlines how to structure a Postman collection to test the authentication APIs provided in the Django + React + TypeScript starter project using JWT.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32876258"
@@ -26,18 +26,17 @@
 									"formdata": [
 										{
 											"key": "email",
-											"value": "testuser1@gmail.com",
-											"type": "text",
-											"disabled": true
+											"value": "shaileshpandit141@gmail.com",
+											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "abc12345@",
+											"value": "shaileshpandit141@",
 											"type": "text"
 										},
 										{
 											"key": "confirm_password",
-											"value": "abc12345@",
+											"value": "shaileshpandit141@",
 											"type": "text"
 										}
 									]
@@ -134,8 +133,8 @@
 											"",
 											"const response = pm.response.json()",
 											"",
-											"pm.globals.set(\"refresh_token\", response.data.refresh_token)",
-											"pm.globals.set(\"access_token\", response.data.access_token)",
+											"pm.globals.set(\"refresh_token\", response.refresh_token)",
+											"pm.globals.set(\"access_token\", response.access_token)",
 											""
 										],
 										"type": "text/javascript",
@@ -154,12 +153,12 @@
 									"formdata": [
 										{
 											"key": "email",
-											"value": "testuser1@gmail.com",
+											"value": "shailesh@gmail.com",
 											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "abc12345@",
+											"value": "shailesh",
 											"type": "text"
 										}
 									]
@@ -344,15 +343,13 @@
 										},
 										{
 											"key": "first_name",
-											"value": "",
-											"type": "text",
-											"disabled": true
+											"value": "shailesh",
+											"type": "text"
 										},
 										{
 											"key": "last_name",
-											"value": "",
-											"type": "text",
-											"disabled": true
+											"value": "pandit",
+											"type": "text"
 										}
 									]
 								},

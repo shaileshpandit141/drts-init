@@ -1,0 +1,12 @@
+Subject: Account Deactivation Confirmation
+
+Dear {{ email }},
+
+This email confirms that your account has been successfully deactivated. All associated data and personal information have been removed from our active systems as per your request.
+
+If this was done in error or you'd like to reactivate your account in the future, please contact our support team at support@company.com within 30 days. After this period, your data may be permanently deleted.
+
+Thank you for being our customer. We're sorry to see you go.
+
+Best regards,
+{{ site_name }} Team
