@@ -26,6 +26,8 @@ from apps.accounts.views.signup_views import (
 )
 from apps.accounts.views.user_profile_views import UserProfileView
 
+app_name = "accounts"
+
 urlpatterns = [
     path("signup/", SignupView.as_view(), name="signup"),
     path(

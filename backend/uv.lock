@@ -224,7 +224,7 @@ requires-dist = [
     { name = "djangorestframework", specifier = ">=3.15.2" },
     { name = "djangorestframework-simplejwt", specifier = "==5.3.1" },
     { name = "djangorestframework-stubs", specifier = ">=3.16.1" },
-    { name = "djresttoolkit", specifier = ">=0.17.4" },
+    { name = "djresttoolkit", specifier = ">=0.17.5" },
     { name = "dnspython", specifier = "==2.7.0" },
     { name = "google-auth", specifier = "==2.38.0" },
     { name = "google-auth-httplib2", specifier = "==0.2.0" },
