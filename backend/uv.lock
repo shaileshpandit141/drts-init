@@ -224,7 +224,7 @@ requires-dist = [
     { name = "djangorestframework", specifier = ">=3.15.2" },
     { name = "djangorestframework-simplejwt", specifier = "==5.3.1" },
     { name = "djangorestframework-stubs", specifier = ">=3.16.1" },
-    { name = "djresttoolkit", specifier = ">=0.17.3" },
+    { name = "djresttoolkit", specifier = ">=0.17.4" },
     { name = "dnspython", specifier = "==2.7.0" },
     { name = "google-auth", specifier = "==2.38.0" },
     { name = "google-auth-httplib2", specifier = "==0.2.0" },
@@ -648,7 +648,7 @@ wheels = [
 
 [[package]]
 name = "djresttoolkit"
-version = "0.17.4"
+version = "0.17.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "faker" },
@@ -656,9 +656,9 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/95/5b/57615a34171f21e930f75af5654cc8fdf605e77915b0d1677264876c6310/djresttoolkit-0.17.4.tar.gz", hash = "sha256:aba423d80c19e339a953785d7bbd57e93e108695073709b7aa33c1e7134907ed", size = 1100824, upload-time = "2025-08-25T04:59:38.703Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b3/46/cd8b13559716a4ef0f1661ade6e4389aca4e07dba984e24aaf4de9eb1fb3/djresttoolkit-0.17.5.tar.gz", hash = "sha256:47f614599f0b3cde766530642d15ab1400f71a05c3981c5a775e76aefb240e2e", size = 1100822, upload-time = "2025-08-25T06:10:07.05Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b3/24/53c2325ad6735827131f3c7b1ca6eb6f14b39661bb35a75c0dcc5a676bac/djresttoolkit-0.17.4-py3-none-any.whl", hash = "sha256:24b6fa66e162e55cd8abc9a339e412c79aa9340a9636619bb76bf8144eb08c90", size = 43118, upload-time = "2025-08-25T04:59:03.807Z" },
+    { url = "https://files.pythonhosted.org/packages/23/7f/32b386850bde62de9692b3ad21e12f00c61e74ab0be2dc3143f9959678c5/djresttoolkit-0.17.5-py3-none-any.whl", hash = "sha256:c0f302cbffd4e9a2a47e0b2b9e9d97aef356aa719e30c746c2564b63f381d5b5", size = 43116, upload-time = "2025-08-25T06:09:53.959Z" },
 ]
 
 [[package]]
