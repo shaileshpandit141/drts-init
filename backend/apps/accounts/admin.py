@@ -22,9 +22,9 @@ class CustomUserAdmin(UserAdmin):  # type: ignore  # noqa: PGH003
         "email",
         "username",
         "is_active",
+        "is_verified",
         "is_staff",
         "is_superuser",
-        "is_verified",
         "last_login",
     ]
     list_display_links = list_display  # type: ignore  # noqa: PGH003

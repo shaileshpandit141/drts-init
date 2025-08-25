@@ -124,6 +124,12 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         db_index=False,
         error_messages={"invalid": "Please specify whether the user is active"},
     )
+    is_verified: BooleanField[bool, bool] = BooleanField(
+        default=False,
+        null=False,
+        db_index=False,
+        error_messages={"invalid": "Please specify whether the account is verified"},
+    )
     is_staff: BooleanField[bool, bool] = models.BooleanField(
         default=False,
         null=False,
@@ -135,12 +141,6 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         null=False,
         db_index=False,
         error_messages={"invalid": "Please specify whether the user is a superuser"},
-    )
-    is_verified: BooleanField[bool, bool] = BooleanField(
-        default=False,
-        null=False,
-        db_index=False,
-        error_messages={"invalid": "Please specify whether the account is verified"},
     )
     date_joined: DateTimeField[str, str] = DateTimeField(
         auto_now=False,
