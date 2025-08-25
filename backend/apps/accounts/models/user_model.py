@@ -163,16 +163,6 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         """Returns the string representation of the user (email)."""
         return str(self.email)
 
-    def get_short_name(self) -> str:
-        """Returns the user's first name if it exists."""
-        return (str(self.first_name)).strip()
-
-    def get_full_name(self) -> str:
-        """Returns the user"s full name otherwise None."""
-        if self.first_name and self.last_name:
-            return f"{self.first_name} {self.last_name}".strip()
-        return self.email
-
     def save(self, *args: tuple[str], **kwargs: object) -> None:
         """Override the save method to generate a unique username."""
         # Generate a unique username if not provided
