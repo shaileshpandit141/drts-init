@@ -18,13 +18,3 @@ export interface ErrorResponse {
   email: string;
   password: string;
 }
-
-export interface APIError<FieldErrors = Record<string, string[]>> {
-  status: number;
-  data:
-    | {
-        detail?: string | null;
-        non_field?: string[] | null;
-      }
-    | FieldErrors;
-}

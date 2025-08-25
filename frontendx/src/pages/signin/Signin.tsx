@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useSigninMutation } from "../../features/auth/authApi";
+import { ErrorResponse } from "../../features/auth/types";
+import { GetErrors } from "../../utils/getErrors";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signin, { isLoading, error }] = useSigninMutation();
+  const errors = GetErrors<ErrorResponse>(error)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,8 +32,15 @@ const Signin = () => {
           placeholder="Password"
           required
         />
-        <button type="submit" disabled={isLoading}>Signin</button>
-        {error && <p style={{ color: "red" }}>Signin failed</p>}
+        <button type="submit" disabled={isLoading}>{isLoading ? "Signin..." : "Signin"}</button>
+        {errors.status === 400 && (
+          <div>
+            <p>{errors.data.email}</p>
+            <p>{errors.data.password}</p>
+            <p>{errors.data.detail}</p>
+            <p>{errors.data.non_field}</p>
+          </div>
+        )}
       </form>
     </div>
   );
