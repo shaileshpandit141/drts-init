@@ -18,9 +18,9 @@ class UserSerializer(AbsoluteUrlFileMixin, ModelSerializer[User]):
             "first_name",
             "last_name",
             "picture",
+            "is_verified",
             "is_staff",
             "is_superuser",
-            "is_verified",
         ]
         read_only_fields: ClassVar[list[str]] = [
             "id",
