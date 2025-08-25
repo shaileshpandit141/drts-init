@@ -124,6 +124,12 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         db_index=False,
         error_messages={"invalid": "Please specify whether the user is active"},
     )
+    is_verified: BooleanField[bool, bool] = BooleanField(
+        default=False,
+        null=False,
+        db_index=False,
+        error_messages={"invalid": "Please specify whether the account is verified"},
+    )
     is_staff: BooleanField[bool, bool] = models.BooleanField(
         default=False,
         null=False,
@@ -135,12 +141,6 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         null=False,
         db_index=False,
         error_messages={"invalid": "Please specify whether the user is a superuser"},
-    )
-    is_verified: BooleanField[bool, bool] = BooleanField(
-        default=False,
-        null=False,
-        db_index=False,
-        error_messages={"invalid": "Please specify whether the account is verified"},
     )
     date_joined: DateTimeField[str, str] = DateTimeField(
         auto_now=False,
@@ -162,16 +162,6 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         """Returns the string representation of the user (email)."""
         return str(self.email)
-
-    def get_short_name(self) -> str:
-        """Returns the user's first name if it exists."""
-        return (str(self.first_name)).strip()
-
-    def get_full_name(self) -> str:
-        """Returns the user"s full name otherwise None."""
-        if self.first_name and self.last_name:
-            return f"{self.first_name} {self.last_name}".strip()
-        return self.email
 
     def save(self, *args: tuple[str], **kwargs: object) -> None:
         """Override the save method to generate a unique username."""

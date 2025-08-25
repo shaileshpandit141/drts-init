@@ -56,7 +56,7 @@
 							"response": []
 						},
 						{
-							"name": "Send Account Verification Email",
+							"name": "Send Account Activation Email",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -65,19 +65,19 @@
 									"formdata": [
 										{
 											"key": "email",
-											"value": "testuser5@gmail.com",
+											"value": "shaileshpandit141@gmail.com",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/account-verification/",
+									"raw": "{{base_url}}/auth/account-activation/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"account-verification",
+										"account-activation",
 										""
 									]
 								}
@@ -100,13 +100,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/account-verification/confirm/",
+									"raw": "{{base_url}}/auth/account-activation/confirm/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"account-verification",
+										"account-activation",
 										"confirm",
 										""
 									]
@@ -153,12 +153,12 @@
 									"formdata": [
 										{
 											"key": "email",
-											"value": "shailesh@gmail.com",
+											"value": "shaileshpandit141@gmail.com",
 											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "shailesh",
+											"value": "shaileshpandit141@",
 											"type": "text"
 										}
 									]
@@ -188,8 +188,8 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"const responseData = pm.response.json();",
-											"pm.globals.set(\"access_token\", responseData.data.access_token);",
+											"const response = pm.response.json();",
+											"pm.globals.set(\"access_token\", response.access_token);",
 											""
 										],
 										"type": "text/javascript",
@@ -199,14 +199,7 @@
 							],
 							"request": {
 								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "",
-											"type": "string"
-										}
-									]
+									"type": "noauth"
 								},
 								"method": "POST",
 								"header": [],
@@ -387,7 +380,7 @@
 									"formdata": [
 										{
 											"key": "password",
-											"value": "abc12345@",
+											"value": "shaileshpandit141@",
 											"type": "text"
 										}
 									]
@@ -432,17 +425,17 @@
 									"formdata": [
 										{
 											"key": "current_password",
-											"value": "abc12345@",
+											"value": "shaileshpandit141@",
 											"type": "text"
 										},
 										{
 											"key": "new_password",
-											"value": "abc12345@12345",
+											"value": "pandit141@",
 											"type": "text"
 										},
 										{
 											"key": "confirm_password",
-											"value": "abc12345@12345",
+											"value": "pandit141@",
 											"type": "text"
 										}
 									]
@@ -504,7 +497,12 @@
 									"formdata": [
 										{
 											"key": "email",
-											"value": "testuser7@gmail.com",
+											"value": "shaileshpandit141@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "reset_confirm_uri",
+											"value": "http://localhost:8000",
 											"type": "text"
 										}
 									]
@@ -534,12 +532,12 @@
 									"formdata": [
 										{
 											"key": "token",
-											"value": "resetpasswordtokenfromemail",
+											"value": "eyJ1c2VyX2lkIjoxNywibWF4X2FnZV9zZWNvbmRzIjoxMjAwfQ.aKwIAQ.MGGNqo1sbtOXPNbFWLv-vDdvJyc%7Cbf22bce49ab84e4790000cc776559168",
 											"type": "text"
 										},
 										{
 											"key": "new_password",
-											"value": "abc12345@",
+											"value": "shaileshpandit141@",
 											"type": "text"
 										}
 									]
