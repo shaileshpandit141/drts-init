@@ -36,7 +36,7 @@ class AccountActivationConfirmView(RetrieveObjectMixin[User], APIView):
         """Verify the provided token and activate the user account."""
         if token is None:
             raise ValidationError(
-                {"detail": "This field is required."},
+                {"detail": "The token is invalid or has expired."},
                 code="required",
             )
 
