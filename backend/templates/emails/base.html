@@ -12,51 +12,8 @@
     <title>"Drts-Init"</title>
   </head>
   <body style="margin: 0; padding: 0">
-    <center role="article" aria-roledescription="email" lang="en">
-      <table
-        role="presentation"
-        cellspacing="0"
-        cellpadding="0"
-        border="0"
-        width="100%"
-      >
-        <tr>
-          <td align="center">
-            <table
-              role="presentation"
-              class="email-container"
-              width="600"
-              cellspacing="0"
-              cellpadding="0"
-              border="0"
-              style="width: 100%"
-            >
-              {% include "emails/components/header.html" %}
-
-              <tr>
-                <td style="padding: 24px">
-                  <table
-                    role="presentation"
-                    width="100%"
-                    cellspacing="0"
-                    cellpadding="0"
-                    border="0"
-                    class="card"
-                    style="background: #ffffff; border-radius: 8px"
-                  >
-                    <tr>
-                      <td class="p-sm" style="padding: 28px">
-                        {% block content %}{% endblock %}
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              {% include "emails/components/footer.html" %}
-            </table>
-          </td>
-        </tr>
-      </table>
-    </center>
+    <header>{% include "emails/components/header.html" %}</header>
+    <main>{% block content %}{% endblock %}</main>
+    <footer>{% include "emails/components/footer.html" %}</footer>
   </body>
 </html>
