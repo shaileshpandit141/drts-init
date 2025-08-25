@@ -648,7 +648,7 @@ wheels = [
 
 [[package]]
 name = "djresttoolkit"
-version = "0.17.3"
+version = "0.17.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "faker" },
@@ -656,9 +656,9 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/eb/51/46b456b751474c94090de949763b7e0ddbd8df934358b9a541617da51dd8/djresttoolkit-0.17.3.tar.gz", hash = "sha256:2623b59d75c51979b72555980c10aff815045321e9d6cc1598acffcbc15e8f61", size = 1100819, upload-time = "2025-08-24T07:25:22.625Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/95/5b/57615a34171f21e930f75af5654cc8fdf605e77915b0d1677264876c6310/djresttoolkit-0.17.4.tar.gz", hash = "sha256:aba423d80c19e339a953785d7bbd57e93e108695073709b7aa33c1e7134907ed", size = 1100824, upload-time = "2025-08-25T04:59:38.703Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3e/4a/6dbaab4a75b36da529413fceddcf3d0c29b6f2cda6883fa37023dd2396a4/djresttoolkit-0.17.3-py3-none-any.whl", hash = "sha256:b682b26e4470451b39c8a0befe8c42a28b3f2f408ee36283584c3349910d9ebd", size = 43118, upload-time = "2025-08-24T07:25:05.501Z" },
+    { url = "https://files.pythonhosted.org/packages/b3/24/53c2325ad6735827131f3c7b1ca6eb6f14b39661bb35a75c0dcc5a676bac/djresttoolkit-0.17.4-py3-none-any.whl", hash = "sha256:24b6fa66e162e55cd8abc9a339e412c79aa9340a9636619bb76bf8144eb08c90", size = 43118, upload-time = "2025-08-25T04:59:03.807Z" },
 ]
 
 [[package]]
