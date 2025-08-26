@@ -1,10 +1,10 @@
 import React, { FC, JSX } from "react";
-import "./AuthLayout.module.css";
+import styles from "./AuthLayout.module.css";
 import { Outlet } from "react-router-dom";
 
 const AuthLayout: FC = (): JSX.Element => {
     return (
-        <main>
+        <main className={styles.container}>
             <Outlet />
         </main>
     )
