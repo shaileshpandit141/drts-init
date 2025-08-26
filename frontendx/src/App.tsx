@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Signin from "./pages/signin/Signin";
+import RootLayout from "./layouts/RootLayout/RootLayout";
 
 function App() {
   return (
@@ -12,14 +13,16 @@ function App() {
       }}
     >
       <Routes>
-        <Route index element={<h3>Home Page</h3>} />
+        <Route element={<RootLayout />}>
+          <Route index element={<h3>Home Page</h3>} />
 
-        <Route element={<PublicRoute />}>
-          <Route path="/signin" element={<Signin />} />
-        </Route>
+          <Route element={<PublicRoute />}>
+            <Route path="/signin" element={<Signin />} />
+          </Route>
 
-        <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<h3>Dashboard</h3>} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<h3>Dashboard</h3>} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
