@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useSigninMutation } from "../../features/auth/authApi";
-import { ErrorResponse } from "../../features/auth/types";
-import { GetErrors } from "../../utils/getErrors";
+import { useSigninMutation } from "features/auth/authApi";
+import { ErrorResponse } from "features/auth/types";
+import { GetErrors } from "utils/getErrors";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
