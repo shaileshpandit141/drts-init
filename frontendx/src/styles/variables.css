@@ -11,6 +11,8 @@
   /* Transition variables */
   --ts-duration: 0.4s;
   --ts-timing-function: ease-in-out;
+
+  /* Utils transition variables */
   --ts-primary: background-color var(--ts-duration) var(--ts-timing-function),
     color var(--ts-duration) var(--ts-timing-function);
 

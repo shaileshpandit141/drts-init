@@ -1,11 +1,4 @@
-/* Reset.css
- * A comprehensive CSS reset stylesheet
- */
-
-/* Universal Reset
- * Applies baseline reset to all elements including pseudo-elements
- * Removes margins, padding, borders and sets consistent box model
- */
+/* A comprehensive CSS reset stylesheet */
 *,
 *::before,
 *::after {
@@ -25,10 +18,7 @@
   }
 }
 
-/* HTML Root Element
- * Sets foundational typography and scrolling behavior
- * Ensures proper text sizing and overflow handling
- */
+/* HTML Root Element */
 html {
   font-size: 100%;
   line-height: 1.5;
@@ -38,18 +28,13 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* List Elements
- * Removes default browser list styling for clean list implementation
- */
+/* List Elements */
 ul,
 ol {
   list-style: none;
 }
 
-/* Fieldset Element
- * Removes default fieldset styling and spacing
- * Ensures consistent form layout
- */
+/* Fieldset Element */
 fieldset {
   border: 0;
   padding: 0;
@@ -57,19 +42,13 @@ fieldset {
   min-width: 0;
 }
 
-/* Table Element
- * Removes default table styling and spacing
- * Provides clean base for custom table styling
- */
+/* Table Element */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* Form Controls
- * Normalizes form element appearance across browsers
- * Removes default styling and ensures consistent inheritance
- */
+/* Form Controls */
 input,
 button,
 textarea,
@@ -90,10 +69,7 @@ select {
   border-color: var(--border-primary);
 }
 
-/* Anchor Element
- * Removes default link styling
- * Sets consistent cursor and selection behavior
- */
+/* Anchor Element */
 a {
   text-decoration: none;
   cursor: default;
@@ -101,10 +77,7 @@ a {
   -webkit-user-select: none;
 }
 
-/* Media Elements
- * Makes media elements responsive by default
- * Prevents unwanted selection of media content
- */
+/* Media Elements */
 img,
 video,
 audio {
@@ -115,47 +88,32 @@ audio {
   -webkit-user-select: none;
 }
 
-/* Blockquote Element
- * Removes default blockquote margins and padding
- * Provides clean base for custom quote styling
- */
+/* Blockquote Element */
 blockquote {
   margin: 0;
   padding: 0;
 }
 
-/* Clearfix
- * Utility class for clearing floated elements
- * Prevents container collapse with floated children
- */
+/* Clearfix */
 .clearfix::after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* Text Formatting
- * Normalizes bold text elements
- * Allows custom control of text weight
- */
+/* Text Formatting */
 strong,
 b {
   font-weight: normal;
 }
 
-/* Form Element
- * Prevents text selection within forms
- * Improves touch interaction on mobile
- */
+/* Form Element */
 form {
   user-select: none;
   -webkit-user-select: none;
 }
 
-/* Theme Transitions
- * Enables smooth theme switching
- * Applies to major layout elements
- */
+/* Theme Transitions */
 body,
 header,
 footer,
@@ -165,10 +123,7 @@ button {
   transition: var(--ts-secondary);
 }
 
-/* Touch Device Optimizations
- * Applies touch-specific improvements
- * Enhances scrolling and removes scrollbars on mobile
- */
+/* Touch Device Optimizations */
 @media (hover: none) and (pointer: coarse) {
   * {
     -webkit-overflow-scrolling: touch;

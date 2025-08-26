@@ -1,10 +1,5 @@
-/**
- * Typography Styles
- * ---------------
- * Core typography styles defining text appearance across the application.
- * Uses fluid typography with clamp() for responsive scaling and consistent
- * letter spacing for improved readability.
- */
+/* Grup Heading Sizes */
+/* ------------------------ */
 h1,
 h2,
 h3,
@@ -22,10 +17,8 @@ h6 {
   }
 }
 
-/* Individual Heading Sizes
- * ---------------
- * Using clamp() for fluid typography scaling based on viewport width
- */
+/* Individual Heading Sizes */
+/* ------------------------ */
 h1 {
   font-size: clamp(
     calc(28 / 16 * 1rem),
@@ -80,43 +73,34 @@ h6 {
   line-height: 1.5;
 }
 
-/* Text Elements
- * ---------------
- * Base text styling for paragraphs and details elements
- */
+/* Base text styling for paragraphs and details elements */
 p,
 details {
   font-size: calc(14 / 16 * 1rem);
   letter-spacing: 0.04em;
-  color: var(--text-primary);
   line-height: 1.5;
-  transition: color var(--ts-duration) var(--ts-timing-function);
+  color: var(--text-primary);
+  transition: var(--ts-primary);
 }
 
-/* Form Typography
- * ---------------
- * Consistent styling for form elements and placeholders
- */
+/* Consistent styling for form elements and placeholders */
 input,
 button,
 textarea,
 select {
   letter-spacing: 0.04em;
-  color: var(--text-primary);
   font-size: calc(16 / 16 * 1rem);
-  transition: var(--transition);
+  color: var(--text-primary);
+  transition: var(--ts-secondary);
 
   &::placeholder {
     letter-spacing: 0.04em;
-    color: var(--text-secondary, #666);
     font-size: calc(16 / 16 * 1rem);
+    color: var(--text-primary);
   }
 }
 
-/* Link Typography
- * ---------------
- * Clean and consistent link styling with hover and focus states
- */
+/* Clean and consistent link styling with hover and focus states */
 a,
 a:visited,
 a:active {
@@ -125,7 +109,6 @@ a:active {
   letter-spacing: 0.04em;
   font-weight: 600;
   color: var(--link-primary);
-  transition: color var(--ts-duration) var(--ts-timing-function);
 
   &:is(:hover, :focus, :focus-visible) {
     color: var(--link-hover);
@@ -140,10 +123,7 @@ button::first-letter {
   text-transform: capitalize;
 }
 
-/* Interactive Elements
- * --------------------
- * Cursor styling for pointer devices to indicate interactive elements
- */
+/* Cursor styling for pointer devices to indicate interactive elements */
 @media (pointer: fine) {
   a,
   button,
@@ -151,8 +131,4 @@ button::first-letter {
   input[type="radio"] {
     cursor: pointer;
   }
-}
-
-p {
-  transition: var(--ts-primary);
 }
