@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "routes/PrivateRoute";
 import PublicRoute from "routes/PublicRoute";
-import Signin from "pages/signin/Signin";
 import RootLayout from "layouts/RootLayout";
 import AuthLayout from "layouts/AuthLayout";
 import MainLayout from "layouts/MainLayout";
+import Signin from "pages/signin/Signin";
 
 function RootRoutes() {
   return (
