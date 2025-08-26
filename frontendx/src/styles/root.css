@@ -18,8 +18,7 @@ body {
 /* Root Element (#root) */
 #root {
   position: relative;
+  overflow: hidden;
   height: 100%;
   width: 100%;
-  overflow: hidden;
-  overflow-x: auto;
 }
