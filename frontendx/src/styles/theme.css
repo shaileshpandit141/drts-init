@@ -12,12 +12,13 @@
   --text-secondary: #4a4a4a;
   --text-muted: #767676;
 
+  /* Accent / Brand Color */
+  --text-accent: #0066cc;
+
   /* Border Colors */
   --border-primary: #e0e0e0;
   --border-secondary: #cccccc;
 
-  /* Accent / Brand Color */
-  --accent: #0066cc;
 
   /* Button Styles */
   --btn-primary: var(--accent);
@@ -55,12 +56,13 @@
   --text-secondary: #cccccc;
   --text-muted: #999999;
 
+  /* Accent / Brand Color */
+  --text-accent: #5cafff;
+
   /* Border Colors */
   --border-primary: #333333;
   --border-secondary: #444444;
 
-  /* Accent / Brand Color */
-  --accent: #5cafff;
 
   /* Button Styles */
   --btn-primary: var(--accent);

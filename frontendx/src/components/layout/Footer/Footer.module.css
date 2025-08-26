@@ -1,0 +1,5 @@
+.container {
+  background-color: var(--bg-footer);
+  height: 220px;
+  padding: var(--padding);
+}
