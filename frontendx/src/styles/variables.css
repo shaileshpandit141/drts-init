@@ -1,0 +1,33 @@
+/* Global CSS Custom Properties (Variables) */
+:root {
+  /* Layout Properties */
+  --opacity: 1;
+  --box-shadow: 0 0 1.5px gray;
+  --border: 1px solid var(--border-primary);
+  --header-height: calc(64 / 16 * 1em);
+  --screen-height: calc(100dvh - var(--header-height));
+
+  /* Transition variables */
+  --ts-duration: 0.4s;
+  --ts-timing-function: ease-in-out;
+  --ts-primary:
+    background-color var(--ts-duration) var(--ts-timing-function),
+    color var(--ts-duration) var(--ts-timing-function);
+
+  --ts-secondary:
+    background-color var(--ts-duration) var(--ts-timing-function),
+    color var(--ts-duration) var(--ts-timing-function),
+    border var(--ts-duration) var(--ts-timing-function),
+    box-shadow var(--ts-duration) var(--ts-timing-function),
+    opacity var(--ts-duration) var(--ts-timing-function),
+    transform var(--ts-duration) var(--ts-timing-function);
+}
+
+.temp {
+  /* Responsive Breakpoint Definitions */
+  --breakpoint-xs: 480px; /* Mobile */
+  --breakpoint-sm: 768px; /* Tablet */
+  --breakpoint-md: 1024px; /* Landscape Tablet */
+  --breakpoint-lg: 1280px; /* Laptop/Desktop */
+  --breakpoint-xl: 1600px; /* 4K Displays */
+}
