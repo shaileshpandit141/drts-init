@@ -4,6 +4,7 @@ import "./styles/theme.css";
 import "./styles/variables.css";
 import "./styles/reset.css";
 import "./styles/typography.css";
+import "./styles/root.css";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import App from './App';
