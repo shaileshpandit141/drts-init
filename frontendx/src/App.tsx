@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Signin from "./pages/signin/Signin";
-import RootLayout from "./layouts/RootLayout/RootLayout";
+import RootLayout from "./layouts/RootLayout";
 
 function App() {
   return (
