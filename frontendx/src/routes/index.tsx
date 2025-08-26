@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PrivateRoute from "./routes/PrivateRoute";
-import PublicRoute from "./routes/PublicRoute";
-import Signin from "./pages/signin/Signin";
-import RootLayout from "./layouts/RootLayout";
+import PrivateRoute from "routes/PrivateRoute";
+import PublicRoute from "routes/PublicRoute";
+import Signin from "pages/signin/Signin";
+import RootLayout from "layouts/RootLayout";
 
-function App() {
+function RootRoutes() {
   return (
     <BrowserRouter
       future={{
@@ -29,4 +29,4 @@ function App() {
   );
 }
 
-export default App;
+export default RootRoutes;

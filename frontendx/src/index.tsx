@@ -7,7 +7,7 @@ import "styles/typography.css";
 import "styles/root.css";
 import { Provider } from "react-redux";
 import { store } from "app/store";
-import App from 'App';
+import RootRoutes from "routes";
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -16,7 +16,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RootRoutes />
     </Provider>
   </React.StrictMode>
 );
