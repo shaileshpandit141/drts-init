@@ -1,0 +1,24 @@
+.drawer {
+  position: fixed;
+  background-color: transparent;
+  inset: 0;
+  user-select: none;
+  z-index: 9999;
+  overflow: hidden;
+  transition:
+    z-index var(--ts-duration) var(--ts-timing-function),
+    backdrop-filter var(--ts-duration) var(--ts-timing-function),
+    var(--ts-secondary);
+
+  &.drawer--active {
+    background-color: #0000006e;
+    backdrop-filter: blur(1.5px);
+  }
+
+  &.drawer--inactive {
+    background-color: transparent;
+    pointer-events: none;
+    backdrop-filter: blur(0);
+    z-index: 0;
+  }
+}
