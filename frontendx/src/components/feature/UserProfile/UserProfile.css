@@ -1,0 +1,141 @@
+.user-profile {
+  --hw: 40px;
+  position: relative;
+  user-select: none;
+  background-color: transparent;
+  transition: var(--ts-secondary);
+
+  .profile-action-button {
+    height: var(--hw);
+    width: var(--hw);
+    padding: 0;
+
+    img {
+      height: var(--hw);
+      width: var(--hw);
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  .card-container {
+    --height: 225px;
+    --width: 225px;
+
+    background-color: var(--bg-secondary);
+    position: absolute;
+    opacity: 0;
+    top: calc(100% + 4px);
+    right: 0px;
+    bottom: auto;
+    left: auto;
+    height: fit-content;
+    max-width: fit-content;
+    padding: 8px;
+    border-radius: 16px;
+    border: var(--border);
+    transform-origin: top right;
+    transition: var(--ts-secondary);
+
+    .card-header {
+      height: fit-content;
+      width: var(--width);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+
+      .dashboard-link {
+        width: 100%;
+        padding-inline: 8px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: 8px;
+        background-color: transparent;
+
+        &:hover {
+          background-color: var(--btn-primary-hover);
+        }
+
+        .user-profile-image {
+          --hw: 40px;
+          height: var(--hw);
+          width: var(--hw);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: var(--hw);
+          background-color: var(--btn-primary-bg);
+          overflow: hidden;
+
+          img {
+            height: var(--hw);
+            width: var(--hw);
+            object-fit: cover;
+            object-position: center;
+          }
+        }
+
+        .user-profile-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          overflow: hidden;
+
+          .email {
+            margin: 0;
+            color: var(--text-muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+          }
+
+          .view-settings {
+            margin: 0;
+            font-size: 12px;
+            text-transform: capitalize;
+            color: var(--link-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+          }
+        }
+      }
+
+      .line-break {
+        height: 1.2px;
+        width: 90%;
+        margin-block: 4px;
+        background-color: var(--border-primary);
+        border-radius: 999rem;
+        transition: var(--ts-secondary);
+      }
+
+      button,
+      a {
+        border-radius: 12px;
+        justify-content: flex-start;
+        background-color: transparent;
+        border: none;
+        padding-inline: 8px;
+
+        &:hover {
+          background-color: var(--btn-primary-hover);
+        }
+      }
+    }
+  }
+
+  .no-user-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--status-success);
+  }
+}

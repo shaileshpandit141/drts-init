@@ -2,8 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import toastReducer from "features/toast/toastSlice";
 import { authApi } from "features/auth/authApi";
 import authReducer from "features/auth/authSlice";
-import { signoutApi } from "features/signout/signoutApi";
 import signoutReducer from "features/signout/signoutSlice";
+import { signoutApi } from "features/signout/signoutApi";
+import { userSlice } from "features/user/userSlice";
+import { userApi } from "features/user/userApi";
 
 export const store = configureStore({
   reducer: {
@@ -12,9 +14,15 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     signout: signoutReducer,
     [signoutApi.reducerPath]: signoutApi.reducer,
+    user: userSlice.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, signoutApi.middleware),
+    getDefaultMiddleware().concat(
+      authApi.middleware,
+      signoutApi.middleware,
+      userApi.middleware
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

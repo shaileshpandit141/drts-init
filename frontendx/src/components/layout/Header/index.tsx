@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ToggleTheme from "components/common/ToggleTheme";
 import { useAuth } from "features/auth/hooks";
 import Signout from "components/feature/Signout";
+import UserProfile from "components/feature/UserProfile";
 
 const Header: FC = (): JSX.Element => {
     const { isAuthenticated } = useAuth();
@@ -17,6 +18,7 @@ const Header: FC = (): JSX.Element => {
             <section className={styles.right}>
                 {isAuthenticated ? <Signout /> : <Link to={"/signin"} className={styles.link}>Sign in</Link>}
                 <ToggleTheme />
+                <UserProfile />
             </section>
         </header>
     )
