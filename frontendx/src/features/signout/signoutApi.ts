@@ -1,12 +1,9 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
+import { authenticatedApi } from "app/authenticatedApi";
 import type { SignoutRequest, SignoutResponse } from "./types";
-import { baseQueryAuth } from "app/baseQueryAuth";
 import { signout } from "features/auth/authSlice";
 import { setSignoutState } from "./signoutSlice";
 
-export const signoutApi = createApi({
-  reducerPath: "signoutApi",
-  baseQuery: baseQueryAuth,
+export const signoutApi = authenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
     signout: builder.mutation<SignoutResponse, SignoutRequest>({
       query: (credentials) => ({

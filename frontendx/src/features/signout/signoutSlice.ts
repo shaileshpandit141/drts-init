@@ -5,7 +5,7 @@ const initialState: SignoutState = {
   detail: "",
 };
 
-const signoutSlice = createSlice({
+export const signoutSlice = createSlice({
   name: "signout",
   initialState,
   reducers: {
@@ -16,4 +16,3 @@ const signoutSlice = createSlice({
 });
 
 export const { setSignoutState } = signoutSlice.actions;
-export default signoutSlice.reducer;

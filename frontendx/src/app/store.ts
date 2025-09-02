@@ -1,27 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
 import toastReducer from "features/toast/toastSlice";
-import { authApi } from "features/auth/authApi";
-import authReducer from "features/auth/authSlice";
-import signoutReducer from "features/signout/signoutSlice";
-import { signoutApi } from "features/signout/signoutApi";
+import { authenticatedApi } from "./authenticatedApi";
+import { publicApi } from "./publicApi";
+import { authSlice } from "features/auth/authSlice";
+import { signoutSlice } from "features/signout/signoutSlice";
 import { userSlice } from "features/user/userSlice";
-import { userApi } from "features/user/userApi";
 
 export const store = configureStore({
   reducer: {
     toast: toastReducer,
-    auth: authReducer,
-    [authApi.reducerPath]: authApi.reducer,
-    signout: signoutReducer,
-    [signoutApi.reducerPath]: signoutApi.reducer,
+    auth: authSlice.reducer,
+    signout: signoutSlice.reducer,
     user: userSlice.reducer,
-    [userApi.reducerPath]: userApi.reducer,
+    [authenticatedApi.reducerPath]: authenticatedApi.reducer,
+    [publicApi.reducerPath]: publicApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      authApi.middleware,
-      signoutApi.middleware,
-      userApi.middleware
+      authenticatedApi.middleware,
+      publicApi.middleware
     ),
 });
 
