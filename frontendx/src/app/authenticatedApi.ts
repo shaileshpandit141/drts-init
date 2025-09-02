@@ -25,9 +25,13 @@ const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+  // Track if this request has already retried
+  let retry = false;
+
   let result = await rawBaseQuery(args, api, extraOptions);
 
-  if (result.error && result.error.status === 401) {
+  if (result.error && result.error.status === 401 && !retry) {
+    retry = true; // ensure we retry only once
     const refresh_token = (api.getState() as RootState).auth.refresh_token;
 
     if (!refresh_token) {
@@ -35,7 +39,7 @@ const baseQueryWithReauth: BaseQueryFn<
       return result;
     }
 
-    // queue multiple requests to avoid multiple refresh calls
+    // Queue multiple requests
     if (!refreshingPromise) {
       refreshingPromise = (async () => {
         try {
@@ -65,10 +69,10 @@ const baseQueryWithReauth: BaseQueryFn<
       })();
     }
 
-    // wait for refresh to complete before retrying
+    // wait for refresh to finish
     await refreshingPromise;
 
-    // retry original request
+    // retry original request with new token
     result = await rawBaseQuery(args, api, extraOptions);
   }
 
