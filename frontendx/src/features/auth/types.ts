@@ -15,6 +15,6 @@ export interface SigninResponse {
 }
 
 export interface ErrorResponse {
-  email: string;
-  password: string;
+  email: string[];
+  password: string[];
 }
