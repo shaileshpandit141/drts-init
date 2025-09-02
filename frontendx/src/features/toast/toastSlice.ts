@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Toast, ToastState } from "./toast.types";
+import { Toast, ToastState } from "./types";
 
 const initialState: ToastState = {
   toasts: [],
@@ -23,7 +23,5 @@ const toastSlice = createSlice({
   },
 });
 
-export const {
-  reducer: toastReducer,
-  actions: { addToast, removeToast, resetToastState },
-} = toastSlice;
+export const { addToast, removeToast, resetToastState } = toastSlice.actions;
+export default toastSlice.reducer;

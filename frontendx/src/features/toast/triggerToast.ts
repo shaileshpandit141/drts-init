@@ -1,6 +1,6 @@
 import { nanoid } from "@reduxjs/toolkit";
 import { store } from "app/store";
-import { addToast } from "features/toast";
+import { addToast } from "./toastSlice";
 
 // Triggers a toast notification with the specified parameters
 export const triggerToast = (
