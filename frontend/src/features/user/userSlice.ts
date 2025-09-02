@@ -1,50 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { UserInitialState } from "./user.types";
-import { userAction } from "./userAction";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserState, UserResponse } from "./types";
 
-/**
- * # Initial state for user slice
- * Contains status, message, data, errors and meta information
- */
-const userInitialState: UserInitialState = {
-  status: "idle",
-  status_code: null,
-  message: null,
-  data: null,
-  errors: null,
-  meta: null,
+const initialState: UserState = {
+  email: "",
+  username: "",
+  first_name: "",
+  last_name: "",
+  picture: "",
+  is_varified: false,
+  is_staff: false,
+  is_superuser: false,
 };
 
-/**
- * Redux slice containing user state logic and reducers
- */
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: "user",
-  initialState: userInitialState,
+  initialState,
   reducers: {
-    resetUserState: (state): void => {
-      Object.assign(state, userInitialState);
+    setUserState: (state, action: PayloadAction<UserResponse>) => {
+      Object.assign(state, action.payload)
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      // Handle user async states
-      .addCase(userAction.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(userAction.fulfilled, (state, action) => {
-        Object.assign(state, action.payload);
-        state.status = "succeeded";
-      })
-      .addCase(userAction.rejected, (state, action) => {
-        Object.assign(state, action.payload);
-        state.status = "failed";
-      });
   },
 });
 
-// Export user slice actions
-export const {
-  reducer: userReducer,
-  actions: { resetUserState },
-} = userSlice;
+export const { setUserState } = userSlice.actions;
+
