@@ -1,10 +1,10 @@
 import React from "react";
 import "./ToastContainer.css";
 import Toast from "./index";
-import { useToastSelector } from "features/toast";
+import { useToast } from "features/toast/hooks";
 
 const ToastContainer: React.FC = () => {
-  const toasts = useToastSelector();
+  const toasts = useToast();
 
   return (
     <div className="toast-container">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Toast.css";
 import { useDispatch } from "react-redux";
-import { removeToast } from "features/toast";
+import { removeToast } from "features/toast/toastSlice";
 import { CheckCheck, Info, CircleAlert, Ban, X } from "lucide-react";
 
 interface ToastProps {
