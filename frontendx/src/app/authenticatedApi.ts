@@ -9,19 +9,17 @@ import type { RootState } from "./store";
 import { BASE_API_URL } from "./baseApiUrl";
 import { setCredentials, signout } from "features/auth/authSlice";
 
-// base query with token in headers
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: BASE_API_URL,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.access_token;
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
+    if (token) headers.set("Authorization", `Bearer ${token}`);
     return headers;
   },
 });
 
-// wrapper to handle token refresh
+let refreshingPromise: Promise<void> | null = null;
+
 const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -32,32 +30,46 @@ const baseQueryWithReauth: BaseQueryFn<
   if (result.error && result.error.status === 401) {
     const refresh_token = (api.getState() as RootState).auth.refresh_token;
 
-    // try refreshing the token
-    if (refresh_token) {
-      const refreshResult = await fetch(`${BASE_API_URL}/auth/token/refresh/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ refresh_token }),
-      }).then((res) => res.json());
-
-      if (refreshResult?.access_token) {
-        api.dispatch(
-          setCredentials({
-            access_token: refreshResult.access_token,
-            refresh_token,
-          })
-        );
-
-        // retry original query with updated token
-        result = await rawBaseQuery(args, api, extraOptions);
-      } else {
-        api.dispatch(signout());
-      }
-    } else {
+    if (!refresh_token) {
       api.dispatch(signout());
+      return result;
     }
+
+    // queue multiple requests to avoid multiple refresh calls
+    if (!refreshingPromise) {
+      refreshingPromise = (async () => {
+        try {
+          const res = await fetch(`${BASE_API_URL}/auth/token/refresh/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token }),
+          });
+
+          const data = await res.json();
+
+          if (data?.access_token) {
+            api.dispatch(
+              setCredentials({
+                access_token: data.access_token,
+                refresh_token,
+              })
+            );
+          } else {
+            api.dispatch(signout());
+          }
+        } catch {
+          api.dispatch(signout());
+        } finally {
+          refreshingPromise = null;
+        }
+      })();
+    }
+
+    // wait for refresh to complete before retrying
+    await refreshingPromise;
+
+    // retry original request
+    result = await rawBaseQuery(args, api, extraOptions);
   }
 
   return result;
@@ -66,5 +78,5 @@ const baseQueryWithReauth: BaseQueryFn<
 export const authenticatedApi = createApi({
   reducerPath: "authenticatedApi",
   baseQuery: baseQueryWithReauth,
-  endpoints: () => ({}), // leave empty, inject later
+  endpoints: () => ({}), // inject endpoints later
 });

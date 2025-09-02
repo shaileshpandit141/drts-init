@@ -10,5 +10,5 @@ export const publicApi = createApi({
       return headers;
     },
   }),
-  endpoints: () => ({}), // leave empty, inject later
+  endpoints: () => ({}), // inject endpoints later
 });
