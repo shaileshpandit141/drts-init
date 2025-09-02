@@ -28,10 +28,10 @@ export function GetErrors<ErrorResponse = Record<string, any>>(
   }
 
   // Handle SerializedError fallback
-  if (error && "message" in error) {
+  if (error && "error" in error) {
     return {
       status: 0,
-      data: { detail: error.message } as Errors<ErrorResponse>["data"],
+      data: { detail: error.error } as Errors<ErrorResponse>["data"],
     };
   }
 
