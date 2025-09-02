@@ -19,3 +19,6 @@ backend/uploads/*
 frontend/.env
 frontend/node_modules
 frontend/package-lock.json
+frontendx/.env
+frontendx/node_modules
+frontendx/package-lock.json

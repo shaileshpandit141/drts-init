@@ -1,0 +1,86 @@
+import {
+  createApi,
+  fetchBaseQuery,
+  type FetchArgs,
+  type FetchBaseQueryError,
+  type BaseQueryFn,
+} from "@reduxjs/toolkit/query/react";
+import type { RootState } from "./store";
+import { BASE_API_URL } from "./baseApiUrl";
+import { setCredentials, signout } from "features/auth/authSlice";
+
+const rawBaseQuery = fetchBaseQuery({
+  baseUrl: BASE_API_URL,
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.access_token;
+    if (token) headers.set("Authorization", `Bearer ${token}`);
+    return headers;
+  },
+});
+
+let refreshingPromise: Promise<void> | null = null;
+
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  // Track if this request has already retried
+  let retry = false;
+
+  let result = await rawBaseQuery(args, api, extraOptions);
+
+  if (result.error && result.error.status === 401 && !retry) {
+    retry = true; // ensure we retry only once
+    const refresh_token = (api.getState() as RootState).auth.refresh_token;
+
+    if (!refresh_token) {
+      api.dispatch(signout());
+      return result;
+    }
+
+    // Queue multiple requests
+    if (!refreshingPromise) {
+      refreshingPromise = (async () => {
+        try {
+          const res = await fetch(`${BASE_API_URL}/auth/token/refresh/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token }),
+          });
+
+          const data = await res.json();
+
+          if (data?.access_token) {
+            api.dispatch(
+              setCredentials({
+                access_token: data.access_token,
+                refresh_token,
+              })
+            );
+          } else {
+            api.dispatch(signout());
+          }
+        } catch {
+          api.dispatch(signout());
+        } finally {
+          refreshingPromise = null;
+        }
+      })();
+    }
+
+    // wait for refresh to finish
+    await refreshingPromise;
+
+    // retry original request with new token
+    result = await rawBaseQuery(args, api, extraOptions);
+  }
+
+  return result;
+};
+
+export const authenticatedApi = createApi({
+  reducerPath: "authenticatedApi",
+  baseQuery: baseQueryWithReauth,
+  endpoints: () => ({}), // inject endpoints later
+});

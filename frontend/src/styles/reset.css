@@ -1,0 +1,136 @@
+/* A comprehensive CSS reset stylesheet */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  scrollbar-color: darkgray transparent;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+/* HTML Root Element */
+html {
+  font-size: 100%;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* List Elements */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Fieldset Element */
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+/* Table Element */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Form Controls */
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: var(--bg-secondary);
+  border-color: var(--border-primary);
+}
+
+/* Anchor Element */
+a {
+  text-decoration: none;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Media Elements */
+img,
+video,
+audio {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Blockquote Element */
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+/* Clearfix */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Text Formatting */
+strong,
+b {
+  font-weight: normal;
+}
+
+/* Form Element */
+form {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Theme Transitions */
+body,
+header,
+footer,
+input,
+main,
+button {
+  transition: var(--ts-secondary);
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  * {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+}

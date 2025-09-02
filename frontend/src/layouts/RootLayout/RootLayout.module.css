@@ -1,0 +1,12 @@
+.themeButton {
+  height: fit-content;
+  width: fit-content;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -200px;
+  left: -200px;
+  opacity: 0;
+  pointer-events: none;
+}

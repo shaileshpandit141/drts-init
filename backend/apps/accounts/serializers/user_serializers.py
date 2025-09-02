@@ -12,7 +12,6 @@ class UserSerializer(AbsoluteUrlFileMixin, ModelSerializer[User]):
     class Meta:  # type: ignore[override]
         model = User
         fields: ClassVar[list[str]] = [
-            "id",
             "email",
             "username",
             "first_name",
@@ -23,7 +22,6 @@ class UserSerializer(AbsoluteUrlFileMixin, ModelSerializer[User]):
             "is_superuser",
         ]
         read_only_fields: ClassVar[list[str]] = [
-            "id",
             "email",
             "is_verified",
             "is_staff",

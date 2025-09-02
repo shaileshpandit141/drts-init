@@ -1,0 +1,134 @@
+/* Grup Heading Sizes */
+/* ------------------------ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  transition: var(--ts-primary);
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}
+
+/* Individual Heading Sizes */
+/* ------------------------ */
+h1 {
+  font-size: clamp(
+    calc(28 / 16 * 1rem),
+    calc(16 / 16 * 1rem) + 2vw,
+    calc(40 / 16 * 1rem)
+  );
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: clamp(
+    calc(22 / 16 * 1rem),
+    calc(14 / 16 * 1rem) + 2vw,
+    calc(32 / 16 * 1rem)
+  );
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: clamp(
+    calc(18 / 16 * 1rem),
+    calc(14 / 16 * 1rem) + 2vw,
+    calc(28 / 16 * 1rem)
+  );
+  line-height: 1.35;
+}
+
+h4 {
+  font-size: clamp(
+    calc(16 / 16 * 1rem),
+    calc(12 / 16 * 1rem) + 2vw,
+    calc(24 / 16 * 1rem)
+  );
+  line-height: 1.4;
+}
+
+h5 {
+  font-size: clamp(
+    calc(14 / 16 * 1rem),
+    calc(10 / 16 * 1rem) + 2vw,
+    calc(20 / 16 * 1rem)
+  );
+  line-height: 1.45;
+}
+
+h6 {
+  font-size: clamp(
+    calc(12 / 16 * 1rem),
+    calc(8 / 16 * 1rem) + 2vw,
+    calc(18 / 16 * 1rem)
+  );
+  line-height: 1.5;
+}
+
+/* Base text styling for paragraphs and details elements */
+p,
+details {
+  font-size: calc(14 / 16 * 1rem);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--text-primary);
+  transition: var(--ts-primary);
+}
+
+/* Consistent styling for form elements and placeholders */
+input,
+button,
+textarea,
+select {
+  letter-spacing: 0.04em;
+  font-size: calc(16 / 16 * 1rem);
+  color: var(--text-primary);
+  transition: var(--ts-secondary);
+
+  &::placeholder {
+    letter-spacing: 0.04em;
+    font-size: calc(16 / 16 * 1rem);
+    color: var(--text-primary);
+  }
+}
+
+/* Clean and consistent link styling with hover and focus states */
+a,
+a:visited,
+a:active {
+  font-size: inherit;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  color: var(--link-primary);
+
+  &:is(:hover, :focus, :focus-visible) {
+    color: var(--link-hover);
+  }
+}
+
+a::first-letter {
+  text-transform: capitalize;
+}
+
+button::first-letter {
+  text-transform: capitalize;
+}
+
+/* Cursor styling for pointer devices to indicate interactive elements */
+@media (pointer: fine) {
+  a,
+  button,
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
+}

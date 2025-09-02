@@ -1,0 +1,26 @@
+.container {
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+}
+
+.loader {
+  aspect-ratio: 1/1;
+  height: inherit;
+  border: 4px solid var(--bg-secondary);
+  border-top: 4px solid var(--text-accent);
+  border-radius: 50%;
+  animation: bowinsing-spin 1.2s linear infinite;
+  box-sizing: border-box;
+}
+
+@keyframes bowinsing-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
