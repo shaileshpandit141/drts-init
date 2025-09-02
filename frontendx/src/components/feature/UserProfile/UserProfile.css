@@ -1,14 +1,19 @@
 .user-profile {
-  --hw: 40px;
+  --hw: 38px;
   position: relative;
   user-select: none;
   background-color: transparent;
   transition: var(--ts-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .profile-action-button {
     height: var(--hw);
     width: var(--hw);
     padding: 0;
+    border-radius: var(--hw);
+    overflow: hidden;
 
     img {
       height: var(--hw);
@@ -53,10 +58,6 @@
         grid-template-columns: auto 1fr;
         column-gap: 8px;
         background-color: transparent;
-
-        &:hover {
-          background-color: var(--btn-primary-hover);
-        }
 
         .user-profile-image {
           --hw: 40px;
@@ -115,15 +116,15 @@
 
       button,
       a {
+        height: 38px;
+        width: 100%;
         border-radius: 12px;
+        display: flex;
+        align-items: center;
         justify-content: flex-start;
         background-color: transparent;
         border: none;
         padding-inline: 8px;
-
-        &:hover {
-          background-color: var(--btn-primary-hover);
-        }
       }
     }
   }
