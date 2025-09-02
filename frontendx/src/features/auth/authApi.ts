@@ -19,27 +19,7 @@ export const authApi = authenticatedApi.injectEndpoints({
         }
       },
     }),
-    refreshToken: builder.mutation<{ access: string }, { refresh: string }>({
-      query: (body) => ({
-        url: "/auth/token/refresh/",
-        method: "POST",
-        body,
-      }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(
-            setCredentials({
-              access_token: data.access,
-              refresh_token: arg.refresh,
-            })
-          );
-        } catch {
-          dispatch(signout());
-        }
-      },
-    }),
   }),
 });
 
-export const { useSigninMutation, useRefreshTokenMutation } = authApi;
+export const { useSigninMutation } = authApi;
