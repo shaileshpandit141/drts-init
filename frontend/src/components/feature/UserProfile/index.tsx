@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, FC, JSX } from "react";
 import "./UserProfile.css";
 import { Link } from "react-router-dom";
