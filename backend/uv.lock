@@ -81,6 +81,15 @@ wheels = [
 ]
 
 [[package]]
+name = "authmint"
+version = "0.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/23/43/837d0dadeeb739f9b9abd50705534366c173dfe95e724f2338b7b0b077c0/authmint-0.0.1.tar.gz", hash = "sha256:bf64e534ffaa8f332100ac06833fbfffa314f19dd7558dbd8994203cf92073eb", size = 3728, upload-time = "2025-08-24T16:51:52.677Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c6/4f/8fe96edcc93f9d89c04bf546f0c55e3a8ec59677839bd44e8991246d3a0e/authmint-0.0.1-py3-none-any.whl", hash = "sha256:7f75ecbd6641a5165cf0c20ef0bcfc9bcfe46e133da02e7f145976b8c45d7677", size = 4462, upload-time = "2025-08-24T16:51:50.969Z" },
+]
+
+[[package]]
 name = "autobahn"
 version = "24.4.2"
 source = { registry = "https://pypi.org/simple" }
@@ -129,6 +138,7 @@ dependencies = [
     { name = "argon2-cffi-bindings" },
     { name = "asgiref" },
     { name = "attrs" },
+    { name = "authmint" },
     { name = "autobahn" },
     { name = "automat" },
     { name = "cachetools" },
@@ -204,6 +214,7 @@ requires-dist = [
     { name = "argon2-cffi-bindings", specifier = "==21.2.0" },
     { name = "asgiref", specifier = "==3.8.1" },
     { name = "attrs", specifier = "==24.2.0" },
+    { name = "authmint", specifier = ">=0.0.1" },
     { name = "autobahn", specifier = "==24.4.2" },
     { name = "automat", specifier = "==24.8.1" },
     { name = "cachetools", specifier = "==5.5.2" },
