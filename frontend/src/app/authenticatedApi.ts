@@ -7,7 +7,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "./store";
 import { BASE_API_URL } from "./baseApiUrl";
-import { setCredentials, signout } from "features/auth/authSlice";
+import { setAuthState, signout } from "features/auth/authSlice";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: BASE_API_URL,
@@ -53,7 +53,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
           if (data?.access_token) {
             api.dispatch(
-              setCredentials({
+              setAuthState({
                 access_token: data.access_token,
                 refresh_token,
               })

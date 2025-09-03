@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import toastReducer from "features/toast/toastSlice";
 import { authenticatedApi } from "./authenticatedApi";
 import { publicApi } from "./publicApi";
+import { toastSlice } from "features/toast/toastSlice";
 import { authSlice } from "features/auth/authSlice";
 import { signoutSlice } from "features/signout/signoutSlice";
 import { userSlice } from "features/user/userSlice";
 
 export const store = configureStore({
   reducer: {
-    toast: toastReducer,
+    toast: toastSlice.reducer,
     auth: authSlice.reducer,
     signout: signoutSlice.reducer,
     user: userSlice.reducer,

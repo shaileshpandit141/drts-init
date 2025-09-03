@@ -14,7 +14,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, action: PayloadAction<SigninResponse>) => {
+    setAuthState: (state, action: PayloadAction<SigninResponse>) => {
       state.access_token = action.payload.access_token;
       state.refresh_token = action.payload.refresh_token;
       state.isAuthenticated = true;
@@ -29,4 +29,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, signout } = authSlice.actions;
+export const { setAuthState, signout } = authSlice.actions;
