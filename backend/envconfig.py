@@ -46,6 +46,8 @@ class EnvSettings(EnvBaseSettings["EnvSettings"]):
     host: str
     port: int
     environ: Literal["dev", "prod"]
+    token_active_key_id: str
+    token_private_key_v1: str
     allowed_hosts: list[str]
     cors_allowed_origins: list[str]
     database: DatabaseConfig
