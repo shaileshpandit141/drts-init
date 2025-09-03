@@ -1,12 +1,12 @@
-// Interface representing a single toast notification
+export type ToastType = "success" | "error" | "info" | "warning";
+
 export interface Toast {
   id: string;
-  type: "success" | "error" | "info" | "warning";
+  type: ToastType;
   message: string;
   duration?: number;
 }
 
-// Interface representing the state of all toast notifications
 export interface ToastState {
   toasts: Toast[];
 }

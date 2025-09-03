@@ -4,7 +4,7 @@ import Toast from "./index";
 import { useToast } from "features/toast/hooks";
 
 const ToastContainer: React.FC = () => {
-  const toasts = useToast();
+  const { toasts } = useToast();
 
   return (
     <div className="toast-container">
