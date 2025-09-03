@@ -4,7 +4,8 @@ import PublicRoute from "routes/PublicRoute";
 import RootLayout from "layouts/RootLayout";
 import AuthLayout from "layouts/AuthLayout";
 import MainLayout from "layouts/MainLayout";
-import Signin from "pages/signin/Signin";
+import Signin from "pages/Signin";
+import Home from "pages/Home";
 
 function RootRoutes() {
   return (
@@ -24,7 +25,7 @@ function RootRoutes() {
             </Route>
             {/* All public routes with main layout goes here. */}
             <Route element={<MainLayout />}>
-              <Route index element={<h2>Home</h2>} />
+              <Route index element={<Home />} />
             </Route>
           </Route>
           {/* All private routes goes here. */}
