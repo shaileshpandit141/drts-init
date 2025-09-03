@@ -20,8 +20,9 @@ export const signoutApi = authenticatedApi.injectEndpoints({
             })
           );
           dispatch(signout());
-        } catch {
+        } catch (err) {
           dispatch(signout());
+          console.error("Failed to block signin tokens:", err);
         }
       },
     }),
