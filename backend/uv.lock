@@ -176,9 +176,9 @@ dependencies = [
     { name = "djresttoolkit" },
     { name = "google-auth" },
     { name = "google-auth-oauthlib" },
-    { name = "limited-time-token-handler" },
     { name = "pillow" },
     { name = "psycopg", extra = ["binary"] },
+    { name = "python-dotenv" },
     { name = "redis" },
     { name = "univalidator" },
 ]
@@ -208,10 +208,10 @@ requires-dist = [
     { name = "djresttoolkit", specifier = ">=1.0.0" },
     { name = "google-auth", specifier = ">=2.40.3" },
     { name = "google-auth-oauthlib", specifier = ">=1.2.2" },
-    { name = "limited-time-token-handler", specifier = ">=0.1.9" },
     { name = "mypy", marker = "extra == 'dev'" },
     { name = "pillow", specifier = ">=11.3.0" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2.9" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
     { name = "redis", specifier = ">=6.4.0" },
     { name = "ruff", marker = "extra == 'dev'" },
     { name = "univalidator", specifier = ">=0.2.1" },
@@ -678,15 +678,6 @@ wheels = [
 ]
 
 [[package]]
-name = "itsdangerous"
-version = "2.2.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/9c/cb/8ac0172223afbccb63986cc25049b154ecfb5e85932587206f42317be31d/itsdangerous-2.2.0.tar.gz", hash = "sha256:e0050c0b7da1eea53ffaf149c0cfbb5c6e2e2b69c4bef22c81fa6eb73e5f6173", size = 54410, upload-time = "2024-04-16T21:28:15.614Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/04/96/92447566d16df59b2a776c0fb82dbc4d9e07cd95062562af01e408583fc4/itsdangerous-2.2.0-py3-none-any.whl", hash = "sha256:c6242fc49e35958c8b15141343aa660db5fc54d4f13a1db01a3f5891b98700ef", size = 16234, upload-time = "2024-04-16T21:28:14.499Z" },
-]
-
-[[package]]
 name = "kombu"
 version = "5.5.4"
 source = { registry = "https://pypi.org/simple" }
@@ -699,19 +690,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/0f/d3/5ff936d8319ac86b9c409f1501b07c426e6ad41966fedace9ef1b966e23f/kombu-5.5.4.tar.gz", hash = "sha256:886600168275ebeada93b888e831352fe578168342f0d1d5833d88ba0d847363", size = 461992, upload-time = "2025-06-01T10:19:22.281Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ef/70/a07dcf4f62598c8ad579df241af55ced65bed76e42e45d3c368a6d82dbc1/kombu-5.5.4-py3-none-any.whl", hash = "sha256:a12ed0557c238897d8e518f1d1fdf84bd1516c5e305af2dacd85c2015115feb8", size = 210034, upload-time = "2025-06-01T10:19:20.436Z" },
-]
-
-[[package]]
-name = "limited-time-token-handler"
-version = "0.1.9"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "itsdangerous" },
-    { name = "python-decouple" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a6/e9/eee38ee793d855e1efdccd4149ca31707c664853defbaa808079c81191e8/limited-time-token-handler-0.1.9.tar.gz", hash = "sha256:e1ae9e4f8fb4802df91d01de38a7eab0fcf224faf9c5736a6c23b438d404b0b1", size = 5411, upload-time = "2025-02-23T06:23:44.009Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e2/48/4a6020e6f835a7ed463f8ab67622aed20e489da4620d366b2a07654aaf8c/limited_time_token_handler-0.1.9-py3-none-any.whl", hash = "sha256:fbded97f4997091e745bd8d13bac6e649837be6adabd1c1de1822895955b1185", size = 6766, upload-time = "2025-02-23T06:23:37.503Z" },
 ]
 
 [[package]]
@@ -985,12 +963,12 @@ wheels = [
 ]
 
 [[package]]
-name = "python-decouple"
-version = "3.8"
+name = "python-dotenv"
+version = "1.1.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e1/97/373dcd5844ec0ea5893e13c39a2c67e7537987ad8de3842fe078db4582fa/python-decouple-3.8.tar.gz", hash = "sha256:ba6e2657d4f376ecc46f77a3a615e058d93ba5e465c01bbe57289bfb7cce680f", size = 9612, upload-time = "2023-03-01T19:38:38.143Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f6/b0/4bc07ccd3572a2f9df7e6782f52b0c6c90dcbb803ac4a167702d7d0dfe1e/python_dotenv-1.1.1.tar.gz", hash = "sha256:a8a6399716257f45be6a007360200409fce5cda2661e3dec71d23dc15f6189ab", size = 41978, upload-time = "2025-06-24T04:21:07.341Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a2/d4/9193206c4563ec771faf2ccf54815ca7918529fe81f6adb22ee6d0e06622/python_decouple-3.8-py3-none-any.whl", hash = "sha256:d0d45340815b25f4de59c974b855bb38d03151d81b037d9e3f463b0c9f8cbd66", size = 9947, upload-time = "2023-03-01T19:38:36.015Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/ed/539768cf28c661b5b068d66d96a2f155c4971a5d55684a514c1a0e0dec2f/python_dotenv-1.1.1-py3-none-any.whl", hash = "sha256:31f23644fe2602f88ff55e1f5c79ba497e01224ee7737937930c448e4d0e24dc", size = 20556, upload-time = "2025-06-24T04:21:06.073Z" },
 ]
 
 [[package]]

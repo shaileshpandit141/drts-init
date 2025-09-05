@@ -26,9 +26,9 @@ dependencies = [
     "djresttoolkit>=1.0.0",
     "google-auth>=2.40.3",
     "google-auth-oauthlib>=1.2.2",
-    "limited-time-token-handler>=0.1.9",
     "pillow>=11.3.0",
     "psycopg[binary]>=3.2.9",
+    "python-dotenv>=1.1.1",
     "redis>=6.4.0",
     "univalidator>=0.2.1",
 ]
