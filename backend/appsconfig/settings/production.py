@@ -2,7 +2,7 @@
 # -------------------------------------------
 from datetime import timedelta
 
-from envconfig import env_settings
+from envconfig import config
 
 from .base import *  # noqa: F403
 from .base import LOGGING, REST_FRAMEWORK
@@ -42,12 +42,12 @@ SIMPLE_JWT.update(  # noqa: F405
 # ------------------------------------------
 DATABASES: dict[str, dict[str, object]] = {
     "default": {
-        "ENGINE": env_settings.database.engine,
-        "NAME": env_settings.database.name,
-        "USER": env_settings.database.user,
-        "PASSWORD": env_settings.database.password,
-        "HOST": env_settings.database.host,
-        "PORT": env_settings.database.port,
+        "ENGINE": config.DB_ENGINE,
+        "NAME": config.DB_NAME,
+        "USER": config.DB_USER,
+        "PASSWORD": config.DB_PASSWORD,
+        "HOST": config.DB_HOST,
+        "PORT": config.DB_PORT,
     }
 }
 

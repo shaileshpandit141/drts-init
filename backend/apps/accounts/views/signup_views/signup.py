@@ -1,7 +1,4 @@
 from djresttoolkit.urls import build_absolute_uri
-from limited_time_token_handler import (  # type: ignore  # noqa: PGH003
-    LimitedTimeTokenGenerator,
-)
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
@@ -10,6 +7,7 @@ from rest_framework.views import APIView
 
 from apps.accounts.serializers.signup_serializers import SignupSerializer
 from apps.accounts.tasks import send_account_activation_email
+from apps.accounts.tokenmint import account_verification_mint
 
 
 class SignupView(APIView):
@@ -36,13 +34,14 @@ class SignupView(APIView):
         serializer.save()
         user = serializer.instance  # type: ignore  # noqa: PGH003
 
-        # Generate activation token and URL
-        generator = LimitedTimeTokenGenerator({"user_id": user.id})  # type: ignore  # noqa: PGH003
-        token = generator.generate()
-        if token is None:
-            raise ValidationError(
-                {"detail": "Token generation failed. Please try again later."}
-            )
+        if not user:
+            raise ValidationError({"detail": "Opps! Something is wrong!"})
+
+        # Generate verification token
+        token = account_verification_mint.generate_token(
+            subject_id=f"{user.id}",
+            extra_claims={"user_id": user.id},
+        )
 
         # Get the absolute URL for activation
         if activation_uri is None:
@@ -55,8 +54,7 @@ class SignupView(APIView):
             activate_url = f"{activation_uri}/{token}"
 
         # Send asynchronously email with account activation link
-        if user:
-            send_account_activation_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
+        send_account_activation_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
 
         # Return success response object
         return Response(

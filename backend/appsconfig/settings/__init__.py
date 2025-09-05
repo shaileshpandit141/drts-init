@@ -1,6 +1,6 @@
-from envconfig import env_settings
+from envconfig import config
 
-environ = env_settings.environ
+environ = config.ENVIRONMENT
 
 # Import settings based on environment
 if environ == "dev":

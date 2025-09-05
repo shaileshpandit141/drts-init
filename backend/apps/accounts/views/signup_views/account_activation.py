@@ -1,8 +1,5 @@
 from djresttoolkit.urls import build_absolute_uri
 from djresttoolkit.views.mixins import RetrieveObjectMixin
-from limited_time_token_handler import (  # type: ignore  # noqa: PGH003
-    LimitedTimeTokenGenerator,
-)
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
@@ -12,6 +9,7 @@ from rest_framework.views import APIView
 from apps.accounts.models import User
 from apps.accounts.tasks import send_account_activation_email
 from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.tokenmint import account_verification_mint
 
 
 class AccountActivationView(RetrieveObjectMixin[User], APIView):
@@ -40,25 +38,24 @@ class AccountActivationView(RetrieveObjectMixin[User], APIView):
 
         # Check if user is verified or not
         if not getattr(user, "is_verified", False):
-            # Generate verification token and URL
-            generator = LimitedTimeTokenGenerator({"user_id": user.id})
-            token = generator.generate()
-            if token is None:
-                raise ValidationError({"token": ["Token generation failed."]})
+            # Generate verification token
+            token = account_verification_mint.generate_token(
+                subject_id=f"{user.id}",
+                extra_claims={"user_id": user.id},
+            )
 
             # Get the absolute URL for verification
             if activation_uri is None:
                 activate_url = build_absolute_uri(
                     request=request,
-                    url_name="accounts:verify-account-confirm",
+                    url_name="accounts:account-activation-confirm",
                     query_params={"token": token},
                 )
             else:
                 activate_url = f"{activation_uri}/{token}"
 
             # Send asynchronously email with account activation link
-            if user:
-                send_account_activation_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
+            send_account_activation_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
 
             # Return success response
             return Response(

@@ -1,3 +1,7 @@
+# ==========================
+# Main project configuration 
+# ==========================
+
 [project]
 name = "backend"
 version = "0.1.0"
@@ -5,82 +9,58 @@ description = "Project description goes here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-  "argon2==0.1.10",
-  "argon2-cffi==23.1.0",
-  "argon2-cffi-bindings==21.2.0",
-  "asgiref==3.8.1",
-  "attrs==24.2.0",
-  "autobahn==24.4.2",
-  "automat==24.8.1",
-  "cachetools==5.5.2",
-  "celery-stubs>=0.1.3",
-  "celery[redis]>=5.5.3",
-  "certifi==2025.1.31",
-  "cffi==1.17.1",
-  "charset-normalizer==3.4.1",
-  "colorlog==6.9.0",
-  "constantly==23.10.4",
-  "cryptography==44.0.0",
-  "daphne==4.1.2",
-  "django>=5.1.4",
-  "django-cors-headers==4.6.0",
-  "django-filter>=25.1",
-  "django-redis==5.4.0",
-  "django-stubs>=5.2.2",
-  "djangorestframework>=3.15.2",
-  "djangorestframework-simplejwt==5.3.1",
-  "djangorestframework-stubs>=3.16.1",
-  "djresttoolkit>=0.17.5",
-  "dnspython==2.7.0",
-  "google-auth==2.38.0",
-  "google-auth-httplib2==0.2.0",
-  "google-auth-oauthlib==1.2.1",
-  "httplib2==0.22.0",
-  "hyperlink==21.0.0",
-  "idna==3.10",
-  "incremental==24.7.2",
-  "itsdangerous==2.2.0",
-  "limited-time-token-handler>=0.1.9",
-  "oauthlib==3.2.2",
-  "pillow==11.0.0",
-  "psycopg2==2.9.10",
-  "pyasn1==0.6.1",
-  "pyasn1-modules==0.4.1",
-  "pycparser==2.22",
-  "pydantic-settings>=2.10.1",
-  "pyjwt==2.10.1",
-  "pymemcache==4.0.0",
-  "pyopenssl==24.3.0",
-  "pyparsing==3.2.1",
-  "python-dotenv>=1.1.1",
-  "pytz>=2024.2",
-  "pyyaml>=6.0.2",
-  "redis==5.2.1",
-  "requests==2.32.3",
-  "requests-oauthlib==2.0.0",
-  "rest-framework-simplejwt==0.0.2",
-  "rsa==4.9",
-  "service-identity==24.2.0",
-  "setuptools==75.6.0",
-  "sqlparse==0.5.2",
-  "twisted==24.11.0",
-  "txaio==23.1.1",
-  "typing-extensions==4.12.2",
-  "univalidator>=0.2.1",
-  "urllib3==2.3.0",
-  "zope-interface==7.2",
+    "argon2-cffi>=25.1.0",
+    "authmint>=0.1.5",
+    "celery>=5.5.3",
+    "celery-stubs>=0.1.3",
+    "colorlog>=6.9.0",
+    "daphne>=4.2.1",
+    "django>=5.2.5",
+    "django-cors-headers>=4.7.0",
+    "django-filter>=25.1",
+    "django-redis>=6.0.0",
+    "django-stubs>=5.2.2",
+    "djangorestframework>=3.16.1",
+    "djangorestframework-simplejwt>=5.5.1",
+    "djangorestframework-stubs>=3.16.2",
+    "djresttoolkit>=1.0.0",
+    "google-auth>=2.40.3",
+    "google-auth-oauthlib>=1.2.2",
+    "pillow>=11.3.0",
+    "psycopg[binary]>=3.2.9",
+    "python-dotenv>=1.1.1",
+    "redis>=6.4.0",
+    "univalidator>=0.2.1",
 ]
 
-# Autofmt tool configuration
-# ==========================
-[tool.autofmt]
-watch_path = "."
-formatters = ["black", "ruff"]
-cooldown_seconds = 1.0
-
+# =================
+# Dependency groups
+# =================
 [dependency-groups]
-dev = [
-    "autofmt>=0.1.1",
- "black>=25.1.0",
- "mypy>=1.17.1",
-]
+dev = []
+
+# =====================
+# Optional dependencies
+# =====================
+[project.optional-dependencies]
+dev = ["mypy", "ruff"]
+
+# ===================
+# Tool Configurations
+# ===================
+
+# Disable ruff S101 rule for test casecases
+# -----------------------------------------
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["S101"]
+
+# ====================
+# Pytest configuration
+# ====================
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-v"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
