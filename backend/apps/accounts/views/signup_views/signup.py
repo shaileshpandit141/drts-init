@@ -39,7 +39,7 @@ class SignupView(APIView):
 
         # Generate verification token
         token = account_verification_mint.generate_token(
-            subject_id=f"user:{user.id}",
+            subject_id=f"{user.id}",
             extra_claims={"user_id": user.id},
         )
 

@@ -15,3 +15,16 @@ account_verification_mint = TokenMint(
         redis_url=config.REDIS_CACHE_LOCATION,
     ),
 )
+
+
+password_reset_mint = TokenMint(
+    settings=Settings(
+        issuer="drts-init.com",
+        audience="user",
+        purpose="password-reset",
+        expiry_duration=timedelta(minutes=60),
+    ),
+    replay_cache=ReplayCache(
+        redis_url=config.REDIS_CACHE_LOCATION,
+    ),
+)

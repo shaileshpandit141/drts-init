@@ -1,7 +1,4 @@
 from djresttoolkit.views.mixins import RetrieveObjectMixin
-from limited_time_token_handler import (  # type: ignore  # noqa: PGH003
-    LimitedTimeTokenGenerator,
-)
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
@@ -11,6 +8,7 @@ from rest_framework.views import APIView
 from apps.accounts.models import User
 from apps.accounts.tasks import send_password_reset_email
 from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.tokenmint import password_reset_mint
 
 
 class PasswordResetView(RetrieveObjectMixin[User], APIView):
@@ -34,12 +32,9 @@ class PasswordResetView(RetrieveObjectMixin[User], APIView):
         # Process request for verified users
         if getattr(user, "is_verified", False):
             # Generate password reset token
-            generator = LimitedTimeTokenGenerator({"user_id": user.id})  # type: ignore  # noqa: PGH003
-            token = generator.generate()
-            if token is None:
-                raise ValidationError(
-                    {"detail": "Failed to generate token. Please try again later."}
-                )
+            token = password_reset_mint.generate_token(
+                subject_id=f"{user.id}", extra_claims={"user_id": user.id}
+            )
 
             # Send asynchronously email with account activation link
             send_password_reset_email.delay(  # type: ignore[attr-defined]

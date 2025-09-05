@@ -1,17 +1,16 @@
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjValidationError
 from djresttoolkit.views.mixins import RetrieveObjectMixin
-from limited_time_token_handler import (  # type: ignore  # noqa: PGH003
-    LimitedTimeTokenDecoder,
-)
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from authmint.exceptions import InvalidTokenError
 
 from apps.accounts.models import User
 from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.tokenmint import password_reset_mint
 
 
 class PasswordResetConfirmView(RetrieveObjectMixin[User], APIView):
@@ -36,32 +35,28 @@ class PasswordResetConfirmView(RetrieveObjectMixin[User], APIView):
 
     def _reset_password(self, token: str, new_password: str) -> Response:
         """Handle the password reset password process."""
-        decorder = LimitedTimeTokenDecoder(token)
-        if not decorder.is_valid():
-            raise ValidationError({"detail": "Invalid or expired token."})
 
-        # Decodeing token
-        payload = decorder.decode()
-
-        # Get user by id
-        user = self.get_object(id=payload.get("user_id"))
-
-        # Check if user exists
-        if user is None:
-            raise ValidationError({"detail": "User not found with the provided token."})
-
-        # Validate and set new password
         try:
-            validate_password(new_password)
-        except DjValidationError as error:
-            raise ValidationError({"password": error.messages}) from error
+            claims = password_reset_mint.validate_token(token=token)
+            user = self.get_object(id=claims["user_id"])
+            if not user:
+                raise ValidationError(
+                    {"detail": "User not found with the provided token."}
+                )
 
-        # Set new password and save user
-        user.set_password(new_password)
-        user.save()
+            try:
+                validate_password(new_password)
+            except DjValidationError as error:
+                raise ValidationError({"password": error.messages}) from error
 
-        # Return success response
-        return Response(
-            data={"detail": "Your password has been successfully reset."},
-            status=status.HTTP_200_OK,
-        )
+            # Set new password and save it
+            user.set_password(new_password)
+            user.save()
+
+            # Return success response
+            return Response(
+                data={"detail": "Your password has been successfully reset."},
+                status=status.HTTP_200_OK,
+            )
+        except InvalidTokenError:
+            raise ValidationError({"detail": "Invalid or expired token."})
