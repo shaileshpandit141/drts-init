@@ -2,7 +2,7 @@ from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
-from envconfig import env_settings
+from envconfig import config
 
 from appsconfig.loggingconfig import get_logging
 
@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Security Configuration Settings
 # -------------------------------
-SECRET_KEY = env_settings.secret_key
+SECRET_KEY = config.SECRET_KEY
 
 # DEBUG Configuration Settings
 # ----------------------------
@@ -20,11 +20,11 @@ DEBUG = False
 
 # Allowed Host Configuration Settings
 # -----------------------------------
-ALLOWED_HOSTS = env_settings.allowed_hosts
+ALLOWED_HOSTS = config.ALLOWED_HOSTS
 
 # Configure CORS Settings
 # -----------------------
-CORS_ALLOWED_ORIGINS = env_settings.cors_allowed_origins
+CORS_ALLOWED_ORIGINS = config.CORS_ALLOWED_ORIGINS
 
 # Login Redirect URL Configuration Setting
 # ----------------------------------------
@@ -210,28 +210,28 @@ AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 
 # EMAIL Configuration Settings
 # ----------------------------
-EMAIL_BACKEND = env_settings.email.backend  # type: ignore[]
-EMAIL_HOST = env_settings.email.host
-EMAIL_PORT = env_settings.email.port
-EMAIL_USE_TLS = env_settings.email.use_tls
-EMAIL_USE_SSL = env_settings.email.use_ssl
-EMAIL_HOST_USER = env_settings.email.host_user
-EMAIL_HOST_PASSWORD = env_settings.email.host_password
-DEFAULT_FROM_EMAIL = env_settings.email.default_from_email
+EMAIL_BACKEND = config.EMAIL_BACKEND
+EMAIL_HOST = config.EMAIL_HOST
+EMAIL_PORT = config.EMAIL_PORT
+EMAIL_USE_TLS = config.EMAIL_USE_TLS
+EMAIL_USE_SSL = config.EMAIL_USE_SSL
+EMAIL_HOST_USER = config.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = config.EMAIL_HOST_PASSWORD
+DEFAULT_FROM_EMAIL = config.EMAIL_DEFAULT_FROM_EMAIL
 
 
 # Google OAuth2 Configuration Settings
 # ------------------------------------
-GOOGLE_CLIENT_ID = env_settings.google.client_id
-GOOGLE_CLIENT_SECRET = env_settings.google.client_secret
-GOOGLE_REDIRECT_URI = env_settings.google.redirect_url
+GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET = config.GOOGLE_CLIENT_SECRET
+GOOGLE_REDIRECT_URI = config.GOOGLE_REDIRECT_URI
 
 # Redis configuration for production
 # ----------------------------------
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env_settings.redis.cache_location,
+        "LOCATION": config.REDIS_CACHE_LOCATION,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -241,10 +241,10 @@ CACHES = {
 # Celery Configuration Settings
 # -----------------------------
 # Redis as broker
-CELERY_BROKER_URL = env_settings.celery.broker_url
+CELERY_BROKER_URL = config.CELERY_BROKER_URL
 
 # Where results are stored
-CELERY_RESULT_BACKEND = env_settings.celery.result_backend
+CELERY_RESULT_BACKEND = config.CELERY_RESULT_BACKEND
 
 # Recommended settings
 CELERY_ACCEPT_CONTENT = ["json"]

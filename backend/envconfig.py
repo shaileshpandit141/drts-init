@@ -1,60 +1,56 @@
 from typing import Literal
-
-from djresttoolkit.envconfig import EnvBaseSettings
-from pydantic import BaseModel
+from djresttoolkit.envconfig import BaseEnvConfig
 
 
-class DatabaseConfig(BaseModel):
-    engine: str
-    name: str
-    user: str
-    password: str
-    host: str
-    port: int
+class EnvConfig(BaseEnvConfig):
+    # Server running environment.
+    ENVIRONMENT: Literal["dev", "prod"] = "prod"
+
+    # Core Django related config.
+    SECRET_KEY: str
+    ALLOWED_HOSTS: list[str] = [
+        "localhost",
+        "127.0.0.1",
+    ]
+
+    # Cors origins related config.
+    CORS_ALLOWED_ORIGINS: list[str] = [
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+
+    # DB related config.
+    DB_ENGINE: str = "django.db.backends.postgresql"
+    DB_NAME: str
+    DB_USER: str
+    DB_PASSWORD: str
+    DB_HOST: str
+    DB_PORT: int
+
+    # Email related config.
+    EMAIL_BACKEND: str
+    EMAIL_HOST: str
+    EMAIL_PORT: int
+    EMAIL_USE_TLS: bool = True
+    EMAIL_USE_SSL: bool = False
+    EMAIL_HOST_USER: str
+    EMAIL_HOST_PASSWORD: str
+    EMAIL_DEFAULT_FROM_EMAIL: str
+
+    # Google oauth2 related config.
+    GOOGLE_CLIENT_ID: str
+    GOOGLE_CLIENT_SECRET: str
+    GOOGLE_REDIRECT_URI: str
+
+    # Redis related config.
+    REDIS_CACHE_LOCATION: str = "redis://127.0.0.1:6379/1"
+
+    # Celery related config.
+    CELERY_BROKER_URL: str
+    CELERY_RESULT_BACKEND: str
 
 
-class RedisConfig(BaseModel):
-    cache_location: str
-
-
-class EmailConfig(BaseModel):
-    backend: str
-    host: str
-    port: int
-    use_tls: bool
-    use_ssl: bool
-    host_user: str
-    host_password: str
-    default_from_email: str
-
-
-class GoogleOAuth2Config(BaseModel):
-    client_id: str
-    client_secret: str
-    redirect_url: str
-
-
-class CeleryConfig(BaseModel):
-    broker_url: str
-    result_backend: str
-
-
-class EnvSettings(EnvBaseSettings["EnvSettings"]):
-    """Env Settings class to handle env loads."""
-
-    secret_key: str
-    host: str
-    port: int
-    environ: Literal["dev", "prod"]
-    token_active_key_id: str
-    token_private_key_v1: str
-    allowed_hosts: list[str]
-    cors_allowed_origins: list[str]
-    database: DatabaseConfig
-    redis: RedisConfig
-    email: EmailConfig
-    google: GoogleOAuth2Config
-    celery: CeleryConfig
-
-
-env_settings = EnvSettings.load(warning=False)
+# Creating env config instance.
+config = EnvConfig()
