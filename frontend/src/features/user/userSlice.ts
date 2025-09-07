@@ -3,7 +3,6 @@ import { UserState, UserResponse } from "./types";
 
 const initialState: UserState = {
   email: "",
-  username: "",
   first_name: "",
   last_name: "",
   picture: "",
