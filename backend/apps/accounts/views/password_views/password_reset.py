@@ -33,7 +33,8 @@ class PasswordResetView(RetrieveObjectMixin[User], APIView):
         if getattr(user, "is_verified", False):
             # Generate password reset token
             token = password_reset_mint.generate_token(
-                subject_id=f"{user.id}", extra_claims={"user_id": user.id}
+                subject=f"{user.id}",
+                extra_claims={"user_id": user.id},
             )
 
             # Send asynchronously email with account activation link

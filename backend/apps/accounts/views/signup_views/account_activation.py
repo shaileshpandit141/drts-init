@@ -40,7 +40,7 @@ class AccountActivationView(RetrieveObjectMixin[User], APIView):
         if not getattr(user, "is_verified", False):
             # Generate verification token
             token = account_verification_mint.generate_token(
-                subject_id=f"{user.id}",
+                subject=f"{user.id}",
                 extra_claims={"user_id": user.id},
             )
 
