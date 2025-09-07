@@ -1,6 +1,5 @@
 export interface UserState {
   email: string;
-  username: string;
   first_name: string;
   last_name: string;
   picture: string;
@@ -11,7 +10,6 @@ export interface UserState {
 
 export interface UserResponse {
   email: string;
-  username: string;
   first_name: string;
   last_name: string;
   picture: string;
@@ -19,5 +17,3 @@ export interface UserResponse {
   is_staff: boolean;
   is_superuser: boolean;
 }
-
-export interface UserErrorResponse {}

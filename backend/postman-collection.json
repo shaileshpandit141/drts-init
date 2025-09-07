@@ -56,7 +56,7 @@
 							"response": []
 						},
 						{
-							"name": "Send Account Activation Email",
+							"name": "Send Account Verification Email",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -71,13 +71,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/account-activation/",
+									"raw": "{{base_url}}/auth/account-verification/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"account-activation",
+										"account-verification",
 										""
 									]
 								}
@@ -100,13 +100,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/auth/account-activation/confirm/",
+									"raw": "{{base_url}}/auth/account-verification/confirm/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"auth",
-										"account-activation",
+										"account-verification",
 										"confirm",
 										""
 									]
@@ -115,7 +115,7 @@
 							"response": []
 						}
 					],
-					"description": "Handles user registration, and account activation."
+					"description": "Handles user registration, and account verification."
 				},
 				{
 					"name": "Token",

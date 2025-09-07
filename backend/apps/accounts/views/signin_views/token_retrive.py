@@ -1,22 +1,17 @@
-from collections.abc import Sequence
-
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.throttling import BaseThrottle
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
-from apps.accounts.serializers.signin_serializers import SigninSerializer
-from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.serializers import SigninSerializer
+from apps.accounts.throttling import AuthRateThrottle
 
 
 class TokenRetriveView(APIView):
     """Handle token retrival."""
 
-    throttle_classes: Sequence[type[BaseThrottle]] = [
-        AuthUserRateThrottle,
-    ]
+    throttle_classes = [AuthRateThrottle]
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request: Request) -> Response:

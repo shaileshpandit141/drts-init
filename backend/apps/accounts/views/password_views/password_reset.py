@@ -7,14 +7,14 @@ from rest_framework.views import APIView
 
 from apps.accounts.models import User
 from apps.accounts.tasks import send_password_reset_email
-from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.throttling import AuthRateThrottle
 from apps.accounts.tokenmint import password_reset_mint
 
 
 class PasswordResetView(RetrieveObjectMixin[User], APIView):
     """API View to hansle password reset."""
 
-    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request: Request) -> Response:
@@ -33,7 +33,8 @@ class PasswordResetView(RetrieveObjectMixin[User], APIView):
         if getattr(user, "is_verified", False):
             # Generate password reset token
             token = password_reset_mint.generate_token(
-                subject_id=f"{user.id}", extra_claims={"user_id": user.id}
+                subject=f"{user.id}",
+                extra_claims={"user_id": user.id},
             )
 
             # Send asynchronously email with account activation link

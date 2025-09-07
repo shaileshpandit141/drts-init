@@ -3,8 +3,8 @@ from djresttoolkit.mail import EmailSender
 
 
 @shared_task
-def send_account_activation_email(email: str, uri: str) -> None:
-    """Creating the Email Service and send it to user."""
+def send_account_verification_email(email: str, uri: str) -> None:
+    """Task to send account verification email."""
     email_sender = EmailSender(
         {
             "subject": "Verify Your Account",
@@ -15,24 +15,27 @@ def send_account_activation_email(email: str, uri: str) -> None:
                 "uri": uri,
             },
             "template": {
-                "text": "accounts/activation/message.txt",
-                "html": "accounts/activation/message.html",
+                "text": "accounts/verification/message.txt",
+                "html": "accounts/verification/message.html",
             },
         }
     )
 
-    # Send account activation email
+    # Send account verification email
     email_sender.send(to=[email])
 
 
 @shared_task
 def send_account_deactivation_email(email: str) -> None:
-    """Creating the Email Service and send it to user."""
+    """Task to send account deactivation email."""
     email_sender = EmailSender(
         {
-            "subject": "Verify Your Account",
+            "subject": "Your Account Deactivated Successfully",
             "from_email": None,
-            "context": {"site_name": "Drts-Init", "email": email},
+            "context": {
+                "site_name": "Drts-Init",
+                "email": email,
+            },
             "template": {
                 "text": "accounts/deactivation/message.txt",
                 "html": "accounts/deactivation/message.html",
@@ -46,10 +49,10 @@ def send_account_deactivation_email(email: str) -> None:
 
 @shared_task
 def send_password_change_email(email: str) -> None:
-    """Creating the Email Service and send it to user."""
+    """Task to send password change email."""
     email_sender = EmailSender(
         {
-            "subject": "Verify Your Account",
+            "subject": "Password Changed Successfully",
             "from_email": None,
             "context": {
                 "site_name": "Drts-Init",
@@ -68,10 +71,10 @@ def send_password_change_email(email: str) -> None:
 
 @shared_task
 def send_password_reset_email(email: str, uri: str) -> None:
-    """Creating the Email Service and send it to user."""
+    """Task to send password rest email."""
     email_sender = EmailSender(
         {
-            "subject": "Verify Your Account",
+            "subject": "Password Reset Request",
             "from_email": None,
             "context": {
                 "site_name": "Drts-Init",

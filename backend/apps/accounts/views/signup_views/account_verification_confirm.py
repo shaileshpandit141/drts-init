@@ -1,3 +1,4 @@
+from authmint.exceptions import InvalidTokenError
 from djresttoolkit.views.mixins import RetrieveObjectMixin
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -6,15 +7,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
-from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.throttling import AuthRateThrottle
 from apps.accounts.tokenmint import account_verification_mint
-from authmint.exceptions import InvalidTokenError
 
 
-class AccountActivationConfirmView(RetrieveObjectMixin[User], APIView):
+class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
     """API View for verifying user accounts via email confirmation."""
 
-    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
     def get(self, request: Request) -> Response:
@@ -30,21 +30,15 @@ class AccountActivationConfirmView(RetrieveObjectMixin[User], APIView):
     def _verify_token(self, token: str | None) -> Response:
         """Verify the provided token and activate the user account."""
         if token is None:
-            raise ValidationError(
-                {"detail": "The token is invalid or has expired."},
-                code="required",
-            )
+            raise ValidationError({"token": ["This field is required."]})
 
         # Decode token and get user ID
         try:
-            claims = account_verification_mint.validate_token(
-                token=token,
-            )
-
-            user = self.get_object(id=claims["user_id"])
+            claims = account_verification_mint.validate_token(token=token)
+            user = self.get_object(id=claims["ext"]["user_id"])
             if not user:
                 raise ValidationError(
-                    {"detail": "The token is valid but the user does not exist."},
+                    {"detail": "User does not exist."},
                     code="not_found",
                 )
 

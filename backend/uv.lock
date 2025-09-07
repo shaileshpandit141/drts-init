@@ -118,16 +118,16 @@ wheels = [
 
 [[package]]
 name = "authmint"
-version = "0.1.5"
+version = "1.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
     { name = "pyjwt" },
     { name = "redis" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7b/db/6d8c764d5c64b878ca269c3a96051b909d62355e11655ede7a3c6168becc/authmint-0.1.5.tar.gz", hash = "sha256:5e5815a112e5a4b04b0db8575a7ba51dd351c821839cf02a8a88e856e706b00e", size = 21620, upload-time = "2025-09-03T14:39:39.51Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ab/47/3ef3f3575f5fbab622a42359bc6e335b7f166770f57b77581eb71548f75d/authmint-1.0.0.tar.gz", hash = "sha256:87496ec952ece45f7006edd0cef42e3fcb1b7aa229df15e46ec9dd18ca21e79f", size = 21827, upload-time = "2025-09-07T06:54:19.701Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9c/39/2fa777b91a846de64d301d859c54529a303b1ca49475ea98a42b7948c044/authmint-0.1.5-py3-none-any.whl", hash = "sha256:580409c4470b72415a55c832149188d1714b16f98bf7ca41137f415107539783", size = 13292, upload-time = "2025-09-03T14:39:37.277Z" },
+    { url = "https://files.pythonhosted.org/packages/16/9b/91dbe017453be1ec1ab06e26994c6a5cbba8c303d1406d3f9fcb93aaa448/authmint-1.0.0-py3-none-any.whl", hash = "sha256:41693d1a43e1cfe35eec8e28c5b2b4539c1e84c643145243beb091a27f19c46e", size = 13820, upload-time = "2025-09-07T06:54:11.511Z" },
 ]
 
 [[package]]
@@ -192,7 +192,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "argon2-cffi", specifier = ">=25.1.0" },
-    { name = "authmint", specifier = ">=0.1.5" },
+    { name = "authmint", specifier = ">=1.0.0" },
     { name = "celery", specifier = ">=5.5.3" },
     { name = "celery-stubs", specifier = ">=0.1.3" },
     { name = "colorlog", specifier = ">=6.9.0" },

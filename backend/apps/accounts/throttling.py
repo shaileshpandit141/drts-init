@@ -5,7 +5,7 @@ from rest_framework.throttling import SimpleRateThrottle
 from rest_framework.views import APIView
 
 
-class AuthUserRateThrottle(SimpleRateThrottle):
+class AuthRateThrottle(SimpleRateThrottle):
     """Throttle requests based on user authentication status and device."""
 
     # Define the scope for this throttle class

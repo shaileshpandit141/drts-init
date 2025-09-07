@@ -1,10 +1,4 @@
-"""
-Django Accounts App URL Configuration.
-
-This module defines URL patterns for the accounts application, handling user authentication,
-registration, password management, and profile data. All paths are prefixed with /accounts/
-when included in the main URLs.
-"""
+"""Django Accounts App URL Configuration."""
 
 from django.urls import path
 
@@ -20,8 +14,8 @@ from apps.accounts.views.signin_views import (
     TokenRetriveView,
 )
 from apps.accounts.views.signup_views import (
-    AccountActivationConfirmView,
-    AccountActivationView,
+    AccountVerificationConfirmView,
+    AccountVerificationView,
     SignupView,
 )
 from apps.accounts.views.user_profile_views import UserProfileView
@@ -31,21 +25,17 @@ app_name = "accounts"
 urlpatterns = [
     path("signup/", SignupView.as_view(), name="signup"),
     path(
-        "account-activation/",
-        AccountActivationView.as_view(),
-        name="account-activation",
+        "account-verification/",
+        AccountVerificationView.as_view(),
+        name="account-verification",
     ),
     path(
-        "account-activation/confirm/",
-        AccountActivationConfirmView.as_view(),
-        name="account-activation-confirm",
+        "account-verification/confirm/",
+        AccountVerificationConfirmView.as_view(),
+        name="account-verification-confirm",
     ),
     path("token/", TokenRetriveView.as_view(), name="token-retrive"),
-    path(
-        "token/refresh/",
-        TokenRefreshView.as_view(),
-        name="token-refresh",
-    ),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("token/block/", TokenBlockView.as_view(), name="token-block"),
     path("password/change/", PasswordChangeView.as_view(), name="password-change"),
     path("password/reset/", PasswordResetView.as_view(), name="password-reset"),

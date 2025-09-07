@@ -14,13 +14,13 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.models import User
-from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.throttling import AuthRateThrottle
 
 
 class GoogleLoginView(APIView):
     """API endpoint for generating Google sign-in URL."""
 
-    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
 
     def get(self, request: Request) -> Response:  # noqa: ARG002
         # Define google auth URL
@@ -48,7 +48,7 @@ class GoogleLoginView(APIView):
 class GoogleTokenExchangeView(APIView):
     """API endpoint for exchanging Google authorization code for an access token."""
 
-    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
 
     def get(self, request: Request) -> Response:
         """Exchange authorization code for an access token."""
@@ -90,7 +90,7 @@ class GoogleTokenExchangeView(APIView):
 class GoogleCallbackView(APIView):
     """API endpoint for handling Google sign-in callback."""
 
-    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
 
     def post(self, request: Request) -> Response:
         """Verify Google token (ID token or access token)."""

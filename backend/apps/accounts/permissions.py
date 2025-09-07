@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class IsUserAccountVerified(BasePermission):
+class IsAccountVerified(BasePermission):
     """Permission class that checks if a user is verified."""
 
     def has_permission(

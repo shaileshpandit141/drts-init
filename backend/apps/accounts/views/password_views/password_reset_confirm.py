@@ -9,14 +9,14 @@ from rest_framework.views import APIView
 from authmint.exceptions import InvalidTokenError
 
 from apps.accounts.models import User
-from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.throttling import AuthRateThrottle
 from apps.accounts.tokenmint import password_reset_mint
 
 
 class PasswordResetConfirmView(RetrieveObjectMixin[User], APIView):
     """API View to handle password reset and confirmation."""
 
-    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request: Request) -> Response:
@@ -38,7 +38,7 @@ class PasswordResetConfirmView(RetrieveObjectMixin[User], APIView):
 
         try:
             claims = password_reset_mint.validate_token(token=token)
-            user = self.get_object(id=claims["user_id"])
+            user = self.get_object(id=claims["ext"]["user_id"])
             if not user:
                 raise ValidationError(
                     {"detail": "User not found with the provided token."}
