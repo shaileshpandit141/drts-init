@@ -32,11 +32,7 @@ class AccountDeactivationView(APIView):
         # Verify password matches
         if not user.check_password(password):
             raise ValidationError(
-                {
-                    "password": [
-                        "The password you entered is incorrect. Please try again."
-                    ]
-                }
+                {"password": ["The password you entered is incorrect."]}
             )
 
         # Deactivate the account

@@ -26,5 +26,5 @@ class TokenBlockView(APIView):
             )
         except TokenError as error:
             raise ValidationError(
-                {"refresh_token": ["The provided token is invalid or expired."]}
+                {"detail": ["The provided token is invalid or expired."]}
             ) from error

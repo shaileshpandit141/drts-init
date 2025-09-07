@@ -15,15 +15,10 @@ class TokenRefreshView(APIView):
 
     def post(self, request: Request) -> Response:
         """Handle token refresh POST requests."""
-        refresh_token = request.data.get("refresh_token", None)
-
-        # Validate the refresh_token is empty or not
+        refresh_token = request.data.get("refresh_token", "")
         if refresh_token is None:
-            raise ValidationError(
-                {"refresh_token": ["Refresh token field cannot be empty"]}
-            )
+            raise ValidationError({"refresh_token": ["This field is required."]})
 
-        # Handle Token refresh logic
         try:
             jwt_tokens = RefreshToken(refresh_token)
             return Response(

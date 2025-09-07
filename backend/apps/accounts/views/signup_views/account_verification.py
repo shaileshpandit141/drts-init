@@ -15,7 +15,7 @@ from apps.accounts.tokenmint import account_verification_mint
 class AccountVerificationView(RetrieveObjectMixin[User], APIView):
     """API View for handling account verification."""
 
-    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request: Request) -> Response:

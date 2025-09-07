@@ -30,19 +30,15 @@ class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
     def _verify_token(self, token: str | None) -> Response:
         """Verify the provided token and activate the user account."""
         if token is None:
-            raise ValidationError(
-                {"detail": "The token is invalid or has expired."},
-                code="required",
-            )
+            raise ValidationError({"token": ["This field is required."]})
 
         # Decode token and get user ID
         try:
             claims = account_verification_mint.validate_token(token=token)
-
             user = self.get_object(id=claims["ext"]["user_id"])
             if not user:
                 raise ValidationError(
-                    {"detail": "The token is valid but the user does not exist."},
+                    {"detail": "User does not exist."},
                     code="not_found",
                 )
 
