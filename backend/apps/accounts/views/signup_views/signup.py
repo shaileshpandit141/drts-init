@@ -7,14 +7,14 @@ from rest_framework.views import APIView
 
 from apps.accounts.serializers.signup_serializers import SignupSerializer
 from apps.accounts.tasks import send_account_verification_email
+from apps.accounts.throttling import AuthRateThrottle
 from apps.accounts.tokenmint import account_verification_mint
-from apps.accounts.throttling import AuthUserRateThrottle
 
 
 class SignupView(APIView):
     """API view for handling user signup functionality."""
 
-    throttle_classes = [AuthUserRateThrottle]
+    throttle_classes = [AuthRateThrottle]
 
     def post(self, request: Request) -> Response:
         """Handle user registration."""

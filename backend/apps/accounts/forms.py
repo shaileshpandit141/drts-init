@@ -22,16 +22,20 @@ class UserCreationForm(DjangoUserCreationForm):  # type: ignore  # noqa: PGH003
         widget=forms.PasswordInput(attrs={"class": "form-control"}),
         help_text="Enter the same password as above, for verification.",
     )
-    email = forms.EmailField(widget=forms.EmailInput(attrs={"class": "form-control"}))
-    username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={"class": "form-control"}),
+    )
     first_name = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control"}), required=False
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
     )
     last_name = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control"}), required=False
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
     )
     picture = forms.ImageField(
-        widget=forms.FileInput(attrs={"class": "form-control"}), required=False
+        widget=forms.FileInput(attrs={"class": "form-control"}),
+        required=False,
     )
     is_active = forms.BooleanField(required=False)
     is_verified = forms.BooleanField(required=False)
@@ -41,7 +45,6 @@ class UserCreationForm(DjangoUserCreationForm):  # type: ignore  # noqa: PGH003
         model = User
         fields = (
             "email",
-            "username",
             "first_name",
             "last_name",
             "picture",
@@ -103,16 +106,16 @@ class UserChangeForm(DjangoUserChangeForm):  # type: ignore  # noqa: PGH003
     """A form for updating users. Extends Django's built-in UserChangeForm."""
 
     email = forms.EmailField(
-        required=True, widget=forms.EmailInput(attrs={"class": "form-control"})
-    )
-    username = forms.CharField(
-        required=True, widget=forms.TextInput(attrs={"class": "form-control"})
+        required=True,
+        widget=forms.EmailInput(attrs={"class": "form-control"}),
     )
     first_name = forms.CharField(
-        required=False, widget=forms.TextInput(attrs={"class": "form-control"})
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
     )
     last_name = forms.CharField(
-        required=False, widget=forms.TextInput(attrs={"class": "form-control"})
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
     )
     picture = forms.ImageField(
         required=False,
@@ -128,7 +131,6 @@ class UserChangeForm(DjangoUserChangeForm):  # type: ignore  # noqa: PGH003
         model = User
         fields = (
             "email",
-            "username",
             "first_name",
             "last_name",
             "picture",

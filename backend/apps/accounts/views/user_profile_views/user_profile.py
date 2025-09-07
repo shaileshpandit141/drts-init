@@ -8,14 +8,14 @@ from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 
-from apps.accounts.permissions import IsUserAccountVerified
+from apps.accounts.permissions import IsAccountVerified
 from apps.accounts.serializers.user_serializers import UserSerializer
 
 
 class UserProfileView(APIView):
     """API View for managing authenticated user information."""
 
-    permission_classes = [IsAuthenticated, IsUserAccountVerified]  # noqa: RUF012
+    permission_classes = [IsAuthenticated, IsAccountVerified]  # noqa: RUF012
     throttle_classes = [UserRateThrottle]  # noqa: RUF012
     cache_key = "user_data"
 

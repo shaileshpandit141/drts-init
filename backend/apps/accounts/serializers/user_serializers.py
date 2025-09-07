@@ -13,7 +13,6 @@ class UserSerializer(AbsoluteUrlFileMixin, ModelSerializer[User]):
         model = User
         fields: ClassVar[list[str]] = [
             "email",
-            "username",
             "first_name",
             "last_name",
             "picture",

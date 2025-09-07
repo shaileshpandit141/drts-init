@@ -8,14 +8,14 @@ from rest_framework.views import APIView
 
 from apps.accounts.models import User
 from apps.accounts.tasks import send_account_verification_email
-from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.throttling import AuthRateThrottle
 from apps.accounts.tokenmint import account_verification_mint
 
 
 class AccountVerificationView(RetrieveObjectMixin[User], APIView):
     """API View for handling account verification."""
 
-    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request: Request) -> Response:

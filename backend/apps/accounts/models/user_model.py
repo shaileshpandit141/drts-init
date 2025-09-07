@@ -3,8 +3,6 @@ from __future__ import annotations
 from typing import Any, ClassVar
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.core.validators import MinLengthValidator
 from django.db import models
 from django.db.models import (
     BigAutoField,
@@ -18,10 +16,9 @@ from django.utils import timezone
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.managers.user_manager import UserManager
-from apps.accounts.mixins import UniqueUsernameMixin
 
 
-class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     """
     Custom user model that uses email as the username field.
 
@@ -60,22 +57,6 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
             "invalid": "Please enter a valid email address",
             "null": "Email address is required",
             "blank": "Email address cannot be empty",
-        },
-    )
-    username: CharField[str, str] = CharField(
-        max_length=30,
-        unique=True,
-        db_index=False,
-        default="",
-        validators=[
-            UnicodeUsernameValidator(),
-            MinLengthValidator(5),
-        ],
-        error_messages={
-            "invalid": "Please enter a valid last name",
-            "max_length": "Last name cannot be longer than 30 characters",
-            "min_length": "Username must be at least 3 characters long.",
-            "unique": "A user with that username already exists.",
         },
     )
     first_name: CharField[str | None, str | None] = CharField(
@@ -171,13 +152,7 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self) -> str:
         """Return short name base on it's presence."""
-        return self.first_name or self.username or self.email
-
-    def save(self, *args: tuple[str], **kwargs: Any) -> None:
-        """Override the save method to generate a unique username."""
-        if not self.username and self.email:
-            self.username = self.generate_username(self.email, 30)
-        super().save(*args, **kwargs)
+        return self.first_name or self.email
 
     def update_login_timestamp(self) -> None:
         """Update last_login timestamp"""

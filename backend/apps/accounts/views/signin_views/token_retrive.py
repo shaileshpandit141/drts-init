@@ -5,13 +5,13 @@ from rest_framework.views import APIView
 
 from apps.accounts.models import User
 from apps.accounts.serializers import SigninSerializer
-from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.throttling import AuthRateThrottle
 
 
 class TokenRetriveView(APIView):
     """Handle token retrival."""
 
-    throttle_classes = [AuthUserRateThrottle]
+    throttle_classes = [AuthRateThrottle]
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request: Request) -> Response:

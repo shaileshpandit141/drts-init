@@ -20,7 +20,6 @@ class CustomUserAdmin(UserAdmin):  # type: ignore  # noqa: PGH003
     list_display = [  # noqa: RUF012
         "id",
         "email",
-        "username",
         "is_active",
         "is_verified",
         "is_staff",
@@ -36,7 +35,6 @@ class CustomUserAdmin(UserAdmin):  # type: ignore  # noqa: PGH003
     ]
     search_fields = [  # noqa: RUF012
         "email",
-        "username",
         "first_name",
         "last_name",
     ]
@@ -63,7 +61,7 @@ class CustomUserAdmin(UserAdmin):  # type: ignore  # noqa: PGH003
 
     # Define how fields are grouped and displayed when editing existing users
     fieldsets = (
-        (None, {"fields": ("email", "username", "password")}),
+        (None, {"fields": ("email", "password")}),
         ("Personal info", {"fields": ("first_name", "last_name", "picture")}),
         (
             "Permissions",
@@ -90,7 +88,6 @@ class CustomUserAdmin(UserAdmin):  # type: ignore  # noqa: PGH003
                 "classes": ("wide",),
                 "fields": (
                     "email",
-                    "username",
                     "password1",
                     "password2",
                     "first_name",

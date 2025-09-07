@@ -1,3 +1,4 @@
+from authmint.exceptions import InvalidTokenError
 from djresttoolkit.views.mixins import RetrieveObjectMixin
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -6,15 +7,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
-from apps.accounts.throttling import AuthUserRateThrottle
+from apps.accounts.throttling import AuthRateThrottle
 from apps.accounts.tokenmint import account_verification_mint
-from authmint.exceptions import InvalidTokenError
 
 
 class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
     """API View for verifying user accounts via email confirmation."""
 
-    throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
     def get(self, request: Request) -> Response:
