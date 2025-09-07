@@ -163,31 +163,24 @@ class User(UniqueUsernameMixin, AbstractBaseUser, PermissionsMixin):
         """Returns the string representation of the user (email)."""
         return str(self.email)
 
-    def save(self, *args: tuple[str], **kwargs: object) -> None:
+    def save(self, *args: tuple[str], **kwargs: Any) -> None:
         """Override the save method to generate a unique username."""
-        # Generate a unique username if not provided
         if not self.username and self.email:
             self.username = self.generate_username(self.email, 30)
+        super().save(*args, **kwargs)
 
-        # Call the parent class's save method
-        super().save(*args, **kwargs)  # type: ignore  # noqa: PGH003
-
-    def get_jwt_tokens(
-        self,
-        *,
-        access: bool = True,
-    ) -> dict[str, Any]:
-        """Generate Jwt token."""
-        refresh_token = RefreshToken.for_user(self)
-        tokens: dict[str, Any] = {
-            "refresh_token": str(refresh_token),
-        }
-        if access:
-            access_token: str = str(refresh_token.access_token)  # type: ignore  # noqa: PGH003
-            tokens["access_token"] = access_token
-
-        # Update last_login timestamp
+    def update_login_timestamp(self) -> None:
+        """Update last_login timestamp"""
         self.last_login = str(timezone.now())
         self.save(update_fields=["last_login"])
 
+    def get_jwt_tokens(self) -> dict[str, Any]:
+        """Generate Jwt tokens."""
+        refresh_token = RefreshToken.for_user(self)
+        tokens: dict[str, Any] = {
+            "refresh_token": str(refresh_token),
+            "access_token": str(refresh_token.access_token),
+        }
+        # Update last_login timestamp
+        self.update_login_timestamp()
         return tokens

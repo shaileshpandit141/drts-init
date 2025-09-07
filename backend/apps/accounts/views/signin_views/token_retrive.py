@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
-from apps.accounts.serializers.signin_serializers import SigninSerializer
+from apps.accounts.serializers import SigninSerializer
 from apps.accounts.throttling import AuthUserRateThrottle
 
 
