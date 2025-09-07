@@ -1,17 +1,16 @@
 import React, { FC, JSX } from "react";
 import styles from "./Loader.module.css";
+import { Loader as L } from "lucide-react";
 
 interface LoaderProps {
-    loaderOn?: boolean
     size?: string | number
 }
 
-const Loader: FC<LoaderProps> = (props): JSX.Element => {
-    const { loaderOn = false, size = "28px" } = props;
-
+const Loader: FC<LoaderProps> = (props): JSX.Element | null => {
+    const { size = "24px" } = props;
     return (
         <div className={styles.container} style={{ height: size }}>
-            {loaderOn && <span className={styles.loader}></span>}
+            <span className={styles.loader}><L /></span>
         </div>
     )
 }
