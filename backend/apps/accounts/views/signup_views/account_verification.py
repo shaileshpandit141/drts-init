@@ -7,21 +7,21 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
-from apps.accounts.tasks import send_account_activation_email
+from apps.accounts.tasks import send_account_verification_email
 from apps.accounts.throttling import AuthUserRateThrottle
 from apps.accounts.tokenmint import account_verification_mint
 
 
-class AccountActivationView(RetrieveObjectMixin[User], APIView):
-    """API View for handling account activation."""
+class AccountVerificationView(RetrieveObjectMixin[User], APIView):
+    """API View for handling account verification."""
 
     throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
     queryset = User.objects.filter(is_active=True)
 
     def post(self, request: Request) -> Response:
-        """Process a request to resend an account activation email."""
+        """Process a request to resend an account verification email."""
         email = request.data.get("email", None)
-        activation_uri = request.data.get("activation_uri", None)
+        verification_uri = request.data.get("verification_uri", None)
 
         # Handle if user not include email in payload
         if email is None:
@@ -45,17 +45,17 @@ class AccountActivationView(RetrieveObjectMixin[User], APIView):
             )
 
             # Get the absolute URL for verification
-            if activation_uri is None:
+            if verification_uri is None:
                 activate_url = build_absolute_uri(
                     request=request,
-                    url_name="accounts:account-activation-confirm",
+                    url_name="accounts:account-verification-confirm",
                     query_params={"token": token},
                 )
             else:
-                activate_url = f"{activation_uri}/{token}"
+                activate_url = f"{verification_uri}/{token}"
 
-            # Send asynchronously email with account activation link
-            send_account_activation_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
+            # Send asynchronously email with account verification link
+            send_account_verification_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
 
             # Return success response
             return Response(

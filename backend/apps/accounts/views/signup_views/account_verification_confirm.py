@@ -11,7 +11,7 @@ from apps.accounts.tokenmint import account_verification_mint
 from authmint.exceptions import InvalidTokenError
 
 
-class AccountActivationConfirmView(RetrieveObjectMixin[User], APIView):
+class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
     """API View for verifying user accounts via email confirmation."""
 
     throttle_classes = [AuthUserRateThrottle]  # noqa: RUF012
