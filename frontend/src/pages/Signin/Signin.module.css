@@ -1,0 +1,58 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--padding);
+}
+
+.form {
+  height: fit-content;
+  min-height: 220px;
+  width: 100%;
+  max-width: 375px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  gap: 8px;
+}
+
+.input {
+  width: 100%;
+  height: 3em;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  border-radius: 1.2em;
+  border: var(--border);
+
+  &::placeholder {
+    text-transform: capitalize;
+    font-size: 1em;
+    transition: var(--ts-primary);
+  }
+}
+
+.error {
+  width: 100%;
+  padding-inline: 1em;
+  color: var(--status-error);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.actionBtnContiner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+
+  button {
+    width: 100%;
+    border-radius: 1.2em;
+  }
+}
