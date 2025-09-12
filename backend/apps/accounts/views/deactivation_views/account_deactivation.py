@@ -17,8 +17,8 @@ if TYPE_CHECKING:
 class AccountDeactivationView(APIView):
     """API view for deactivating user accounts."""
 
-    permission_classes = [IsAuthenticated]  # noqa: RUF012
-    throttle_classes = [UserRateThrottle]  # noqa: RUF012
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
 
     def post(self, request: Request) -> Response:
         """Deactivate the authenticated user's account."""

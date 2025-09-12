@@ -18,6 +18,9 @@ class AccountVerificationView(RetrieveObjectMixin[User], APIView):
     throttle_classes = [AuthRateThrottle]
     queryset = User.objects.filter(is_active=True)
 
+    def not_found_detail(self) -> dict[str, str] | str:
+        return "No account exists with this email address."
+
     def post(self, request: Request) -> Response:
         """Process a request to resend an account verification email."""
         email = request.data.get("email", None)
@@ -29,12 +32,6 @@ class AccountVerificationView(RetrieveObjectMixin[User], APIView):
 
         # Get user by email
         user = self.get_object(email=email)
-
-        # Check if user is None
-        if user is None:
-            raise ValidationError(
-                {"email": ["No account exists with this email address."]}
-            )
 
         # Check if user is verified or not
         if not getattr(user, "is_verified", False):
@@ -55,16 +52,17 @@ class AccountVerificationView(RetrieveObjectMixin[User], APIView):
                 activate_url = f"{verification_uri}/{token}"
 
             # Send asynchronously email with account verification link
-            send_account_verification_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
+            send_account_verification_email.delay(  # type: ignore[attr-defined]
+                user.email,
+                activate_url,
+            )
 
-            # Return success response
             return Response(
                 {
                     "detail": "We've sent a verification link to your email address.",
                 },
                 status=status.HTTP_200_OK,
             )
-        # Return already verified success response
         return Response(
             {"detail": "Your account has already been verified."},
             status=status.HTTP_200_OK,

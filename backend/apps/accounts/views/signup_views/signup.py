@@ -27,13 +27,12 @@ class SignupView(APIView):
         # Validate the serializer data
         if not serializer.is_valid():
             return Response(
-                data=serializer.errors,  # type: ignore  # noqa: PGH003
+                data=serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Save serializer data if it valid
         serializer.save()
-        user = serializer.instance  # type: ignore  # noqa: PGH003
+        user = serializer.instance
 
         if not user:
             raise ValidationError({"detail": "Opps! Something is wrong!"})
@@ -55,7 +54,10 @@ class SignupView(APIView):
             activate_url = f"{verification_uri}/{token}"
 
         # Send asynchronously email with account verification link
-        send_account_verification_email.delay(user.email, activate_url)  # type: ignore[attr-defined]
+        send_account_verification_email.delay(  # type: ignore[attr-defined]
+            user.email,
+            activate_url,
+        )
 
         # Return success response object
         return Response(
