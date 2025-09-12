@@ -59,6 +59,7 @@ reportIncompatibleVariableOverride = false
 # Disable ruff S101 rule for test casecases
 # =========================================
 [tool.ruff.lint.per-file-ignores]
+"*/__init__.py" = ["F403"]
 "tests/*.py" = ["S101"]
 
 # ====================

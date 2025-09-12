@@ -4,9 +4,9 @@ environ = config.ENVIRONMENT
 
 # Import settings based on environment
 if environ == "dev":
-    from .development import *  # noqa: F403
+    from .development import *
 elif environ == "prod":
-    from .production import *  # noqa: F403
+    from .production import *
 else:
     msg: str = "Please define the Environ mode as dev, prod"
-    raise OSError(msg)
+    raise EnvironmentError(msg)
