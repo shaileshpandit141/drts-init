@@ -1,14 +1,4 @@
-"""
-WSGI (Web Server Gateway Interface) Configuration.
-
-This module configures the WSGI application for the Django backend project.
-It creates a WSGI callable named "application" that web servers can use
-to communicate with the Django application.
-
-Key components:
-- Sets up the Django settings module in environment variables
-- Creates the WSGI application object using Django"s get_wsgi_application()
-"""
+"""WSGI (Web Server Gateway Interface) Configuration."""
 
 import os
 
