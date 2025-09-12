@@ -1,6 +1,5 @@
 from djresttoolkit.views.mixins import RetrieveObjectMixin
 from rest_framework import status
-from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,8 +13,11 @@ from apps.accounts.tokenmint import password_reset_mint
 class PasswordResetView(RetrieveObjectMixin[User], APIView):
     """API View to hansle password reset."""
 
-    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]
     queryset = User.objects.filter(is_active=True)
+
+    def not_found_detail(self) -> dict[str, str] | str:
+        return "User does not exist with provided email"
 
     def post(self, request: Request) -> Response:
         """Process reset password request and send reset email."""
@@ -24,10 +26,6 @@ class PasswordResetView(RetrieveObjectMixin[User], APIView):
 
         # Get user by email
         user = self.get_object(email=email)
-
-        # Check provided email is exists or not
-        if user is None:
-            raise ValidationError({"email": ["Email address cannot be blank."]})
 
         # Process request for verified users
         if getattr(user, "is_verified", False):
@@ -42,13 +40,11 @@ class PasswordResetView(RetrieveObjectMixin[User], APIView):
                 user.email,
                 f"{reset_confirm_uri}/{token}",
             )
-
-            # Return success response
             return Response(
                 data={"detail": "Please check your inbox for the Forgot password."},
                 status=status.HTTP_200_OK,
             )
-        # Return failure response
+
         return Response(
             data={
                 "detail": "You must verify your account to access this resource.",

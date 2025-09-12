@@ -23,7 +23,7 @@ dependencies = [
     "djangorestframework>=3.16.1",
     "djangorestframework-simplejwt>=5.5.1",
     "djangorestframework-stubs>=3.16.2",
-    "djresttoolkit>=1.0.0",
+    "djresttoolkit>=1.2.1",
     "google-auth>=2.40.3",
     "google-auth-oauthlib>=1.2.2",
     "pillow>=11.3.0",
@@ -45,13 +45,21 @@ dev = []
 [project.optional-dependencies]
 dev = ["mypy", "ruff"]
 
-# ===================
-# Tool Configurations
-# ===================
+# ==========================
+# Add pyright Configurations
+# ==========================
+[tool.pyright]
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportIncompatibleVariableOverride = false
 
+# =========================================
 # Disable ruff S101 rule for test casecases
-# -----------------------------------------
+# =========================================
 [tool.ruff.lint.per-file-ignores]
+"*/__init__.py" = ["F403"]
 "tests/*.py" = ["S101"]
 
 # ====================

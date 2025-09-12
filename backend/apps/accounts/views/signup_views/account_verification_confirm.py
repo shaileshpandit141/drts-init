@@ -14,7 +14,7 @@ from apps.accounts.tokenmint import account_verification_mint
 class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
     """API View for verifying user accounts via email confirmation."""
 
-    throttle_classes = [AuthRateThrottle]  # noqa: RUF012
+    throttle_classes = [AuthRateThrottle]
     queryset = User.objects.filter(is_active=True)
 
     def get(self, request: Request) -> Response:
@@ -27,6 +27,9 @@ class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
         token = request.data.get("token")
         return self._verify_token(token)
 
+    def not_found_detail(self) -> dict[str, str] | str:
+        return "User does not exist."
+
     def _verify_token(self, token: str | None) -> Response:
         """Verify the provided token and activate the user account."""
         if token is None:
@@ -36,11 +39,6 @@ class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
         try:
             claims = account_verification_mint.validate_token(token=token)
             user = self.get_object(id=claims["ext"]["user_id"])
-            if not user:
-                raise ValidationError(
-                    {"detail": "User does not exist."},
-                    code="not_found",
-                )
 
             # Check if user is already verified or not
             if getattr(user, "is_verified", False):
@@ -53,7 +51,6 @@ class AccountVerificationConfirmView(RetrieveObjectMixin[User], APIView):
             user.is_verified = True
             user.save()
 
-            # Return success response
             return Response(
                 data={"detail": "Your account has been verified successfully."},
                 status=status.HTTP_200_OK,

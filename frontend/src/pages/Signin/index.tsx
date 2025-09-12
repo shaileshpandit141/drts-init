@@ -1,49 +1,77 @@
-import { useState } from "react";
+import React, { FC, JSX } from "react";
+import styles from "./Signin.module.css";
+import Button from "components/ui/Button";
+import { useSmartForm } from "hooks/useSmartForm";
 import { useSigninMutation } from "features/auth/authApi";
 import { ErrorResponse } from "features/auth/types";
 import { normalizeApiError } from "utils/normalizeApiError";
+import Loader from "components/ui/Loader";
 
-const Signin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [signin, { isLoading, error, isError }] = useSigninMutation();
-  const errors = normalizeApiError<ErrorResponse>(error)
+interface SigninValues {
+  email: string;
+  password: string;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await signin({ email, password });
-  };
+const Signin: FC = (): JSX.Element => {
+  const [signin, { isLoading, error }] = useSigninMutation();
+  const errors = normalizeApiError<ErrorResponse>(error);
+  const { register, handleSubmit } = useSmartForm<SigninValues>({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      await signin(values)
+    },
+  })
 
   return (
-    <div>
-      <h2>Sign in</h2>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.container}>
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit}
+      >
         <input
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
+          placeholder="email"
+          className={styles.input}
           required
+          {...register("email")}
         />
+        {/* {!isLoading && errors && (
+          <p className={styles.error}>{errors?.data.email}</p>
+        )} */}
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder="password"
+          className={styles.input}
           required
+          {...register("password")}
         />
-        <button type="submit" disabled={isLoading}>{isLoading ? "Signin..." : "Signin"}</button>
-        {isError && (
-          <div>
-            <p>{errors?.data.email}</p>
-            <p>{errors?.data.password}</p>
-            <p>{errors?.data.detail}</p>
-            <p>{errors?.data.non_field_errors}</p>
-          </div>
+        {/* {!isLoading && errors && (
+          <>
+            <p className={styles.error}>{errors?.data.password}</p>
+            <p className={styles.error}>{errors?.data.non_field_errors}</p>
+            <p className={styles.error}>{errors?.data.detail}</p>
+          </>
+        )} */}
+        <div className={styles.actionBtnContiner}>
+          <Button className="btn">Sign up</Button>
+          <Button className="btn">
+            {isLoading ? <Loader /> : "Sign in"}
+          </Button>
+        </div>
+        {errors && (
+          <>
+            <p className={styles.error}>{errors?.data.email}</p>
+            <p className={styles.error}>{errors?.data.password}</p>
+            <p className={styles.error}>{errors?.data.non_field_errors}</p>
+            <p className={styles.error}>{errors?.data.detail}</p>
+          </>
         )}
       </form>
     </div>
-  );
-};
+  )
+}
 
 export default Signin;

@@ -79,3 +79,8 @@ class PasswordChangeSerializer(Serializer[User]):
 
         # Return the updated user instance
         return user
+
+
+class PasswordResetConfirmSerializer(Serializer[User]):
+    token = CharField(write_only=True)
+    new_password = CharField(write_only=True, style={"input_type": "password"})

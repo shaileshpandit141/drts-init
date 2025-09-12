@@ -12,8 +12,8 @@ from apps.accounts.tasks import send_password_change_email
 class PasswordChangeView(APIView):
     """Changes authenticated user's password."""
 
-    permission_classes = [IsAuthenticated]  # noqa: RUF012
-    throttle_classes = [UserRateThrottle]  # noqa: RUF012
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
 
     def post(self, request: Request) -> Response:
         """Changes user password after validation."""
@@ -25,7 +25,7 @@ class PasswordChangeView(APIView):
         # Validating the serializer data
         if not serializer.is_valid():
             return Response(
-                data=serializer.errors,  # type: ignore  # noqa: PGH003
+                data=serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
