@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 # ---------------------------------
 INSTALLED_APPS.extend(
     [
+        "drf_spectacular",
+        "drf_spectacular_sidecar",
         "rest_framework",
         "rest_framework_simplejwt",
         "rest_framework_simplejwt.token_blacklist",
@@ -159,7 +161,8 @@ REST_FRAMEWORK = {
     "NON_FIELD_ERRORS_KEY": "non_field_errors",
     "DATETIME_FORMAT": "%Y-%m-%d %H:%M",
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication"
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "EXCEPTION_HANDLER": "djresttoolkit.views.exception_handler",
@@ -180,12 +183,49 @@ REST_FRAMEWORK = {
         "auth": "8/hour",
         "user": "1000/day",
     },
-    "DEFAULT_PAGINATION_CLASS": "djresttoolkit.pagination.PageNumberPagination",
-    "PAGE_SIZE": 4,
-    "MAX_PAGE_SIZE": 8,
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "djresttoolkit.pagination.PageNumberPagination",
+    "PAGE_SIZE": 4,
+    "MAX_PAGE_SIZE": 8,
+}
+
+
+# REST Framework Configuration Settings
+# -------------------------------------
+SPECTACULAR_SETTINGS = {
+    "VERSION": "1.0.0",
+    "TITLE": "DrtsInit",
+    "DESCRIPTION": "DrtsInit API documentation",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_DIST": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
+    "SECURITY": [
+        {"bearerAuth": []},  # For JWT
+        {"cookieAuth": []},  # For Session
+    ],
+    "COMPONENT_SPLIT_REQUEST": True,
+    "COMPONENT_NO_READ_ONLY_REQUIRED": True,
+    "SERVERS": [
+        {"url": "http://localhost:8000", "description": "Local Dev"},
+        {"url": "https://api.example.com", "description": "Production"},
+    ],
+    "COMPONENTS": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+            },
+            "cookieAuth": {
+                "type": "apiKey",
+                "in": "cookie",
+                "name": "sessionid",
+            },
+        },
+    },
 }
 
 # JWT Token Configuration Settings
