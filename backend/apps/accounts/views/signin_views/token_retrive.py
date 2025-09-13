@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
-from apps.accounts.serializers import SigninSerializer
+from apps.accounts.serializers.signin_serializers import RetriveTokenSerializer
 from apps.accounts.throttling import AuthRateThrottle
 
 
@@ -16,12 +16,12 @@ class TokenRetriveView(APIView):
 
     def post(self, request: Request) -> Response:
         """Handle user sign-in and JWT token generation."""
-        serializer = SigninSerializer(data=request.data)
+        serializer = RetriveTokenSerializer(data=request.data)
 
         # Validating the signin serializer
         if not serializer.is_valid():
             return Response(
-                data=serializer.errors,  # type: ignore[]
+                data=serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

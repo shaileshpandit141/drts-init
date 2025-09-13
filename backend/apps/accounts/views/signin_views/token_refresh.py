@@ -11,7 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class TokenRefreshView(APIView):
     """Custom token refresh view for handling JWT token refresh operations."""
 
-    throttle_classes = [UserRateThrottle]  # noqa: RUF012
+    throttle_classes = [UserRateThrottle]
 
     def post(self, request: Request) -> Response:
         """Handle token refresh POST requests."""
