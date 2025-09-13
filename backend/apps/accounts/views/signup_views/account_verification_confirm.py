@@ -1,4 +1,4 @@
-from authmint.exceptions import InvalidTokenError
+from tokenmint.exceptions import InvalidTokenError
 from djresttoolkit.views.mixins import RetrieveObjectMixin
 from rest_framework import status
 from rest_framework.exceptions import ValidationError

@@ -29,6 +29,7 @@ dependencies = [
     "psycopg[binary]>=3.2.9",
     "python-dotenv>=1.1.1",
     "redis>=6.4.0",
+    "tokenmint>=0.1.1",
     "univalidator>=0.2.1",
 ]
 

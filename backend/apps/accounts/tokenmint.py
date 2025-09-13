@@ -1,8 +1,14 @@
 from datetime import timedelta
 from envconfig import config
-from authmint.services import TokenMint
-from authmint.cache import ReplayCache
-from authmint.settings import Settings
+from tokenmint.services import TokenMint
+from tokenmint.cache import ReplayCache
+from tokenmint.settings import Settings
+
+
+replay_cache = ReplayCache(
+    redis_url=config.REDIS_CACHE_LOCATION,
+)
+
 
 account_verification_mint = TokenMint(
     settings=Settings(
@@ -11,9 +17,7 @@ account_verification_mint = TokenMint(
         purpose="account-verification",
         expiry_duration=timedelta(minutes=60),
     ),
-    replay_cache=ReplayCache(
-        redis_url=config.REDIS_CACHE_LOCATION,
-    ),
+    replay_cache=replay_cache,
 )
 
 
@@ -24,7 +28,5 @@ password_reset_mint = TokenMint(
         purpose="password-reset",
         expiry_duration=timedelta(minutes=60),
     ),
-    replay_cache=ReplayCache(
-        redis_url=config.REDIS_CACHE_LOCATION,
-    ),
+    replay_cache=replay_cache,
 )
