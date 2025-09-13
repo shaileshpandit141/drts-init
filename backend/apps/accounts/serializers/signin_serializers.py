@@ -10,9 +10,7 @@ from rest_framework.serializers import (
 from apps.accounts.models import User
 
 
-class SigninSerializer(Serializer[User]):
-    """Serializer for user sign-in."""
-
+class RetriveTokenSerializer(Serializer[User]):
     email = EmailField(style={"input_type": "text"})
     password = CharField(write_only=True, style={"input_type": "password"})
 

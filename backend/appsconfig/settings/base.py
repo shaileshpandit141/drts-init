@@ -159,7 +159,8 @@ REST_FRAMEWORK = {
     "NON_FIELD_ERRORS_KEY": "non_field_errors",
     "DATETIME_FORMAT": "%Y-%m-%d %H:%M",
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication"
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "EXCEPTION_HANDLER": "djresttoolkit.views.exception_handler",
@@ -180,12 +181,12 @@ REST_FRAMEWORK = {
         "auth": "8/hour",
         "user": "1000/day",
     },
-    "DEFAULT_PAGINATION_CLASS": "djresttoolkit.pagination.PageNumberPagination",
-    "PAGE_SIZE": 4,
-    "MAX_PAGE_SIZE": 8,
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
+    "DEFAULT_PAGINATION_CLASS": "djresttoolkit.pagination.PageNumberPagination",
+    "PAGE_SIZE": 4,
+    "MAX_PAGE_SIZE": 8,
 }
 
 # JWT Token Configuration Settings

@@ -6,7 +6,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from authmint.exceptions import InvalidTokenError
+from tokenmint.exceptions import InvalidTokenError
 
 from apps.accounts.models import User
 from apps.accounts.throttling import AuthRateThrottle
