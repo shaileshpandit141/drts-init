@@ -9,6 +9,12 @@
   border-radius: .5em;
   overflow: hidden;
   border: var(--border);
+  background-color: var(--btn-secondary);
+  transition: var(--ts-primary);
+
+  &:hover {
+    background-color: var(--btn-secondary-hover);
+  }
 }
 
 .button:disabled {
