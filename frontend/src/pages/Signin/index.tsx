@@ -15,10 +15,16 @@ interface SigninValues {
 const Signin: FC = (): JSX.Element => {
   const [signin, { isLoading, error }] = useSigninMutation();
   const { apiError } = useApiError<SigninErrorResponse>(error);
-  const { register, handleSubmit } = useSmartForm<SigninValues>({
+  const { register, handleSubmit, showError, errors } = useSmartForm<SigninValues>({
     initialValues: {
       email: "",
       password: "",
+    },
+    validate: (values) => {
+      const errs: Partial<Record<keyof SigninValues, string>> = {};
+      if (!values.email) errs.email = "email is required";
+      if (!values.password) errs.password = "password is required";
+      return errs;
     },
     onSubmit: async (values) => {
       await signin(values)
@@ -38,6 +44,7 @@ const Signin: FC = (): JSX.Element => {
           required
           {...register("email")}
         />
+        {showError("email") && <p className={styles.error}>{errors.email}</p>}
         {apiError && <p className={styles.error}>{apiError.data.email}</p>}
         <input
           type="password"
@@ -46,6 +53,7 @@ const Signin: FC = (): JSX.Element => {
           required
           {...register("password")}
         />
+        {showError("password") && <p className={styles.error}>{errors.password}</p>}
         {apiError && (
           <>
             <p className={styles.error}>{apiError.data.password}</p>
