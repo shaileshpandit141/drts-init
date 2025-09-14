@@ -6,6 +6,8 @@ import { useSigninMutation } from "features/auth/authApi";
 import { useApiError } from "hooks/useApiError";
 import { SigninErrorResponse } from "features/auth/types";
 import Loader from "components/ui/Loader";
+import Input from "components/ui/Input";
+import { Link } from "react-router-dom";
 
 interface SigninValues {
   email: string;
@@ -37,36 +39,55 @@ const Signin: FC = (): JSX.Element => {
         className={styles.form}
         onSubmit={handleSubmit}
       >
-        <input
-          type="email"
-          placeholder="email"
-          className={styles.input}
-          required
-          {...register("email")}
-        />
-        {showError("email") && <p className={styles.error}>{errors.email}</p>}
-        {apiError && <p className={styles.error}>{apiError.data.email}</p>}
-        <input
-          type="password"
-          placeholder="password"
-          className={styles.input}
-          required
-          {...register("password")}
-        />
-        {showError("password") && <p className={styles.error}>{errors.password}</p>}
-        {apiError && (
-          <>
-            <p className={styles.error}>{apiError.data.password}</p>
-            <p className={styles.error}>{apiError.data.non_field_errors}</p>
-            <p className={styles.error}>{apiError.data.detail}</p>
-          </>
-        )}
-        <div className={styles.actionBtnContiner}>
-          <Button type="submit" className="btn">Sign up</Button>
+        <div className={styles.labelContainer}>
+          <h5>Sign In</h5>
+          <p>Welcome back! Sign into continue</p>
+        </div>
+
+        {/* Email */}
+        <div className={styles.wrapper}>
+          <Input
+            label={{ left: "email" }}
+            input={{
+              type: "email",
+              placeholder: "example@gmail.com",
+              required: true,
+              ...register("email")
+            }}
+          />
+          {showError("email") && <p className={styles.error}>{errors.email}</p>}
+          {apiError && <p className={styles.error}>{apiError.data.email}</p>}
+        </div>
+
+        {/* Password */}
+        <div className={styles.wrapper}>
+          <Input
+            label={{ left: "password", right: "forgot your password?" }}
+            input={{
+              type: "password",
+              placeholder: "••••••••",
+              required: true,
+              ...register("password")
+            }}
+          />
+          {showError("password") && <p className={styles.error}>{errors.password}</p>}
+          {apiError && (
+            <>
+              <p className={styles.error}>{apiError.data.password}</p>
+              <p className={styles.error}>{apiError.data.non_field_errors}</p>
+              <p className={styles.error}>{apiError.data.detail}</p>
+            </>
+          )}
+        </div>
+
+        {/* Buttons */}
+        <div className={styles.wrapper}>
           <Button type="submit" className="btn">
-            {isLoading ? <Loader /> : "Sign in"}
+            {isLoading ? <Loader /> : "Sign In"}
           </Button>
         </div>
+
+        <p>Don't have an account? <Link to={"signup"}>Create on now</Link></p>
       </form>
     </div>
   )
