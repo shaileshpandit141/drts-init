@@ -18,6 +18,7 @@
   font-weight: bold;
   letter-spacing: 0.03em;
   color: var(--text-accent);
+  transition: var(--ts-primary);
 }
 
 .centre {

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import "styles/reset.css";
 import "styles/theme.css";
 import "styles/variables.css";
-import "styles/reset.css";
 import "styles/typography.css";
 import "styles/root.css";
 import { Provider } from "react-redux";

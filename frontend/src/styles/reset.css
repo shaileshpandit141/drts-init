@@ -65,8 +65,6 @@ select {
   -webkit-appearance: none;
   user-select: none;
   -webkit-user-select: none;
-  background-color: var(--bg-secondary);
-  border-color: var(--border-primary);
 }
 
 /* Anchor Element */
@@ -113,16 +111,6 @@ form {
   -webkit-user-select: none;
 }
 
-/* Theme Transitions */
-body,
-header,
-footer,
-input,
-main,
-button {
-  transition: var(--ts-secondary);
-}
-
 /* Touch Device Optimizations */
 @media (hover: none) and (pointer: coarse) {
   * {
@@ -132,5 +120,14 @@ button {
 
   *::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@media (pointer: fine) {
+  a,
+  button,
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
   }
 }

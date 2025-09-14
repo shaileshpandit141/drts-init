@@ -21,13 +21,13 @@
 
 
   /* Button Styles */
-  --btn-primary: var(--accent);
+  --btn-primary: var(--text-accent);
   --btn-primary-hover: #0055aa;
   --btn-secondary: #e5e5e5;
   --btn-secondary-hover: #dcdcdc;
 
   /* Link Styles */
-  --link-primary: var(--accent);
+  --link-primary: var(--text-accent);
   --link-hover: #004c99;
 
   /* Status Colors */
@@ -65,13 +65,13 @@
 
 
   /* Button Styles */
-  --btn-primary: var(--accent);
+  --btn-primary: var(--text-accent);
   --btn-primary-hover: #3399ff;
   --btn-secondary: #4a4a4a;
   --btn-secondary-hover: #3a3a3a;
 
   /* Link Styles */
-  --link-primary: var(--accent);
+  --link-primary: var(--text-accent);
   --link-hover: #80c3ff;
 
   /* Status Colors */

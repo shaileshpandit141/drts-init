@@ -90,7 +90,9 @@ textarea,
 select {
   letter-spacing: 0.04em;
   font-size: calc(16 / 16 * 1rem);
+  background-color: var(--bg-secondary);
   color: var(--text-primary);
+  border-color: var(--border-primary);
   transition: var(--ts-secondary);
 
   &::placeholder {
@@ -100,35 +102,35 @@ select {
   }
 }
 
+/* Theme Transitions */
+body,
+header,
+footer,
+input,
+main,
+button {
+  transition: var(--ts-secondary);
+}
+
 /* Clean and consistent link styling with hover and focus states */
-a,
-a:visited,
-a:active {
+a {
   font-size: inherit;
   text-decoration: none;
   letter-spacing: 0.04em;
   font-weight: 600;
   color: var(--link-primary);
+  transition: var(--ts-primary);
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
 
   &:is(:hover, :focus, :focus-visible) {
     color: var(--link-hover);
   }
 }
 
-a::first-letter {
-  text-transform: capitalize;
-}
-
 button::first-letter {
   text-transform: capitalize;
 }
 
-/* Cursor styling for pointer devices to indicate interactive elements */
-@media (pointer: fine) {
-  a,
-  button,
-  input[type="checkbox"],
-  input[type="radio"] {
-    cursor: pointer;
-  }
-}
