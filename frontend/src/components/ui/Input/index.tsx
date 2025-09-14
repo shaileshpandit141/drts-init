@@ -1,44 +1,32 @@
-import React, { FC, JSX } from "react";
-import styles from "./Input.module.css";
+import React, { FC, ReactNode, HTMLAttributes, InputHTMLAttributes, useCallback } from "react";
 import clsx from "clsx";
+import styles from "./Input.module.css";
 
 interface InputProps {
-    container?: React.HTMLAttributes<HTMLDivElement>,
+    container?: HTMLAttributes<HTMLDivElement>;
     label?: {
-        left?: string | JSX.Element;
-        right?: string | JSX.Element;
+        left?: string | ReactNode;
+        right?: string | ReactNode;
     };
-    input?: React.InputHTMLAttributes<HTMLInputElement>
+    input?: InputHTMLAttributes<HTMLInputElement>;
 }
 
-const Input: FC<InputProps> = (props): JSX.Element => {
-    const { container, label, input } = props;
-
-    const getLabel = (label: string | JSX.Element | undefined) => {
-        if (label) {
-            if (typeof label === "string") {
-                return <label>{label}</label>;
-            } else {
-                return label;
-            }
-        }
-    }
+const Input: FC<InputProps> = React.memo(({ container = {}, label = {}, input = {} }) => {
+    const renderLabel = useCallback(
+        (content?: string | ReactNode) =>
+            content ? (typeof content === "string" ? <label>{content}</label> : content) : null,
+        []
+    );
 
     return (
-        <div
-            {...container}
-            className={clsx(styles.container, container?.className)}
-        >
+        <div {...container} className={clsx(styles.container, container.className)}>
             <div className={styles.labelContainer}>
-                {getLabel(label?.left)}
-                {getLabel(label?.right)}
+                {renderLabel(label.left)}
+                {renderLabel(label.right)}
             </div>
-            <input
-                {...input}
-                className={clsx(styles.input, input?.className)}
-            />
-        </div >
+            <input {...input} className={clsx(styles.input, input.className)} />
+        </div>
     );
-};
+});
 
 export default Input;

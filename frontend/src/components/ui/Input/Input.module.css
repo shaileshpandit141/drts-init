@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.2em;
+  transition: var(--ts-primary);
 }
 
 .labelContainer {
@@ -10,9 +11,11 @@
   align-items: flex-end;
   gap: 0.5em;
   color: inherit;
+  transition: var(--ts-primary);
 
   * {
     text-transform: capitalize;
+    font-size: .85em;
   }
 
   *:last-child {
@@ -26,6 +29,7 @@
   border-radius: 0.5em;
   border: var(--border);
   color: inherit;
+  transition: var(--ts-secondary);
 
   &::placeholder {
     opacity: 0.5;
