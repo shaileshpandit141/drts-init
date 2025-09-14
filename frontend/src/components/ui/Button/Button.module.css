@@ -1,12 +1,12 @@
 .button {
-  height: 3em;
+  height: 2.3em;
   width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5em;
   padding: 0.5em;
-  border-radius: 999rem;
+  border-radius: .5em;
   overflow: hidden;
   border: var(--border);
 }

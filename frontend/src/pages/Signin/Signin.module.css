@@ -9,28 +9,29 @@
 
 .form {
   height: fit-content;
-  min-height: 220px;
   width: 100%;
-  max-width: 375px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
-  gap: 8px;
+  align-items: center;
+  gap: 1em;
 }
 
-.input {
-  width: 100%;
-  height: 3em;
-  padding: 0.5em 1em;
-  font-size: 1em;
-  border-radius: 1.2em;
-  border: var(--border);
+.labelContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5em;
+}
 
-  &::placeholder {
-    text-transform: capitalize;
-    font-size: 1em;
-    transition: var(--ts-primary);
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+
+  button {
+    width: 100%;
   }
 }
 
@@ -44,18 +45,5 @@
 
   &::first-letter {
     text-transform: capitalize;
-  }
-}
-
-.actionBtnContiner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-
-  button {
-    width: 100%;
-    border-radius: 1.2em;
   }
 }
