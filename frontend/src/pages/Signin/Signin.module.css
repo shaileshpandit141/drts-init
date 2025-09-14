@@ -36,7 +36,7 @@
 
 .error {
   width: 100%;
-  padding-inline: 1em;
+  /* padding-inline: 1em; */
   color: var(--status-error);
 
   &:empty {

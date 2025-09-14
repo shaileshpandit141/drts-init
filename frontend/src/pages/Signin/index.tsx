@@ -1,10 +1,10 @@
-import React, { FC, JSX } from "react";
+import React, { FC, JSX, } from "react";
 import styles from "./Signin.module.css";
 import Button from "components/ui/Button";
 import { useSmartForm } from "hooks/useSmartForm";
 import { useSigninMutation } from "features/auth/authApi";
+import { useApiError } from "hooks/useApiError";
 import { ErrorResponse } from "features/auth/types";
-import { normalizeApiError } from "utils/normalizeApiError";
 import Loader from "components/ui/Loader";
 
 interface SigninValues {
@@ -14,7 +14,7 @@ interface SigninValues {
 
 const Signin: FC = (): JSX.Element => {
   const [signin, { isLoading, error }] = useSigninMutation();
-  const errors = normalizeApiError<ErrorResponse>(error);
+  const { apiError } = useApiError<ErrorResponse>(error);
   const { register, handleSubmit } = useSmartForm<SigninValues>({
     initialValues: {
       email: "",
@@ -38,9 +38,7 @@ const Signin: FC = (): JSX.Element => {
           required
           {...register("email")}
         />
-        {/* {!isLoading && errors && (
-          <p className={styles.error}>{errors?.data.email}</p>
-        )} */}
+        {apiError && <p className={styles.error}>{apiError.data.email}</p>}
         <input
           type="password"
           placeholder="password"
@@ -48,27 +46,19 @@ const Signin: FC = (): JSX.Element => {
           required
           {...register("password")}
         />
-        {/* {!isLoading && errors && (
+        {apiError && (
           <>
-            <p className={styles.error}>{errors?.data.password}</p>
-            <p className={styles.error}>{errors?.data.non_field_errors}</p>
-            <p className={styles.error}>{errors?.data.detail}</p>
+            <p className={styles.error}>{apiError.data.password}</p>
+            <p className={styles.error}>{apiError.data.non_field_errors}</p>
+            <p className={styles.error}>{apiError.data.detail}</p>
           </>
-        )} */}
+        )}
         <div className={styles.actionBtnContiner}>
-          <Button className="btn">Sign up</Button>
-          <Button className="btn">
+          <Button type="submit" className="btn">Sign up</Button>
+          <Button type="submit" className="btn">
             {isLoading ? <Loader /> : "Sign in"}
           </Button>
         </div>
-        {errors && (
-          <>
-            <p className={styles.error}>{errors?.data.email}</p>
-            <p className={styles.error}>{errors?.data.password}</p>
-            <p className={styles.error}>{errors?.data.non_field_errors}</p>
-            <p className={styles.error}>{errors?.data.detail}</p>
-          </>
-        )}
       </form>
     </div>
   )

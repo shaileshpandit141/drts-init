@@ -9,13 +9,15 @@ interface ButtonProps {
     };
     title?: string;
     className?: string;
-    onClick?: React.MouseEventHandler<HTMLButtonElement>
-    disabled?: boolean
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    disabled?: boolean;
+    type?: "submit" | "button"
+
 
 }
 
 const Button: FC<ButtonProps> = (props): JSX.Element | null => {
-    const { children, icon, title, className, onClick, disabled = false } = props;
+    const { children, icon, title, className, onClick, disabled = false, type = "button" } = props;
 
     const setTitle = () => {
         if (!title && typeof children === "string") {
@@ -30,6 +32,7 @@ const Button: FC<ButtonProps> = (props): JSX.Element | null => {
             title={setTitle()}
             onClick={onClick}
             disabled={disabled}
+            type={type}
         >
             <span className={styles.icon}>
                 {icon && icon.left}
