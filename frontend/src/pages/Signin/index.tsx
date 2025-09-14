@@ -52,6 +52,7 @@ const Signin: FC = (): JSX.Element => {
               type: "email",
               placeholder: "example@gmail.com",
               required: true,
+              autoComplete: "off",
               ...register("email")
             }}
           />
