@@ -4,7 +4,7 @@ import Button from "components/ui/Button";
 import { useSmartForm } from "hooks/useSmartForm";
 import { useSigninMutation } from "features/auth/authApi";
 import { useApiError } from "hooks/useApiError";
-import { ErrorResponse } from "features/auth/types";
+import { SigninErrorResponse } from "features/auth/types";
 import Loader from "components/ui/Loader";
 
 interface SigninValues {
@@ -14,7 +14,7 @@ interface SigninValues {
 
 const Signin: FC = (): JSX.Element => {
   const [signin, { isLoading, error }] = useSigninMutation();
-  const { apiError } = useApiError<ErrorResponse>(error);
+  const { apiError } = useApiError<SigninErrorResponse>(error);
   const { register, handleSubmit } = useSmartForm<SigninValues>({
     initialValues: {
       email: "",
