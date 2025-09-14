@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.5em;
+  color: inherit;
+
+  * {
+    text-transform: capitalize;
+  }
+
+  *:last-child {
+    text-align: end;
+  }
+}
+
+.input {
+  height: 2.3em;
+  padding: 0.5em 0.65em;
+  border-radius: 0.5em;
+  border: var(--border);
+  color: inherit;
+
+  &::placeholder {
+    opacity: 0.5;
+    color: inherit;
+    font-size: inherit;
+  }
+}
