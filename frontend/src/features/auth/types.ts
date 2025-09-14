@@ -14,7 +14,7 @@ export interface SigninResponse {
   refresh_token: string;
 }
 
-export interface ErrorResponse {
+export interface SigninErrorResponse {
   email: string[];
   password: string[];
 }

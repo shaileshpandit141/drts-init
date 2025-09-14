@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 type SyncValidator<T> = (values: T) => Partial<Record<keyof T, string>>;
 type FieldValidator<T> = (
@@ -8,260 +8,205 @@ type FieldValidator<T> = (
 
 interface UseSmartFormOptions<T> {
   initialValues: T;
-  onSubmit: (values: T) => void | Promise<void>;
-  validate?: SyncValidator<T>;
+  validateOnChange?: boolean;
+  validateOnBlur?: boolean;
   fieldValidators?: Partial<Record<keyof T, FieldValidator<T>>>;
+  validate?: SyncValidator<T>;
+  onSubmit: (values: T) => void | Promise<void>;
+}
+
+interface UseSmartFormReturn<T> {
+  values: T;
+  errors: Partial<Record<keyof T, string>>;
+  touched: Partial<Record<keyof T, boolean>>;
+  isSubmitting: boolean;
+  isValid: boolean;
+  step: number;
+
+  register: (name: keyof T) => any;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  showError: (name: keyof T) => boolean;
+
+  nextStep: (fields?: (keyof T)[]) => Promise<void>;
+  prevStep: () => void;
+  reset: () => void;
+}
+
+// --- Type guards for File and FileList ---
+function isFile(val: unknown): val is File {
+  return typeof File !== "undefined" && val instanceof File;
+}
+
+function isFileList(val: unknown): val is FileList {
+  return typeof FileList !== "undefined" && val instanceof FileList;
 }
 
 export function useSmartForm<T extends Record<string, any>>({
   initialValues,
-  onSubmit,
-  validate,
+  validateOnChange = false,
+  validateOnBlur = true,
   fieldValidators = {},
-}: UseSmartFormOptions<T>) {
+  validate,
+  onSubmit,
+}: UseSmartFormOptions<T>): UseSmartFormReturn<T> {
   const [values, setValues] = useState<T>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
   const [touched, setTouched] = useState<Partial<Record<keyof T, boolean>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [step, setStep] = useState(0);
-  const [disableValidation, setDisableValidation] = useState(false);
-  const [validateOnChange, setValidateOnChange] = useState(false);
 
-  // --- Value parsers ---
-  const valueParsers = useMemo<
-    Record<string, (e: React.ChangeEvent<any>) => any>
-  >(
-    () => ({
-      checkbox: (e) => e.target.checked,
+  // --- Value Parsing ---
+  const valueParsers = {
+    checkbox: (e: React.ChangeEvent<HTMLInputElement>) => e.target.checked,
+    file: (e: React.ChangeEvent<HTMLInputElement>) =>
+      e.target.multiple ? e.target.files : e.target.files?.[0],
+    number: (e: React.ChangeEvent<HTMLInputElement>) =>
+      e.target.value === "" ? undefined : Number(e.target.value),
+    range: (e: React.ChangeEvent<HTMLInputElement>) =>
+      e.target.value === "" ? undefined : Number(e.target.value),
+    date: (e: React.ChangeEvent<HTMLInputElement>) =>
+      e.target.value === "" ? undefined : new Date(e.target.value),
+    "datetime-local": (e: React.ChangeEvent<HTMLInputElement>) =>
+      e.target.value === "" ? undefined : new Date(e.target.value),
+    selectMultiple: (e: React.ChangeEvent<HTMLSelectElement>) =>
+      Array.from(e.target.selectedOptions).map((o) => o.value),
+  };
 
-      file: (e) => {
-        const { files, multiple } = e.target;
-        return multiple ? files : files?.[0];
-      },
-
-      number: (e) =>
-        e.target.value === "" ? undefined : Number(e.target.value),
-
-      range: (e) =>
-        e.target.value === "" ? undefined : Number(e.target.value),
-
-      date: (e) =>
-        e.target.value === "" ? undefined : new Date(e.target.value),
-
-      "datetime-local": (e) =>
-        e.target.value === "" ? undefined : new Date(e.target.value),
-
-      selectMultiple: (e) =>
-        Array.from(e.target.options)
-          .filter((o: any) => o.selected)
-          .map((o: any) => o.value),
-    }),
-    []
-  );
-
-  // Default parser: returns trimmed string
   const defaultParser = (e: React.ChangeEvent<any>) =>
     typeof e.target.value === "string" ? e.target.value.trim() : e.target.value;
 
-  const normalizeValue = useCallback(
-    (e: React.ChangeEvent<any>) => {
-      const { type, tagName, multiple } = e.target;
+  const normalizeValue = (e: React.ChangeEvent<any>) => {
+    const { type, tagName, multiple } = e.target;
+    if (tagName === "SELECT" && multiple) return valueParsers.selectMultiple(e);
+    return (
+      valueParsers[type as keyof typeof valueParsers]?.(e) ?? defaultParser(e)
+    );
+  };
 
-      if (tagName === "SELECT" && multiple) {
-        return valueParsers["selectMultiple"](e);
-      }
+  // --- Validation helpers ---
+  const runValidator = async (key: keyof T, value: any, allValues: T) => {
+    const fieldError = await fieldValidators[key]?.(value, allValues);
 
-      const parser = valueParsers[type];
-      return parser ? parser(e) : defaultParser(e);
-    },
-    [valueParsers]
-  );
+    const formErrors: Partial<Record<keyof T, string>> = validate
+      ? validate(allValues)
+      : {};
 
-  // --- Form-level validation ---
-  const validateForm = useCallback(async (): Promise<
-    Partial<Record<keyof T, string>>
-  > => {
-    let fieldErrors: Partial<Record<keyof T, string>> = {};
+    return fieldError || formErrors[key];
+  };
 
-    if (validate) {
-      fieldErrors = { ...fieldErrors, ...validate(values) };
-    }
+  const validateForm = async () => {
+    const formErrors: Partial<Record<keyof T, string>> = validate
+      ? { ...validate(values) }
+      : {};
 
     for (const key in fieldValidators) {
-      const validator = fieldValidators[key as keyof T];
-      const val = values[key as keyof T];
-      if (validator) {
-        const result = await validator(val, values);
-        if (result) fieldErrors[key as keyof T] = result;
-      }
+      const err = await runValidator(key as keyof T, values[key], values);
+      if (err) formErrors[key as keyof T] = err;
     }
 
-    Object.keys(fieldErrors).forEach((key) => {
-      if (!fieldErrors[key as keyof T]) {
-        delete fieldErrors[key as keyof T];
-      }
-    });
+    setErrors(formErrors);
+    return formErrors;
+  };
 
-    setErrors(fieldErrors);
+  const validateFields = async (fields: (keyof T)[]) => {
+    const fieldErrors: Partial<Record<keyof T, string>> = {};
+
+    for (const key of fields) {
+      const err = await runValidator(key, values[key], values);
+      if (err) fieldErrors[key] = err;
+    }
+
+    setErrors((prev) => ({ ...prev, ...fieldErrors }));
     return fieldErrors;
-  }, [fieldValidators, validate, values]);
-
-  const validateStep = async (fields: (keyof T)[]) => {
-    const currentErrors: Partial<Record<keyof T, string>> = {};
-
-    for (const field of fields) {
-      const val = values[field];
-      let customError: string | undefined;
-
-      const validator = fieldValidators[field];
-      if (validator) {
-        customError = await validator(val, values);
-      }
-
-      if (customError) {
-        currentErrors[field] = customError;
-      }
-    }
-
-    setErrors((prev) => ({ ...prev, ...currentErrors }));
-    return currentErrors;
   };
 
   // --- Handlers ---
-  const handleChange = useCallback(
-    async (e: React.ChangeEvent<any>) => {
-      const { name } = e.target;
-      const newValue = normalizeValue(e);
+  const handleChange = (e: React.ChangeEvent<any>) => {
+    const { name } = e.target;
+    const key = name as keyof T;
+    const newValue = normalizeValue(e);
 
-      setValues((prev) => {
-        const updated = { ...prev, [name]: newValue };
+    setValues((prev) => {
+      const updated = { ...prev, [key]: newValue };
 
-        if (validateOnChange && !disableValidation) {
-          const key = name as keyof T;
-          const val = updated[key];
-
-          (async () => {
-            setTouched((prev) => ({ ...prev, [key]: true }));
-
-            let customError: string | undefined;
-            const validator = fieldValidators[key];
-            if (validator) {
-              customError = await validator(val, updated);
-            }
-
-            setErrors((prev) => {
-              const updatedErrors = { ...prev };
-              if (customError) {
-                updatedErrors[key] = customError;
-              } else {
-                delete updatedErrors[key];
-              }
-              return updatedErrors;
-            });
-          })();
-        }
-
-        return updated;
-      });
-    },
-    [normalizeValue, validateOnChange, disableValidation, fieldValidators]
-  );
-
-  const handleBlur = useCallback(
-    async (e: React.FocusEvent<any>) => {
-      if (disableValidation) return;
-
-      const { name } = e.target;
-      const key = name as keyof T;
-      const val = values[key];
-
-      setTouched((prev) => ({ ...prev, [key]: true }));
-
-      let customError: string | undefined;
-      const validator = fieldValidators[key];
-      if (validator) {
-        customError = await validator(val, values);
+      if (validateOnChange) {
+        setTouched((t) => ({ ...t, [key]: true }));
+        runValidator(key, newValue, updated).then((err) =>
+          setErrors((prevErr) => {
+            const updatedErrors = { ...prevErr };
+            if (err) updatedErrors[key] = err;
+            else delete updatedErrors[key];
+            return updatedErrors;
+          })
+        );
       }
 
+      return updated;
+    });
+  };
+
+  const handleBlur = (e: React.FocusEvent<any>) => {
+    if (!validateOnBlur) return;
+    const key = e.target.name as keyof T;
+    const value = values[key];
+    setTouched((t) => ({ ...t, [key]: true }));
+
+    runValidator(key, value, values).then((err) =>
       setErrors((prev) => {
         const updated = { ...prev };
-        if (customError) {
-          updated[key] = customError;
-        } else {
-          delete updated[key];
-        }
+        if (err) updated[key] = err;
+        else delete updated[key];
         return updated;
-      });
-    },
-    [disableValidation, values, fieldValidators]
-  );
+      })
+    );
+  };
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setIsSubmitting(true);
-
-      const fieldErrors = await validateForm();
-      const hasErrors = Object.keys(fieldErrors).length > 0;
-
-      if (!hasErrors) {
-        await onSubmit(values);
-      }
-
-      setIsSubmitting(false);
-    },
-    [validateForm, onSubmit, values]
-  );
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const formErrors = await validateForm();
+    if (Object.keys(formErrors).length === 0) {
+      await onSubmit(values);
+    }
+    setIsSubmitting(false);
+  };
 
   // --- Utils ---
   const register = (name: keyof T) => {
-    const value = values[name] as any;
-    const props: any = {
+    const value = values[name];
+    return {
       name,
       onChange: handleChange,
       onBlur: handleBlur,
+      ...(typeof value === "boolean"
+        ? { checked: value }
+        : isFile(value) || isFileList(value)
+        ? {}
+        : { value: value ?? "" }),
     };
-
-    if (typeof value === "boolean") {
-      props.checked = value;
-    } else if (value instanceof File || value instanceof FileList) {
-      // no binding for file inputs
-    } else if (Array.isArray(value)) {
-      props.value = value;
-    } else {
-      props.value = value ?? "";
-    }
-
-    return props;
   };
 
-  const showError = (name: keyof T) => {
-    return Boolean(touched[name] && errors[name]);
-  };
+  const showError = (name: keyof T) => Boolean(touched[name] && errors[name]);
 
-  const isValid = useMemo(() => {
-    return Object.values(errors).every((error) => !error);
-  }, [errors]);
+  const isValid = useMemo(
+    () => Object.values(errors).every((e) => !e),
+    [errors]
+  );
 
-  const nextStep = async (stepFields?: (keyof T)[]) => {
-    if (!stepFields) return setStep((s) => s + 1);
-
-    const stepErrors = await validateStep(stepFields);
-    const hasErrors = Object.keys(stepErrors).length > 0;
-    if (!hasErrors) setStep((s) => s + 1);
+  const nextStep = async (fields?: (keyof T)[]) => {
+    if (!fields) return setStep((s) => s + 1);
+    const stepErrors = await validateFields(fields);
+    if (Object.keys(stepErrors).length === 0) setStep((s) => s + 1);
   };
 
   const prevStep = () => setStep((s) => s - 1);
 
   const reset = () => {
-    setDisableValidation(true);
-
     setValues(initialValues);
     setErrors({});
     setTouched({});
     setIsSubmitting(false);
-
-    setTimeout(() => setDisableValidation(false), 0);
+    setStep(0);
   };
 
   return {
@@ -272,17 +217,10 @@ export function useSmartForm<T extends Record<string, any>>({
     isValid,
     step,
     register,
-    handleChange,
-    handleBlur,
     handleSubmit,
-    setValues,
-    setErrors,
     showError,
-    setDisableValidation,
-    setValidateOnChange,
-    reset,
     nextStep,
     prevStep,
-    setStep,
+    reset,
   };
 }

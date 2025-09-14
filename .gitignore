@@ -3,7 +3,6 @@
 .ropeproject
 .ruff_cache
 __pycache__
-temp/*
 
 # Backend Dir, Files Ignore
 backend/.env*
