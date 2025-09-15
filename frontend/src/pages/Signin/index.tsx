@@ -17,7 +17,7 @@ interface SigninValues {
 const Signin: FC = (): JSX.Element => {
   const [signin, { isLoading, error }] = useSigninMutation();
   const { apiError } = useApiError<SigninErrorResponse>(error);
-  const { register, handleSubmit, showError, errors } = useSmartForm<SigninValues>({
+  const { register, handleSubmit, hasError, errors } = useSmartForm<SigninValues>({
     initialValues: {
       email: "",
       password: "",
@@ -56,7 +56,7 @@ const Signin: FC = (): JSX.Element => {
               ...register("email")
             }}
           />
-          {showError("email") && <p className={styles.error}>{errors.email}</p>}
+          {hasError("email") && <p className={styles.error}>{errors.email}</p>}
           {apiError && <p className={styles.error}>{apiError.data.email}</p>}
         </div>
 
@@ -71,7 +71,7 @@ const Signin: FC = (): JSX.Element => {
               ...register("password")
             }}
           />
-          {showError("password") && <p className={styles.error}>{errors.password}</p>}
+          {hasError("password") && <p className={styles.error}>{errors.password}</p>}
           {apiError && (
             <>
               <p className={styles.error}>{apiError.data.password}</p>

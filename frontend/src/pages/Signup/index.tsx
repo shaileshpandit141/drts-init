@@ -20,7 +20,7 @@ const Signup: FC = (): JSX.Element => {
   const [signup, { isLoading, error, data, isSuccess }] = useSignupMutation();
   const { apiError, resetError } = useApiError<SigninErrorResponse>(error);
   const { triggerToast } = useToast();
-  const { register, handleSubmit, showError, errors } = useSmartForm<SignupValues>({
+  const { register, handleSubmit, hasError, errors } = useSmartForm<SignupValues>({
     initialValues: {
       email: "",
       password: "",
@@ -66,7 +66,7 @@ const Signup: FC = (): JSX.Element => {
               ...register("email")
             }}
           />
-          {showError("email") && <p className={styles.error}>{errors.email}</p>}
+          {hasError("email") && <p className={styles.error}>{errors.email}</p>}
           {apiError && <p className={styles.error}>{apiError.data.email}</p>}
         </div>
 
@@ -81,7 +81,7 @@ const Signup: FC = (): JSX.Element => {
               ...register("password")
             }}
           />
-          {showError("password") && <p className={styles.error}>{errors.password}</p>}
+          {hasError("password") && <p className={styles.error}>{errors.password}</p>}
           {apiError && (
             <>
               <p className={styles.error}>{apiError.data.password}</p>
