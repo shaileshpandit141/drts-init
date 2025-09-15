@@ -45,10 +45,16 @@ const Signup: FC = (): JSX.Element => {
 
   return (
     <div className={styles.container}>
+
+      {/* --- Meta data --- */}
+      <title>Sign up</title>
+
       <form
         className={styles.form}
         onSubmit={handleSubmit}
       >
+
+        {/* --- Lables --- */}
         <div className={styles.labelContainer}>
           <h5>Sign Up</h5>
           <p>Sign up to continue</p>
