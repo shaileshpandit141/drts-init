@@ -1,0 +1,25 @@
+.button {
+  aspect-ratio: 1/1;
+  height: 2.3em;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999rem;
+  overflow: hidden;
+  border: var(--border);
+  background-color: var(--btn-secondary);
+  transition: var(--ts-secondary);
+
+  &:hover {
+    background-color: var(--btn-secondary-hover);
+  }
+}
+
+.iconContainer {
+  aspect-ratio: 1/1;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
