@@ -16,7 +16,7 @@ const Header: FC = (): JSX.Element => {
             </section>
             <section className={styles.centre}></section>
             <section className={styles.right}>
-                {isAuthenticated ? <Signout /> : <Link to={"/signin"} className={styles.link}>Sign in</Link>}
+                {isAuthenticated ? <Signout /> : <Link to={"/sign-in"} className={styles.link}>Sign in</Link>}
                 <ToggleTheme />
                 <UserProfile />
             </section>

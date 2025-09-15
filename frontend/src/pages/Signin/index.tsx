@@ -88,7 +88,7 @@ const Signin: FC = (): JSX.Element => {
           </Button>
         </div>
 
-        <p>Don't have an account? <Link to={"/signup"}>Create on now</Link></p>
+        <p>Don't have an account? <Link to={"/sign-up"}>Create on now</Link></p>
       </form>
     </div>
   )
