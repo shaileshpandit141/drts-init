@@ -1,5 +1,5 @@
 .user-profile {
-  --hw: 38px;
+  --hw: 2.3em;
   position: relative;
   user-select: none;
   background-color: transparent;
@@ -12,6 +12,7 @@
     height: var(--hw);
     width: var(--hw);
     padding: 0;
+    border: var(--border);
     border-radius: var(--hw);
     overflow: hidden;
 

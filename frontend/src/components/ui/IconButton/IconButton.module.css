@@ -1,12 +1,11 @@
 .button {
+  aspect-ratio: 1/1;
   height: 2.3em;
   width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5em;
-  padding: 0.5em;
-  border-radius: .5em;
+  border-radius: 999rem;
   overflow: hidden;
   border: var(--border);
   background-color: var(--btn-secondary);
@@ -17,23 +16,10 @@
   }
 }
 
-.button:disabled {
-  cursor: not-allowed;
-}
-
-.icon {
+.iconContainer {
   aspect-ratio: 1/1;
-  height: 100%;
+  height: 24px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  background-color: transparent;
-}
-
-.icon:first-child {
-  justify-content: flex-end;
-}
-
-.text {
-  font-weight: 600;
-  text-wrap: nowrap;
 }

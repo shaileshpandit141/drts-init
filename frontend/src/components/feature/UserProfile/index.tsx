@@ -35,7 +35,7 @@ const UserProfile: FC = (): JSX.Element | null => {
   return (
     <div className="user-profile">
       <button
-        className="button-as-icon profile-action-button"
+        className="profile-action-button"
         ref={buttonRef}
         onClick={toggleDropdown}
       >

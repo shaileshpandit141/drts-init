@@ -22,8 +22,8 @@ function RootRoutes() {
           <Route element={<PublicRoute />}>
             {/* All public routes with auth layout goes here. */}
             <Route element={<AuthLayout />}>
-              <Route path="/signin" element={<Signin />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/sign-in" element={<Signin />} />
+              <Route path="/sign-up" element={<Signup />} />
             </Route>
             {/* All public routes with main layout goes here. */}
             <Route element={<MainLayout />}>

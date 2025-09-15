@@ -1,6 +1,7 @@
 import React, { FC, JSX } from "react";
 import { useSignoutMutation } from "features/auth/authApi";
 import { useAuth } from "features/auth/hooks";
+import Button from "components/ui/Button";
 
 const Signout: FC = (): JSX.Element | null => {
     const [signout, { isLoading }] = useSignoutMutation();
@@ -12,16 +13,16 @@ const Signout: FC = (): JSX.Element | null => {
         })
     }
 
-    if (isAuthenticated) {
-        return (
-            <button
-                onClick={handleSignout}
-                disabled={isLoading}
-            >Sign out</button>
-        )
+    if (!isAuthenticated) {
+        return null
     }
 
-    return null
+    return (
+        <Button
+            onClick={handleSignout}
+            disabled={isLoading}
+        >Sign out</Button>
+    )
 }
 
 export default Signout;

@@ -35,10 +35,16 @@ const Signin: FC = (): JSX.Element => {
 
   return (
     <div className={styles.container}>
+
+      {/* --- Meta data --- */}
+      <title>Sign in</title>
+
       <form
         className={styles.form}
         onSubmit={handleSubmit}
       >
+
+        {/* --- Lables --- */}
         <div className={styles.labelContainer}>
           <h5>Sign In</h5>
           <p>Welcome back! Sign in to continue</p>
@@ -88,7 +94,7 @@ const Signin: FC = (): JSX.Element => {
           </Button>
         </div>
 
-        <p>Don't have an account? <Link to={"/signup"}>Create on now</Link></p>
+        <p>Don't have an account? <Link to={"/sign-up"}>Create on now</Link></p>
       </form>
     </div>
   )
