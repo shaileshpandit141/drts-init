@@ -1,48 +1,48 @@
-import React, { FC, JSX } from "react";
+import React, { ButtonHTMLAttributes, FC, JSX } from "react";
 import styles from "./Button.module.css";
+import clsx from "clsx";
 
-interface ButtonProps {
-    children?: string | JSX.Element;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: {
         left?: JSX.Element,
         right?: JSX.Element
     };
-    title?: string;
-    className?: string;
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-    disabled?: boolean;
-    type?: "submit" | "button"
-
-
 }
 
 const Button: FC<ButtonProps> = (props): JSX.Element | null => {
-    const { children, icon, title, className, onClick, disabled = false, type = "button" } = props;
+    const { children, icon, ...rest } = props;
 
-    const setTitle = () => {
-        if (!title && typeof children === "string") {
-            return children;
+    const renderIcon = (): (JSX.Element | undefined)[] => {
+        if (icon) {
+            if (icon.left && icon.right) {
+                return [
+                    <span className={styles.icon}>{icon.left}</span>,
+                    <span className={styles.icon}>{icon.right}</span>,
+                ];
+            } else if (icon.left) {
+                return [
+                    <span className={styles.icon}>{icon.left}</span>,
+                    <span className={styles.icon}></span>,
+                ];
+            } else if (icon.right) {
+                return [
+                    undefined,
+                    <span className={styles.icon}></span>,
+                    <span className={styles.icon}>{icon.right}</span>,
+                ];
+            }
         }
-        return title
+        return [undefined, undefined]
     }
 
     return (
         <button
-            className={`${styles.button} ${className}`}
-            title={setTitle()}
-            onClick={onClick}
-            disabled={disabled}
-            type={type}
+            {...rest}
+            className={clsx(styles.button, rest.className)}
         >
-            <span className={styles.icon}>
-                {icon && icon.left}
-            </span>
-            {children && (
-                <span className={styles.text}>{children}</span>
-            )}
-            <span className={styles.icon}>
-                {icon && icon.right}
-            </span>
+            {renderIcon()[0]}
+            <span className={styles.text}>{children}</span>
+            {renderIcon()[1]}
         </button>
     )
 }
