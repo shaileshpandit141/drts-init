@@ -8,7 +8,7 @@ function useVisibleStyles(additionalStyles: React.CSSProperties = {}) {
       pointerEvents: "auto",
       ...additionalStyles,
     }),
-    [additionalStyles],
+    [additionalStyles]
   );
 }
 
@@ -19,13 +19,13 @@ function useHiddenStyles(additionalStyles: React.CSSProperties = {}) {
       pointerEvents: "none",
       ...additionalStyles,
     }),
-    [additionalStyles],
+    [additionalStyles]
   );
 }
 
-export function useDropdownMenu(
+export function useDropdown(
   visibleExtraStyles: React.CSSProperties = {},
-  hiddenExtraStyles: React.CSSProperties = {},
+  hiddenExtraStyles: React.CSSProperties = {}
 ) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -36,7 +36,7 @@ export function useDropdownMenu(
   const visibleStyles = useVisibleStyles(visibleExtraStyles);
   const hiddenStyles = useHiddenStyles(hiddenExtraStyles);
 
-  const toggleDropdownMenu = useCallback(() => {
+  const toggleDropdown = useCallback(() => {
     setIsVisible((prev) => !prev);
   }, []);
 
@@ -96,6 +96,6 @@ export function useDropdownMenu(
   return {
     buttonRef,
     contentRef,
-    toggleDropdownMenu,
+    toggleDropdown,
   };
 }

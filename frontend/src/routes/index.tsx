@@ -5,6 +5,7 @@ import RootLayout from "layouts/RootLayout";
 import AuthLayout from "layouts/AuthLayout";
 import MainLayout from "layouts/MainLayout";
 import Signin from "pages/Signin";
+import Signup from "pages/Signup";
 import Home from "pages/Home";
 
 function RootRoutes() {
@@ -22,6 +23,7 @@ function RootRoutes() {
             {/* All public routes with auth layout goes here. */}
             <Route element={<AuthLayout />}>
               <Route path="/signin" element={<Signin />} />
+              <Route path="/signup" element={<Signup />} />
             </Route>
             {/* All public routes with main layout goes here. */}
             <Route element={<MainLayout />}>

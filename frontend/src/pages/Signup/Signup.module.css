@@ -1,0 +1,58 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--padding);
+}
+
+.form {
+  height: fit-content;
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.labelContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+
+  button {
+    width: 100%;
+  }
+}
+
+.error {
+  width: 100%;
+  color: var(--status-error);
+
+  &:empty {
+    display: none;
+  }
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}
+
+.success {
+  width: 100%;
+  color: var(--status-success);
+
+  &:empty {
+    display: none;
+  }
+}

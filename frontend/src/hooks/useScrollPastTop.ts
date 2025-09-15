@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-interface UseHasTouchedOrPassedTopOptions {
+interface useScrollPastTopOptions {
   threshold?: number;
 }
 
-export function useHasTouchedOrPassedTop<
+export function useScrollPastTop<
   T extends HTMLElement,
-  C extends HTMLElement = HTMLDivElement,
->({ threshold = 0 }: UseHasTouchedOrPassedTopOptions = {}) {
+  C extends HTMLElement = HTMLDivElement
+>({ threshold = 0 }: useScrollPastTopOptions = {}) {
   const elementRef = useRef<T | null>(null);
   const scrollContainerRef = useRef<C | null>(null);
-  const [hasTouchedOrPassedTop, setHasTouchedOrPassedTop] = useState(false);
+  const [hasScrolledPastTop, setHasScrolledPastTop] = useState(false);
 
   const checkPosition = useCallback(() => {
     if (!elementRef.current || !scrollContainerRef.current) return;
@@ -21,7 +21,7 @@ export function useHasTouchedOrPassedTop<
       : { top: 0 };
 
     const isTouchedOrPassed = elementRect.top <= containerRect.top + threshold;
-    setHasTouchedOrPassedTop(isTouchedOrPassed);
+    setHasScrolledPastTop(isTouchedOrPassed);
   }, [threshold]);
 
   useEffect(() => {
@@ -40,5 +40,5 @@ export function useHasTouchedOrPassedTop<
     };
   }, [checkPosition]);
 
-  return { elementRef, scrollContainerRef, hasTouchedOrPassedTop };
+  return { elementRef, scrollContainerRef, hasScrolledPastTop };
 }

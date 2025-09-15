@@ -1,37 +1,47 @@
-import React, { FC, JSX, } from "react";
-import styles from "./Signin.module.css";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { FC, JSX, useEffect, } from "react";
+import styles from "./Signup.module.css";
 import Button from "components/ui/Button";
 import { useSmartForm } from "hooks/useSmartForm";
-import { useSigninMutation } from "features/auth/authApi";
+import { useSignupMutation } from "features/signup/signupApi";
 import { useApiError } from "hooks/useApiError";
 import { SigninErrorResponse } from "features/auth/types";
 import Loader from "components/ui/Loader";
 import Input from "components/ui/Input";
 import { Link } from "react-router-dom";
+import { useToast } from "features/toast/hooks";
 
-interface SigninValues {
+interface SignupValues {
   email: string;
   password: string;
 }
 
-const Signin: FC = (): JSX.Element => {
-  const [signin, { isLoading, error }] = useSigninMutation();
-  const { apiError } = useApiError<SigninErrorResponse>(error);
-  const { register, handleSubmit, hasError, errors } = useSmartForm<SigninValues>({
+const Signup: FC = (): JSX.Element => {
+  const [signup, { isLoading, error, data, isSuccess }] = useSignupMutation();
+  const { apiError, resetError } = useApiError<SigninErrorResponse>(error);
+  const { triggerToast } = useToast();
+  const { register, handleSubmit, hasError, errors } = useSmartForm<SignupValues>({
     initialValues: {
       email: "",
       password: "",
     },
     validate: (values) => {
-      const errs: Partial<Record<keyof SigninValues, string>> = {};
+      const errs: Partial<Record<keyof SignupValues, string>> = {};
       if (!values.email) errs.email = "email is required";
       if (!values.password) errs.password = "password is required";
       return errs;
     },
     onSubmit: async (values) => {
-      await signin(values)
+      await signup(values)
     },
   })
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      resetError()
+      triggerToast("success", data.detail)
+    }
+  }, [isSuccess, data])
 
   return (
     <div className={styles.container}>
@@ -40,8 +50,8 @@ const Signin: FC = (): JSX.Element => {
         onSubmit={handleSubmit}
       >
         <div className={styles.labelContainer}>
-          <h5>Sign In</h5>
-          <p>Welcome back! Sign in to continue</p>
+          <h5>Sign Up</h5>
+          <p>Sign up to continue</p>
         </div>
 
         {/* --- Email --- */}
@@ -63,7 +73,7 @@ const Signin: FC = (): JSX.Element => {
         {/* --- Password --- */}
         <div className={styles.wrapper}>
           <Input
-            label={{ left: "password", right: "forgot your password?" }}
+            label={{ left: "password", right: "verify existing account?" }}
             input={{
               type: "password",
               placeholder: "••••••••",
@@ -81,17 +91,20 @@ const Signin: FC = (): JSX.Element => {
           )}
         </div>
 
+        {/* --- Success response message --- */}
+        {data && (<p className={styles.success}>{data?.detail}</p>)}
+
         {/* --- Buttons --- */}
         <div className={styles.wrapper}>
           <Button type="submit" className="btn">
-            {isLoading ? <Loader /> : "Sign in"}
+            {isLoading ? <Loader /> : "Sign up"}
           </Button>
         </div>
 
-        <p>Don't have an account? <Link to={"/signup"}>Create on now</Link></p>
+        <p>You have an account? <Link to={"/signin"}>Sign in now</Link></p>
       </form>
     </div>
   )
 }
 
-export default Signin;
+export default Signup;

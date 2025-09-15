@@ -25,7 +25,7 @@ interface UseSmartFormReturn<T> {
 
   register: (name: keyof T) => any;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
-  showError: (name: keyof T) => boolean;
+  hasError: (name: keyof T) => boolean;
 
   nextStep: (fields?: (keyof T)[]) => Promise<void>;
   prevStep: () => void;
@@ -186,7 +186,7 @@ export function useSmartForm<T extends Record<string, any>>({
     };
   };
 
-  const showError = (name: keyof T) => Boolean(touched[name] && errors[name]);
+  const hasError = (name: keyof T) => Boolean(touched[name] && errors[name]);
 
   const isValid = useMemo(
     () => Object.values(errors).every((e) => !e),
@@ -218,7 +218,7 @@ export function useSmartForm<T extends Record<string, any>>({
     step,
     register,
     handleSubmit,
-    showError,
+    hasError,
     nextStep,
     prevStep,
     reset,

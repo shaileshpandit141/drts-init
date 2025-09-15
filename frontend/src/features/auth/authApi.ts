@@ -1,5 +1,6 @@
 import { authenticatedApi } from "app/authenticatedApi";
 import type { SigninRequest, SigninResponse } from "./types";
+import type { SignoutRequest, SignoutResponse } from "./types";
 import { setAuthState, signout } from "./authSlice";
 
 export const authApi = authenticatedApi.injectEndpoints({
@@ -20,7 +21,22 @@ export const authApi = authenticatedApi.injectEndpoints({
         }
       },
     }),
+    signout: builder.mutation<SignoutResponse, SignoutRequest>({
+      query: (credentials) => ({
+        url: "/auth/token/block/",
+        method: "POST",
+        body: credentials,
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          console.error("Failed to block signin tokens:", err);
+        }
+        dispatch(signout());
+      },
+    }),
   }),
 });
 
-export const { useSigninMutation } = authApi;
+export const { useSigninMutation, useSignoutMutation } = authApi;
