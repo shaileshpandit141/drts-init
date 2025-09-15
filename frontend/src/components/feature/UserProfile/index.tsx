@@ -2,14 +2,14 @@
 import React, { useEffect, FC, JSX } from "react";
 import "./UserProfile.css";
 import { Link } from "react-router-dom";
-import { useDropdownMenu } from "hooks/useDropdownMenu";
+import { useDropdown } from "hooks/useDropdown";
 import { useAuth } from "features/auth/hooks";
 import Signout from "../Signout";
 import { useUserMutation } from "features/user/userApi";
 
 const UserProfile: FC = (): JSX.Element | null => {
   const { isAuthenticated } = useAuth();
-  const { buttonRef, contentRef, toggleDropdownMenu } = useDropdownMenu(
+  const { buttonRef, contentRef, toggleDropdown } = useDropdown(
     { transform: "scale(1)" },
     { transform: "scale(0.8)" },
   );
@@ -37,7 +37,7 @@ const UserProfile: FC = (): JSX.Element | null => {
       <button
         className="button-as-icon profile-action-button"
         ref={buttonRef}
-        onClick={toggleDropdownMenu}
+        onClick={toggleDropdown}
       >
         {renderImage()}
       </button>
