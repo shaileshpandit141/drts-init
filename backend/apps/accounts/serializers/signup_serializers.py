@@ -17,16 +17,15 @@ class SignupSerializer(serializers.Serializer[User]):
             )
         ]
     )
-    password = serializers.CharField(write_only=True, style={"input_type": "password"})
-    confirm_password = serializers.CharField(
-        write_only=True, style={"input_type": "password"}
+    password = serializers.CharField(
+        write_only=True,
+        style={"input_type": "password"},
     )
 
     def validate(self, attrs: dict[str, str]) -> dict[str, str]:
         """Validate the input data for user signup."""
         email = attrs.get("email", "")
         password = attrs.get("password")
-        confirm_password = attrs.get("confirm_password")
 
         # Validate the email address
         email_validator = CompositeValidator[str](
@@ -53,12 +52,6 @@ class SignupSerializer(serializers.Serializer[User]):
             validate_password(password)
         except ValidationError as error:
             raise serializers.ValidationError({"password": error.messages}) from error
-
-        # Validate password and confirm password match or not
-        if password != confirm_password:
-            raise serializers.ValidationError(
-                {"confirm_password": "Password and confirm password do not match."}
-            )
 
         # Return the validated data
         return attrs
