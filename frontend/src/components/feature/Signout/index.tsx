@@ -1,5 +1,5 @@
 import React, { FC, JSX } from "react";
-import { useSignoutMutation } from "features/signout/signoutApi";
+import { useSignoutMutation } from "features/auth/authApi";
 import { useAuth } from "features/auth/hooks";
 
 const Signout: FC = (): JSX.Element | null => {
