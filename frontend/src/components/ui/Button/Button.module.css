@@ -10,7 +10,7 @@
   overflow: hidden;
   border: var(--border);
   background-color: var(--btn-secondary);
-  transition: var(--ts-primary);
+  transition: var(--ts-secondary);
 
   &:hover {
     background-color: var(--btn-secondary-hover);
