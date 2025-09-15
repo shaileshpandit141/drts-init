@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import styles from "./ToggleTheme.module.css";
 import { Sun, Moon } from "lucide-react";
-
+import IconButton from "components/ui/IconButton";
 
 type Theme = "light" | "dark";
 
@@ -49,12 +48,11 @@ const ToggleTheme: React.FC = () => {
   };
 
   return (
-    <button
+    <IconButton
       onClick={handleToggleTheme}
-      className={styles.button}
     >
       {renderIcon()}
-    </button>
+    </IconButton>
   );
 };
 
