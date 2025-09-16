@@ -26,7 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     and PermissionsMixin.
     """
 
-    class Meta(AbstractBaseUser.Meta, PermissionsMixin.Meta):  # type: ignore  # noqa: PGH003
+    class Meta():
         db_table = "users"
         verbose_name = "user"
         verbose_name_plural = "users"
