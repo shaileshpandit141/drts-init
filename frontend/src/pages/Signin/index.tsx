@@ -16,17 +16,25 @@ interface SigninValues {
 
 const Signin: FC = (): JSX.Element => {
   const [signin, { isLoading, error }] = useSigninMutation();
-  const { apiError } = useApiError<SigninErrorResponse>(error);
+  const { hasApiError, apiError } = useApiError<SigninErrorResponse>(error);
   const { register, handleSubmit, hasError, errors } = useSmartForm<SigninValues>({
     initialValues: {
       email: "",
       password: "",
     },
-    validate: (values) => {
-      const errs: Partial<Record<keyof SigninValues, string>> = {};
-      if (!values.email) errs.email = "email is required";
-      if (!values.password) errs.password = "password is required";
-      return errs;
+    fieldValidators: {
+      email(value, values) {
+        if (value === "") {
+          return "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return "Invalid email format";
+        }
+      },
+      password(value, values) {
+        if (value === "") {
+          return "Password is required"
+        }
+      },
     },
     onSubmit: async (values) => {
       await signin(values)
@@ -63,7 +71,7 @@ const Signin: FC = (): JSX.Element => {
             }}
           />
           {hasError("email") && <p className={styles.error}>{errors.email}</p>}
-          {apiError && <p className={styles.error}>{apiError.data.email}</p>}
+          {hasApiError && <p className={styles.error}>{apiError.data.email}</p>}
         </div>
 
         {/* --- Password --- */}
@@ -78,7 +86,7 @@ const Signin: FC = (): JSX.Element => {
             }}
           />
           {hasError("password") && <p className={styles.error}>{errors.password}</p>}
-          {apiError && (
+          {hasApiError && (
             <>
               <p className={styles.error}>{apiError.data.password}</p>
               <p className={styles.error}>{apiError.data.non_field_errors}</p>

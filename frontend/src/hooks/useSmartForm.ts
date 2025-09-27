@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 
 type SyncValidator<T> = (values: T) => Partial<Record<keyof T, string>>;
-type FieldValidator<T> = (
-  value: any,
+type FieldValidator<T, K extends keyof T> = (
+  value: T[K],
   values: T
 ) => string | undefined | Promise<string | undefined>;
 
@@ -10,7 +10,9 @@ interface UseSmartFormOptions<T> {
   initialValues: T;
   validateOnChange?: boolean;
   validateOnBlur?: boolean;
-  fieldValidators?: Partial<Record<keyof T, FieldValidator<T>>>;
+  fieldValidators?: {
+    [K in keyof T]?: FieldValidator<T, K>;
+  };
   validate?: SyncValidator<T>;
   onSubmit: (values: T) => void | Promise<void>;
 }

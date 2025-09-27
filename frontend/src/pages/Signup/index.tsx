@@ -18,18 +18,32 @@ interface SignupValues {
 
 const Signup: FC = (): JSX.Element => {
   const [signup, { isLoading, error, data, isSuccess }] = useSignupMutation();
-  const { apiError, resetError } = useApiError<SigninErrorResponse>(error);
+  const { hasApiError, apiError, resetError } = useApiError<SigninErrorResponse>(error);
   const { triggerToast } = useToast();
   const { register, handleSubmit, hasError, errors } = useSmartForm<SignupValues>({
     initialValues: {
       email: "",
       password: "",
     },
-    validate: (values) => {
-      const errs: Partial<Record<keyof SignupValues, string>> = {};
-      if (!values.email) errs.email = "email is required";
-      if (!values.password) errs.password = "password is required";
-      return errs;
+    fieldValidators: {
+      email(value, values) {
+        if (value === "") {
+          return "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return "Invalid email format";
+        }
+      },
+      password(value, values) {
+        if (value === "") {
+          return "Password is required"
+        } else if (value.length < 6) {
+          return "Password must be at least 6 characters";
+        } else if (value === "password") {
+          return "Password should not be 'password'";
+        } else if (value === values.email) {
+          return "Password should not be the same as email";
+        }
+      },
     },
     onSubmit: async (values) => {
       await signup(values)
@@ -73,7 +87,7 @@ const Signup: FC = (): JSX.Element => {
             }}
           />
           {hasError("email") && <p className={styles.error}>{errors.email}</p>}
-          {apiError && <p className={styles.error}>{apiError.data.email}</p>}
+          {hasApiError && <p className={styles.error}>{apiError.data.email}</p>}
         </div>
 
         {/* --- Password --- */}
@@ -88,7 +102,7 @@ const Signup: FC = (): JSX.Element => {
             }}
           />
           {hasError("password") && <p className={styles.error}>{errors.password}</p>}
-          {apiError && (
+          {hasApiError && (
             <>
               <p className={styles.error}>{apiError.data.password}</p>
               <p className={styles.error}>{apiError.data.non_field_errors}</p>
