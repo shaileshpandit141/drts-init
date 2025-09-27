@@ -22,25 +22,19 @@ const Signin: FC = (): JSX.Element => {
       email: "",
       password: "",
     },
-    // validate: (values) => {
-    //   const errs: Partial<Record<keyof SigninValues, string>> = {};
-    //   if (!values.email) errs.email = "email is required";
-    //   if (!values.password) errs.password = "password is required";
-    //   return errs;
-    // },
     fieldValidators: {
-      email: (value) => {
-        if (!value) return "Email is required";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      email(value, values) {
+        if (value === "") {
+          return "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           return "Invalid email format";
         }
       },
-      password: async (value) => {
-        if (!value) return "Password is required";
-        if (value.length < 6) {
-          return "Password must be at least 6 characters";
+      password(value, values) {
+        if (value === "") {
+          return "Password is required"
         }
-      }
+      },
     },
     onSubmit: async (values) => {
       await signin(values)
