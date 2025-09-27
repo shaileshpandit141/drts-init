@@ -12,17 +12,23 @@ export interface Errors<CustomFields = Record<string, unknown>> {
 }
 
 interface UseApiErrorResult<CustomFields> {
-  status: number | null;
-  apiError: Errors<CustomFields> | null;
-  message: string | null;
+  hasApiError: boolean;
+  apiError: Errors<CustomFields>;
   resetError: () => void;
 }
 
+/** Type guard for FetchBaseQueryError */
 function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
   return (
     !!error && typeof error === "object" && "status" in error && "data" in error
   );
 }
+
+// Default empty error to keep apiError non-null
+const EMPTY_ERROR: Errors<any> = {
+  status: 0,
+  data: {},
+};
 
 /**
  * useApiError
@@ -76,13 +82,11 @@ export function useApiError<CustomFields = Record<string, unknown>>(
 
   const resetError = () => setStoredError(null);
 
+  const finalError = storedError ?? (EMPTY_ERROR as Errors<CustomFields>);
+
   return {
-    status: storedError?.status ?? null,
-    apiError: storedError,
-    message:
-      storedError?.data?.detail ??
-      storedError?.data?.non_field_errors?.[0] ??
-      null,
+    hasApiError: !!storedError,
+    apiError: finalError,
     resetError,
   };
 }
