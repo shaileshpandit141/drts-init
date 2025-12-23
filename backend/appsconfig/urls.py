@@ -11,6 +11,7 @@ urlpatterns = [
     path("", index_view, name="index"),
     path("favicon.ico/", get_favicon()),
     path("admin/", admin.site.urls, name="admin"),
+    path("health/", include("apps.health.urls")),
 ]
 
 # User-Defined URL Configurations
