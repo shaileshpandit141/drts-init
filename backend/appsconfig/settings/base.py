@@ -61,6 +61,7 @@ INSTALLED_APPS.extend(
     [
         "apps.accounts.apps.AccountsConfig",
         "apps.google_auth.apps.GoogleAuthConfig",
+        "apps.health.apps.HealthConfig",
     ]
 )
 
@@ -177,6 +178,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {
+        "health": "30/minute",
         "anon": "100/day",
         "auth": "8/hour",
         "user": "1000/day",
