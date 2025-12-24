@@ -9,7 +9,7 @@ import { useUserQuery } from "features/user/userApi";
 const UserProfile: FC = (): JSX.Element | null => {
   const { buttonRef, contentRef, toggleDropdown } = useDropdown(
     { transform: "scale(1)" },
-    { transform: "scale(0.8)" },
+    { transform: "scale(0.9)" },
   );
   const { data, isSuccess } = useUserQuery();
 
@@ -38,18 +38,19 @@ const UserProfile: FC = (): JSX.Element | null => {
               <p className="view-settings">view dashboard</p>
             </section>
           </Link>
-          <div className="line-break"></div>
-          {data && (
-            <Link
-              to={`http://localhost:8000/admin/`}
-              type="link"
-              className="edit-profile"
-              target="_blank"
-            >
-              Django Admin
-            </Link>
-          )}
-          <Signout />
+          <div className="links">
+            {data && (
+              <Link
+                to={`http://localhost:8000/admin/`}
+                type="link"
+                className="edit-profile"
+                target="_blank"
+              >
+                Admin
+              </Link>
+            )}
+            <Signout />
+          </div>
         </div>
       </div>
     </div>
