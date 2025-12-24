@@ -4,7 +4,7 @@ from typing import Any
 
 from envconfig import config
 
-from appsconfig.loggingconfig import get_logging
+from config.logging import get_logging
 
 # Configuration Settings File for the django backend
 # --------------------------------------------------
@@ -81,7 +81,7 @@ MIDDLEWARE = [
 
 # Root urls file Configuration Settings
 # -------------------------------------
-ROOT_URLCONF = "appsconfig.urls"
+ROOT_URLCONF = "config.urls"
 
 # Templates Configuration Settings
 # --------------------------------
@@ -103,7 +103,7 @@ TEMPLATES = [
 
 # Application Server Configuration Setting
 # ----------------------------------------
-ASGI_APPLICATION = "appsconfig.asgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 
 # User Model Configuration Setting
 # --------------------------------
