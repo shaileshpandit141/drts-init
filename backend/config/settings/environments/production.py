@@ -1,15 +1,14 @@
-# Import all Settings from base configuration
-# -------------------------------------------
+# flake8: noqa: F403, F405
+# pyright: reportConstantRedefinition=false
+
+from ..base import *
+from ..integrations import *
 from datetime import timedelta
-
 from envconfig import config
-
-from .base import *  # noqa: F403
-from .base import LOGGING, REST_FRAMEWORK
 
 # Disable debug mode for production environment for security
 # ----------------------------------------------------------
-DEBUG = False  # type: ignore[]
+DEBUG = False
 
 # Configure Logging for production
 # --------------------------------
@@ -29,7 +28,7 @@ REST_FRAMEWORK.update(
 
 # JWT Token Configuration Settings
 # --------------------------------
-SIMPLE_JWT.update(  # noqa: F405
+SIMPLE_JWT.update(
     {
         "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
         "REFRESH_TOKEN_LIFETIME": timedelta(minutes=1),
