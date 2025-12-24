@@ -28,19 +28,15 @@
     --height: 225px;
     --width: 225px;
 
-    background-color: var(--bg-secondary);
     position: absolute;
     opacity: 0;
-    top: calc(100% + 4px);
+    top: calc(100% + 6px);
     right: 0px;
     bottom: auto;
     left: auto;
     height: fit-content;
     max-width: fit-content;
-    padding: 8px;
-    border-radius: 24px;
-    border: var(--border);
-    transform-origin: top right;
+    background-color: transparent;
     transition: var(--ts-secondary);
 
     .card-header {
@@ -51,6 +47,7 @@
       align-items: center;
       justify-content: center;
       background-color: transparent;
+      row-gap: 9.5px;
 
       .dashboard-link {
         width: 100%;
@@ -59,10 +56,12 @@
         display: grid;
         grid-template-columns: auto 1fr;
         column-gap: 8px;
-        background-color: transparent;
+        background-color: var(--bg-secondary);
+        border-radius: 999rem;
+        border: var(--border);
 
         .user-profile-image {
-          --hw: 40px;
+          --hw: 48px;
           height: var(--hw);
           width: var(--hw);
           display: flex;
@@ -107,20 +106,20 @@
         }
       }
 
-      .line-break {
-        height: 1.2px;
-        width: 90%;
-        margin-block: 4px;
-        background-color: var(--border-primary);
-        border-radius: 999rem;
-        transition: var(--ts-secondary);
+      .links {
+        background-color: var(--bg-secondary);
+        width: 100%;
+        max-height: 75dvh;
+        overflow-y: auto;
+        padding: 8px;
+        border-radius: 18px;
+        border: var(--border);
       }
 
       button,
       a {
         height: 38px;
         width: 100%;
-        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: flex-start;

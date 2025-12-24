@@ -6,10 +6,10 @@
   /* Layout Properties */
   --opacity: 1;
   --shadow: 0 0 1.5px var(--bg-secondary);
-  --border: 1px solid var(--border-primary);
+  --border: 1.8px solid var(--border-primary);
 
   /* Transition variables */
-  --ts-duration: 0.4s;
+  --ts-duration: 0.25s;
   --ts-timing-function: ease-in-out;
 
   /* Utils transition variables */
@@ -18,7 +18,7 @@
 
   --ts-secondary: background-color var(--ts-duration) var(--ts-timing-function),
     color var(--ts-duration) var(--ts-timing-function),
-    border var(--ts-duration) var(--ts-timing-function),
+    border-color var(--ts-duration) var(--ts-timing-function),
     box-shadow var(--ts-duration) var(--ts-timing-function),
     opacity var(--ts-duration) var(--ts-timing-function),
     transform var(--ts-duration) var(--ts-timing-function);
