@@ -4,9 +4,9 @@ environ = config.ENVIRONMENT
 
 # Import settings based on environment
 if environ == "dev":
-    from .development import *
+    from .environments.development import *
 elif environ == "prod":
-    from .production import *
+    from .environments.production import *
 else:
     msg: str = "Please define the Environ mode as dev, prod"
     raise EnvironmentError(msg)

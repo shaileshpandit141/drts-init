@@ -1,13 +1,13 @@
-# Import all Settings from base configuration
-# -------------------------------------------
-from datetime import timedelta
+# flake8: noqa: F403, F405
+# pyright: reportConstantRedefinition=false
 
-from .base import *  # noqa: F403
-from .base import BASE_DIR, LOGGING, REST_FRAMEWORK, SIMPLE_JWT
+from ..base import *
+from ..integrations import *
+from datetime import timedelta
 
 # Enable debug mode for development purposes only
 # -----------------------------------------------
-DEBUG = True  # type: ignore[]
+DEBUG = True 
 
 # Configure Logging for development
 # ---------------------------------
