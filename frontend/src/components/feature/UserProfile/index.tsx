@@ -1,32 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, FC, JSX } from "react";
-import "./UserProfile.css";
+import React, { FC, JSX } from "react";
+import "./UserProfile.css"
 import { Link } from "react-router-dom";
 import { useDropdown } from "hooks/useDropdown";
-import { useAuth } from "features/auth/hooks";
 import Signout from "../Signout";
-import { useUserMutation } from "features/user/userApi";
+import { useUserQuery } from "features/user/userApi";
 
 const UserProfile: FC = (): JSX.Element | null => {
-  const { isAuthenticated } = useAuth();
   const { buttonRef, contentRef, toggleDropdown } = useDropdown(
     { transform: "scale(1)" },
     { transform: "scale(0.8)" },
   );
-  const [user, { data, error, isLoading, isSuccess }] = useUserMutation();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      user();
-    }
-  }, [isAuthenticated, user]);
-
-  if (!isAuthenticated && !isSuccess) {
-    return null;
-  }
+  const { data, isSuccess } = useUserQuery();
 
   function renderImage() {
-    if (data && data.picture) {
+    if (isSuccess && data && data.picture) {
       return <img src={data.picture} alt="user-picture-image" />;
     }
     return <p className="no-user-image">{data && data.email.slice(0, 1)}</p>;

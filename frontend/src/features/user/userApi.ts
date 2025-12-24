@@ -4,11 +4,8 @@ import { setUserState } from "./userSlice";
 
 export const userApi = authenticatedApi.injectEndpoints({
   endpoints: (builder) => ({
-    user: builder.mutation<UserResponse, void>({
-      query: () => ({
-        url: "/auth/user/",
-        method: "GET",
-      }),
+    user: builder.query<UserResponse, void>({
+      query: () => "/auth/user/",
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -21,4 +18,4 @@ export const userApi = authenticatedApi.injectEndpoints({
   }),
 });
 
-export const { useUserMutation } = userApi;
+export const { useUserQuery } = userApi;
