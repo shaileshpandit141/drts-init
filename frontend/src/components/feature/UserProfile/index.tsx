@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useDropdown } from "hooks/useDropdown";
 import Signout from "../Signout";
 import { useUserQuery } from "features/user/userApi";
+import { useAuth } from "features/auth/hooks";
 
 const UserProfile: FC = (): JSX.Element | null => {
   const { buttonRef, contentRef, toggleDropdown } = useDropdown(
@@ -12,12 +13,17 @@ const UserProfile: FC = (): JSX.Element | null => {
     { transform: "scale(0.9)" },
   );
   const { data, isSuccess } = useUserQuery();
+  const { isAuthenticated } = useAuth();
 
   function renderImage() {
     if (isSuccess && data && data.picture) {
       return <img src={data.picture} alt="user-picture-image" />;
     }
     return <p className="no-user-image">{data && data.email.slice(0, 1)}</p>;
+  }
+
+  if (!isAuthenticated) {
+    return null;
   }
 
   return (
